@@ -12,5 +12,7 @@ public class AuthEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+    
     String username;
+    String password;
 }
