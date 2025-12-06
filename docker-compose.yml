@@ -1,0 +1,12 @@
+services: 
+    01-db:
+        image: postgres:alpine
+        container_name: postgres-2
+        ports:
+            - "3008:5432"
+        environment:
+            POSTGRES_PASSWORD: password
+
+
+
+    
