@@ -3,11 +3,11 @@ services:
         image: postgres:alpine
         container_name: postgres-1
         ports:
-            - "3005:5432"
+            - "${APP_DB_PORT}:5432"
         environment:
-            POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: password
-            POSTGRES_DB: 01blog
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+            POSTGRES_DB: ${POSTGRES_DB}
         volumes:           
         - db_data:/var/lib/postgresql/data  
 
