@@ -1,12 +1,15 @@
 services: 
-    01-db:
+    db:
         image: postgres:alpine
-        container_name: postgres-2
+        container_name: postgres-1
         ports:
-            - "3008:5432"
+            - "3005:5432"
         environment:
+            POSTGRES_USER: postgres
             POSTGRES_PASSWORD: password
+            POSTGRES_DB: 01blog
+        volumes:           
+        - db_data:/var/lib/postgresql/data  
 
-
-
-    
+volumes:  
+    db_data:
