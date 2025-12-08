@@ -3,12 +3,8 @@ package com.blog.auth.service;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.*;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blog.auth.dto.LoginDTO;
@@ -22,15 +18,18 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public void createUser(RegisterDTO userData) throws Exception {
-        if (userData.getUsername() == null) {
+        if (userData.getUsername() == null ) {
             throw new Exception("username most not be null");
         }
 
         UserEntity user = UserEntity.builder()
                 .username(userData.getUsername())
                 .email(userData.getEmail())
-                .password(userData.getPassword())
+                .password(passwordEncoder.encode(userData.getPassword()))
                 .created_at(Timestamp.valueOf("2004-04-06 12:40:10"))
                 .build();
 
