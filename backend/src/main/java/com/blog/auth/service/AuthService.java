@@ -3,7 +3,6 @@ package com.blog.auth.service;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,8 +18,6 @@ public class AuthService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     public void createUser(AuthDTO.RegisterDTO userData) throws Exception {
         if (userData.getUsername() == null) {

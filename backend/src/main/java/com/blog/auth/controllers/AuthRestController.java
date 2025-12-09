@@ -1,5 +1,6 @@
 package com.blog.auth.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.auth.dto.AuthDTO;
 import com.blog.auth.service.AuthService;
 
-import lombok.AllArgsConstructor;
-
 @RestController
-@AllArgsConstructor
 public class AuthRestController {
 
+    @Autowired
     private AuthService authService;
+    @Autowired
     private AuthenticationManager authenticationManager;
     
     @GetMapping("/home")
@@ -37,7 +37,7 @@ public class AuthRestController {
             new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword())
         );
 
-        System.out.println(authentication);
+        System.out.println(authentication.getAuthorities());
 
         return null;
     }

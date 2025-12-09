@@ -8,24 +8,24 @@ import org.springframework.stereotype.Service;
 import com.blog.user.Model.UserEntity;
 import com.blog.user.persistence.UserRepository;
 
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@NoArgsConstructor
+@AllArgsConstructor
 @Service
 public class UserService implements UserDetailsService {
 
     UserRepository userRepository;
-    
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = this.userRepository.findByUsername(username);
+
         if (user == null) {
+            System.out.println("bad user");
             throw new UsernameNotFoundException("User not found");
         }
+
+        System.out.println("hello user");
 
         return user;
     }
