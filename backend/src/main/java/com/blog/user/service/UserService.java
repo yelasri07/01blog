@@ -19,14 +19,10 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = this.userRepository.findByUsername(username);
-
         if (user == null) {
-            System.out.println("bad user");
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Incorrect credentials");
         }
-
-        System.out.println("hello user");
-
+        
         return user;
     }
     

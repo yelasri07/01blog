@@ -19,7 +19,7 @@ public class AuthRestController {
     @Autowired
     private AuthService authService;
     @Autowired
-    private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;    
     
     @GetMapping("/home")
     public String home() {
@@ -37,7 +37,9 @@ public class AuthRestController {
             new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword())
         );
 
-        System.out.println(authentication.getAuthorities());
+        if (authentication.isAuthenticated()) {
+            
+        }
 
         return null;
     }
