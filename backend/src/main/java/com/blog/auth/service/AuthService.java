@@ -3,10 +3,16 @@ package com.blog.auth.service;
 import java.sql.Timestamp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blog.auth.dto.AuthDTO;
+import com.blog.auth.security.JwtService;
+import com.blog.exception.UnauthorizedException;
 import com.blog.user.Model.UserEntity;
 import com.blog.user.persistence.UserRepository;
 
@@ -17,6 +23,10 @@ public class AuthService {
     private UserRepository userRepository;
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtService jwtService;
 
     public void createUser(AuthDTO.RegisterDTO userData) throws Exception {
         if (userData.getUsername() == null) {
@@ -31,5 +41,19 @@ public class AuthService {
                 .build();
 
         userRepository.save(user);
+    }
+
+    public String userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
+
+            UserEntity user = (UserEntity) authentication.getPrincipal();
+            String token = jwtService.generateJwt(user.getId(), user.getUsername());
+
+            return token;
+        } catch (AuthenticationException e) {
+            throw new UnauthorizedException("Incorrect credentials!");
+        }
     }
 }
