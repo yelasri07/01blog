@@ -1,7 +1,7 @@
 package com.blog.auth.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,7 +27,7 @@ public class AuthRestController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthDTO.LoginDTO userData) throws UsernameNotFoundException {
+    public String login(@RequestBody AuthDTO.LoginDTO userData) throws AuthenticationException {
         return authService.userConnexion(userData);
     }
 }

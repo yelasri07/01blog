@@ -26,7 +26,11 @@ public class SecurityConfig {
                     .authorizeHttpRequests(authorize -> {
                         authorize.requestMatchers("/login", "/register").permitAll()
                                 .anyRequest().authenticated();
-                    }).build();
+                    })
+                    .sessionManagement(httpSecuritySessionManagementConfigurer -> {
+                        
+                    }) 
+                    .build();
     }
 
     @Bean

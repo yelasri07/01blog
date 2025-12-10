@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.blog.auth.dto.AuthDTO;
 import com.blog.auth.security.JwtService;
-import com.blog.exception.UnauthorizedException;
 import com.blog.user.Model.UserEntity;
 import com.blog.user.persistence.UserRepository;
 
@@ -44,16 +43,12 @@ public class AuthService {
     }
 
     public String userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
 
-            UserEntity user = (UserEntity) authentication.getPrincipal();
-            String token = jwtService.generateJwt(user.getId(), user.getUsername());
+        UserEntity user = (UserEntity) authentication.getPrincipal();
+        String token = jwtService.generateJwt(user.getId(), user.getUsername());
 
-            return token;
-        } catch (AuthenticationException e) {
-            throw new UnauthorizedException("Incorrect credentials!");
-        }
+        return token;
     }
 }

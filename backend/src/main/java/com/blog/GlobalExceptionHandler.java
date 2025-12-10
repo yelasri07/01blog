@@ -3,10 +3,9 @@ package com.blog;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-import com.blog.exception.UnauthorizedException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -19,9 +18,9 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(problem);
     }
-
-    @ExceptionHandler(UnauthorizedException.class)
-    public ResponseEntity<ProblemDetail> handleUnauthorizedException(UnauthorizedException ex) {
+    
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ProblemDetail> AuthenticationException(AuthenticationException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
         problem.setDetail(ex.getMessage());
         return ResponseEntity
