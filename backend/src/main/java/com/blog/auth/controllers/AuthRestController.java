@@ -1,10 +1,12 @@
 package com.blog.auth.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.auth.dto.AuthDTO;
@@ -22,10 +24,11 @@ public class AuthRestController {
     }
 
     @PostMapping("/register")
+    @ResponseStatus(HttpStatus.CREATED)
     public void register(@RequestBody AuthDTO.RegisterDTO userData) throws Exception {
         authService.createUser(userData);
     }
-
+    
     @PostMapping("/login")
     public String login(@RequestBody AuthDTO.LoginDTO userData) throws AuthenticationException {
         return authService.userConnexion(userData);
