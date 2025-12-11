@@ -7,6 +7,5 @@ import com.blog.user.Model.UserEntity;
 
 @Repository
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
-    UserEntity findByUsernameAndPassword(String username, String password);
     UserEntity findByUsername(String username);
 }

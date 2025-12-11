@@ -17,9 +17,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private AuthEntryPointJwt unauthorizedHandler;
     
-    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, AuthEntryPointJwt unauthorizedHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        this.unauthorizedHandler = unauthorizedHandler;
     }
 
     @Bean
@@ -30,6 +32,9 @@ public class SecurityConfig {
                         authorize.requestMatchers("/login", "/register").permitAll()
                                 .anyRequest().authenticated();
                     })
+                    .exceptionHandling(exceptionHandling -> 
+                        exceptionHandling.authenticationEntryPoint(unauthorizedHandler)
+                    )
                     .sessionManagement(session -> {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
                     })

@@ -20,7 +20,7 @@ public class UserService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = this.userRepository.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException("Incorrect credentials");
+            throw new UsernameNotFoundException("User not found");
         }
         
         return user;

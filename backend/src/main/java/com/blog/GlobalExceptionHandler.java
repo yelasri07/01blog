@@ -7,6 +7,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import com.blog.exception.NotFoundException;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     
@@ -25,6 +27,15 @@ public class GlobalExceptionHandler {
         problem.setDetail(ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.UNAUTHORIZED)
+                .body(problem);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ProblemDetail> NotFoundException(NotFoundException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problem.setDetail(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
                 .body(problem);
     }
 }
