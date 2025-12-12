@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.blog.auth.dto.AuthDTO;
 import com.blog.auth.service.AuthService;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class AuthRestController {
 
@@ -25,7 +27,7 @@ public class AuthRestController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public void register(@RequestBody AuthDTO.RegisterDTO userData) throws Exception {
+    public void register(@Valid @RequestBody AuthDTO.RegisterDTO userData) {
         authService.createUser(userData);
     }
     

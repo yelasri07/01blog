@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.blog.auth.dto.AuthDTO;
 import com.blog.auth.security.JwtService;
+import com.blog.exception.UnauthorizedException;
 import com.blog.user.Model.UserEntity;
 import com.blog.user.persistence.UserRepository;
 
@@ -27,11 +28,7 @@ public class AuthService {
     @Autowired
     private JwtService jwtService;
 
-    public void createUser(AuthDTO.RegisterDTO userData) throws Exception {
-        if (userData.getUsername() == null) {
-            throw new Exception("username most not be null");
-        }
-
+    public void createUser(AuthDTO.RegisterDTO userData) {
         UserEntity user = UserEntity.builder()
                 .username(userData.getUsername())
                 .email(userData.getEmail())
@@ -43,12 +40,16 @@ public class AuthService {
     }
 
     public String userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
-        Authentication authentication = authenticationManager.authenticate(
+        try {
+            Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
 
         UserEntity user = (UserEntity) authentication.getPrincipal();
         String token = jwtService.generateJwt(user.getId(), user.getUsername());
 
         return token;
+        } catch (AuthenticationException ex) {
+            throw  new UnauthorizedException("Username or password is incorrect");
+        }
     }
 }
