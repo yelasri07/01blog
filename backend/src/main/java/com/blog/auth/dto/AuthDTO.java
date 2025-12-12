@@ -6,13 +6,17 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-public class AuthDTO {
-
+public class AuthDTO { 
+    
     @Getter
     public static class LoginDTO {
 
         private String username;
         private String password;
+
+        public void setUsername(String username) {
+            this.username = username;
+        }
         
     }
 

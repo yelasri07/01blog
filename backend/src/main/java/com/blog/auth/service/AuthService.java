@@ -40,16 +40,24 @@ public class AuthService {
     }
 
     public String userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
+        userData.setUsername(userData.getUsername().trim());
+        String username = userData.getUsername();
+        String password = userData.getPassword();
+        if (username == null || username.isBlank() || username.length() > 100
+                || password == null || password.length() < 8 || password.length() > 30) {
+            throw new UnauthorizedException("Username or password is incorrect");
+        }
+
         try {
             Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
+                    new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
 
-        UserEntity user = (UserEntity) authentication.getPrincipal();
-        String token = jwtService.generateJwt(user.getId(), user.getUsername());
+            UserEntity user = (UserEntity) authentication.getPrincipal();
+            String token = jwtService.generateJwt(user.getId(), user.getUsername());
 
-        return token;
+            return token;
         } catch (AuthenticationException ex) {
-            throw  new UnauthorizedException("Username or password is incorrect");
+            throw new UnauthorizedException("Username or password is incorrect");
         }
     }
 }
