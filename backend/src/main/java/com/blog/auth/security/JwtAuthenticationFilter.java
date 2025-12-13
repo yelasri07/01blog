@@ -54,7 +54,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            } else if (!path.equals("/login") && !path.equals("/register")) {
+            } else if (!path.equals("/auth/login") && !path.equals("/auth/register")) {
                 throw new JwtException("Jwt should be valid");
             }
 
