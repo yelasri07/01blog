@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.blog.auth.dto.AuthDTO;
 import com.blog.auth.security.JwtService;
 import com.blog.exception.UnauthorizedException;
-import com.blog.user.Model.UserEntity;
+import com.blog.user.model.UserEntity;
 import com.blog.user.persistence.UserRepository;
 
 @Service
