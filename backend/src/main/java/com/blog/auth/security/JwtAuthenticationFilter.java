@@ -2,17 +2,13 @@ package com.blog.auth.security;
 
 import java.io.IOException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
-import com.blog.exception.UnauthorizedException;
 import com.blog.user.service.UserService;
 
 import io.jsonwebtoken.JwtException;
@@ -28,9 +24,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtService jwtService;
     private final UserService userService;
-    @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
 
     public JwtAuthenticationFilter(JwtService jwtService, UserService userService) {
         this.jwtService = jwtService;
@@ -41,9 +34,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String path = request.getServletPath();
         try {
             String authorization = request.getHeader("Authorization");
+
             if (authorization != null && authorization.startsWith("Bearer ")) {
                 String token = authorization.substring(7);
                 String username = jwtService.getUsernameFromToken(token);
@@ -54,14 +47,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
-            } else if (!path.equals("/auth/login") && !path.equals("/auth/register")) {
-                throw new JwtException("Jwt should be valid");
             }
 
-            filterChain.doFilter(request, response);
-        } catch (JwtException | ServletException | IOException | UsernameNotFoundException ex) {
-            resolver.resolveException(request, response, null, new UnauthorizedException(ex.getMessage()));
+        } catch (JwtException | UsernameNotFoundException ex) {
+            SecurityContextHolder.clearContext();
         }
+
+        filterChain.doFilter(request, response);
     }
 
 }
