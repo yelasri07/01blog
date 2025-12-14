@@ -6,8 +6,8 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
-public class AuthDTO { 
-    
+public class AuthDTO {
+
     @Getter
     public static class LoginDTO {
 
@@ -15,9 +15,11 @@ public class AuthDTO {
         private String password;
 
         public void setUsername(String username) {
-            this.username = username;
+            if (username == null)
+                return;
+            this.username = username.trim();
         }
-        
+
     }
 
     @Getter

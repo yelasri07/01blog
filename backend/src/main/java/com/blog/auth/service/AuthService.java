@@ -33,14 +33,14 @@ public class AuthService {
                 .username(userData.getUsername())
                 .email(userData.getEmail())
                 .password(passwordEncoder.encode(userData.getPassword()))
-                .created_at(Timestamp.valueOf("2004-04-06 12:40:10"))
+                .created_at(new Timestamp(System.currentTimeMillis()))
                 .build();
 
         userRepository.save(user);
     }
 
     public String userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
-        userData.setUsername(userData.getUsername().trim());
+        userData.setUsername(userData.getUsername());
         String username = userData.getUsername();
         String password = userData.getPassword();
         if (username == null || username.isBlank() || username.length() > 100

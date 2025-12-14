@@ -31,7 +31,7 @@ public class BlogEntity {
     private String content;
     private Timestamp created_at;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }

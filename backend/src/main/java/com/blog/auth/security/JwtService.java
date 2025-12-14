@@ -38,13 +38,13 @@ public class JwtService {
                 .setClaims(claims)
                 .setIssuedAt(new Date(currentTime))
                 .setExpiration(new Date(expirationTime))
-                .setSubject(username)
+                .setSubject(String.valueOf(id))
                 .signWith(this.key, SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    public String getUsernameFromToken(String token) {
-        return getClaims(token).getSubject();
+    public Long getIdFromToken(String token) {
+        return Long.valueOf(getClaims(token).getSubject());
     }
 
     public boolean IsValidToken(String token, UserDetails userDetails) {

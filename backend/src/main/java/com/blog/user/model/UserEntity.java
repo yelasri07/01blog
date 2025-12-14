@@ -36,7 +36,7 @@ public class UserEntity implements UserDetails {
     private String password;
     private Timestamp created_at;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private Set<BlogEntity> blogs;
 
     @Override
