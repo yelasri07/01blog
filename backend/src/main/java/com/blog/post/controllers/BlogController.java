@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateDTO;
+import com.blog.post.model.BlogEntity;
 import com.blog.post.service.BlogService;
 import com.blog.user.model.UserEntity;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -27,12 +30,18 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String post(@RequestBody CreateDTO blogData) {
+    public BlogOutputDTO post(@Valid @RequestBody CreateDTO blogData) {
         UserEntity user = ((UserEntity) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal());
 
-        return blogService.createBlog(blogData, user);
+        BlogEntity blog = blogService.createBlog(blogData, user);
+
+        return BlogOutputDTO.builder()
+                .id(blog.getId())
+                .title(blog.getTitle())
+                .content(blog.getContent())
+                .build();
     }
 
 }

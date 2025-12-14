@@ -17,18 +17,17 @@ public class BlogService {
     public BlogService(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
     }
-    
-    public String createBlog(CreateDTO blogData, UserEntity user) {
+
+    public BlogEntity createBlog(CreateDTO blogData, UserEntity user) {
         BlogEntity blog = BlogEntity.builder()
-                                    .title(blogData.title())
-                                    .content(blogData.content())
-                                    .created_at(new Timestamp(System.currentTimeMillis()))
-                                    .user(user)
-                                    .build();
+                .title(blogData.title())
+                .content(blogData.content())
+                .created_at(new Timestamp(System.currentTimeMillis()))
+                .user(user)
+                .build();
 
         blogRepository.save(blog);
-        
-        return "Done";
+        return blog;
     }
 
 }
