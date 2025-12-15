@@ -1,9 +1,11 @@
 package com.blog.post.service;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateDTO;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
@@ -30,4 +32,7 @@ public class BlogService {
         return blog;
     }
 
+    public List<BlogOutputDTO> getBlogs() {
+        return blogRepository.getAllBlogs();
+    }
 }

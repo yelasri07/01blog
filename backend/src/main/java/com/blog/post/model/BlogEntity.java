@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 import com.blog.user.model.UserEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -30,7 +31,7 @@ public class BlogEntity {
     private String content;
     private Timestamp created_at;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }

@@ -1,7 +1,10 @@
 package com.blog.post.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import com.blog.user.model.UserEntity;
 
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+
 
 @RestController
 @RequestMapping("/blog")
@@ -41,7 +45,17 @@ public class BlogController {
                 .id(blog.getId())
                 .title(blog.getTitle())
                 .content(blog.getContent())
+                .created_at(blog.getCreated_at())
+                .user_id(blog.getUser().getId())
                 .build();
     }
+
+    @GetMapping
+    public List<BlogOutputDTO> get() {
+        List<BlogOutputDTO> blogs = blogService.getBlogs();
+
+        return blogs;
+    }
+    
 
 }
