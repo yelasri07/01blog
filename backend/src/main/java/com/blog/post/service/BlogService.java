@@ -33,6 +33,10 @@ public class BlogService {
     }
 
     public List<BlogOutputDTO> getBlogs() {
-        return blogRepository.getAllBlogs();
+        return blogRepository.findBlogs();
+    }
+
+    public BlogOutputDTO getBlog(Long blogId) {
+        return blogRepository.findBlogById(blogId);
     }
 }
