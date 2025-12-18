@@ -1,9 +1,12 @@
 package com.blog.post.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.post.dto.AllBlogOutputDTO;
 import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateDTO;
 import com.blog.post.model.BlogEntity;
@@ -47,16 +51,22 @@ public class BlogController {
                 .content(blog.getContent())
                 .created_at(blog.getCreated_at())
                 .user_id(blog.getUser().getId())
+                .username(blog.getUser().getUsername())
                 .build();
     }
 
     @GetMapping
-    public List<BlogOutputDTO> get() {
+    public List<AllBlogOutputDTO> get() {
         return blogService.getBlogs();
     }
 
     @GetMapping("/{id}")
     public BlogOutputDTO getOneBlog(@PathVariable("id") Long blogId) {
         return blogService.getBlog(blogId);
+    }
+
+    @DeleteMapping("/{id}")
+    public Map<String, String> delete(@PathVariable("id") Long blogId, @AuthenticationPrincipal UserEntity user) {
+        return blogService.deleteBlog(blogId, user.getId());
     }
 }

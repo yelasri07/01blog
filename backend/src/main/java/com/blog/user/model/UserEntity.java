@@ -11,6 +11,7 @@ import com.blog.post.model.BlogEntity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,7 +37,7 @@ public class UserEntity implements UserDetails {
     private String password;
     private Timestamp created_at;
 
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private Set<BlogEntity> blogs;
 
     @Override

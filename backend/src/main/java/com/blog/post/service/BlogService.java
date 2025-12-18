@@ -2,9 +2,14 @@ package com.blog.post.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.blog.exception.ForbiddenException;
+import com.blog.exception.NotFoundException;
+import com.blog.post.dto.AllBlogOutputDTO;
 import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateDTO;
 import com.blog.post.model.BlogEntity;
@@ -32,11 +37,32 @@ public class BlogService {
         return blog;
     }
 
-    public List<BlogOutputDTO> getBlogs() {
+    public List<AllBlogOutputDTO> getBlogs() {
         return blogRepository.findBlogs();
     }
 
     public BlogOutputDTO getBlog(Long blogId) {
-        return blogRepository.findBlogById(blogId);
+        BlogOutputDTO blog = blogRepository.findBlogById(blogId);
+        if (blog == null) {
+            throw new NotFoundException("Whoops, that page is gone.");
+        }
+
+        return blog;
+    }
+
+    public Map<String, String> deleteBlog(Long blogId, Long userId) {
+        Optional<BlogEntity> existingBlog = blogRepository.findById(blogId);
+        if (!existingBlog.isPresent()) {
+            throw new NotFoundException("Whoops, blog not found");
+        }
+
+        BlogEntity blog = existingBlog.get();
+        if (blog.getUser().getId() != userId) {
+            throw new ForbiddenException("Access denied");
+        }
+
+        blogRepository.delete(blog);
+
+        return Map.of("message", "Blog deleted successfully");
     }
 }

@@ -3,6 +3,7 @@ package com.blog;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import com.blog.exception.ForbiddenException;
+import com.blog.exception.NotFoundException;
 import com.blog.exception.UnauthorizedException;
 
 @RestControllerAdvice
@@ -36,8 +39,26 @@ public class GlobalExceptionHandler {
                 .body(problem);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ProblemDetail> BadRequestException(BadRequestException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problem.setDetail(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(problem);
+    }
+
     @ExceptionHandler(NoResourceFoundException.class)
     public ResponseEntity<ProblemDetail> NoResourceFoundException(NoResourceFoundException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+        problem.setDetail(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(problem);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ProblemDetail> NotFoundException(NotFoundException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problem.setDetail(ex.getMessage());
         return ResponseEntity
@@ -69,5 +90,14 @@ public class GlobalExceptionHandler {
         ex.getBindingResult().getFieldErrors()
                 .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ProblemDetail> ForbiddenException(ForbiddenException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
+        problem.setDetail(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(problem);
     }
 }

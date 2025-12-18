@@ -7,14 +7,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.blog.post.dto.AllBlogOutputDTO;
 import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.model.BlogEntity;
 
 @Repository
 public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
-    @Query(value = "SELECT b.*, u.username FROM blog b INNER JOIN users u ON b.user_id = u.id ORDER BY b.id DESC",
+    @Query(value = "SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b INNER JOIN users u ON b.user_id = u.id ORDER BY b.id DESC",
     nativeQuery = true)
-    List<BlogOutputDTO> findBlogs();
+    List<AllBlogOutputDTO> findBlogs();
 
     @Query(
         nativeQuery = true,
