@@ -57,12 +57,11 @@ public class BlogService {
         }
 
         BlogEntity blog = existingBlog.get();
-        if (blog.getUser().getId() != userId) {
+        if (!blog.getUser().getId().equals(userId)) {
             throw new ForbiddenException("Access denied");
         }
 
         blogRepository.delete(blog);
-
         return Map.of("message", "Blog deleted successfully");
     }
 }

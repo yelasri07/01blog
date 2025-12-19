@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.blog.auth.dto.AuthDTO;
 import com.blog.auth.security.JwtService;
 import com.blog.exception.UnauthorizedException;
+import com.blog.user.model.RoleEnum;
 import com.blog.user.model.UserEntity;
 import com.blog.user.persistence.UserRepository;
 
@@ -34,6 +35,7 @@ public class AuthService {
                 .email(userData.getEmail())
                 .password(passwordEncoder.encode(userData.getPassword()))
                 .created_at(new Timestamp(System.currentTimeMillis()))
+                .role(RoleEnum.USER)
                 .build();
 
         userRepository.save(user);
