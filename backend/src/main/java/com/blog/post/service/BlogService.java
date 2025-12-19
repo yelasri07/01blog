@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogOutputDTO;
-import com.blog.post.dto.BlogOutputDTO;
-import com.blog.post.dto.CreateDTO;
+import com.blog.post.dto.CreateBlogDTO;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
 import com.blog.user.model.RoleEnum;
@@ -26,7 +25,7 @@ public class BlogService {
         this.blogRepository = blogRepository;
     }
 
-    public BlogEntity createBlog(CreateDTO blogData, UserEntity user) {
+    public BlogEntity createBlog(CreateBlogDTO blogData, UserEntity user) {
         BlogEntity blog = BlogEntity.builder()
                 .title(blogData.title())
                 .content(blogData.content())
@@ -42,11 +41,9 @@ public class BlogService {
         return blogRepository.findBlogs();
     }
 
-    public BlogOutputDTO getBlog(Long blogId) {
-        BlogOutputDTO blog = blogRepository.findBlogById(blogId);
-        if (blog == null) {
-            throw new NotFoundException("Whoops, that page is gone.");
-        }
+    public BlogEntity getBlogById(Long blogId) {
+        BlogEntity blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new NotFoundException("Whoops, blog not found"));
 
         return blog;
     }

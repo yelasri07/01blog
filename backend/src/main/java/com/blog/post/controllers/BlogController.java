@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.post.dto.AllBlogOutputDTO;
 import com.blog.post.dto.BlogOutputDTO;
-import com.blog.post.dto.CreateDTO;
+import com.blog.post.dto.CreateBlogDTO;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.service.BlogService;
 import com.blog.user.model.UserEntity;
@@ -38,7 +38,7 @@ public class BlogController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BlogOutputDTO post(@Valid @RequestBody CreateDTO blogData) {
+    public BlogOutputDTO post(@Valid @RequestBody CreateBlogDTO blogData) {
         UserEntity user = ((UserEntity) SecurityContextHolder.getContext()
                 .getAuthentication()
                 .getPrincipal());
@@ -62,7 +62,16 @@ public class BlogController {
 
     @GetMapping("/{id}")
     public BlogOutputDTO getOneBlog(@PathVariable("id") Long blogId) {
-        return blogService.getBlog(blogId);
+        BlogEntity blog = blogService.getBlogById(blogId);
+
+        return BlogOutputDTO.builder()
+                .id(blog.getId())
+                .title(blog.getTitle())
+                .content(blog.getContent())
+                .created_at(blog.getCreated_at())
+                .user_id(blog.getUser().getId())
+                .username(blog.getUser().getUsername())
+                .build();
     }
 
     @DeleteMapping("/{id}")

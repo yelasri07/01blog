@@ -31,6 +31,6 @@ public class BlogEntity {
     private Timestamp created_at;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private UserEntity user;
 }
