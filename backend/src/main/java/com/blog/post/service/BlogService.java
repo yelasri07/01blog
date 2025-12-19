@@ -14,6 +14,7 @@ import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateDTO;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
+import com.blog.user.model.RoleEnum;
 import com.blog.user.model.UserEntity;
 
 @Service
@@ -50,14 +51,14 @@ public class BlogService {
         return blog;
     }
 
-    public Map<String, String> deleteBlog(Long blogId, Long userId) {
+    public Map<String, String> deleteBlog(Long blogId, UserEntity user) {
         Optional<BlogEntity> existingBlog = blogRepository.findById(blogId);
         if (!existingBlog.isPresent()) {
             throw new NotFoundException("Whoops, blog not found");
         }
 
         BlogEntity blog = existingBlog.get();
-        if (!blog.getUser().getId().equals(userId)) {
+        if (!blog.getUser().getId().equals(user.getId()) && user.getRole().equals(RoleEnum.USER)) {
             throw new ForbiddenException("Access denied");
         }
 

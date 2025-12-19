@@ -67,6 +67,6 @@ public class BlogController {
 
     @DeleteMapping("/{id}")
     public Map<String, String> delete(@PathVariable("id") Long blogId, @AuthenticationPrincipal UserEntity user) {
-        return blogService.deleteBlog(blogId, user.getId());
+        return blogService.deleteBlog(blogId, user);
     }
 }
