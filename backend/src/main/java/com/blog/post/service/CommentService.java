@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import com.blog.post.dto.CommentOutputDTO;
@@ -25,12 +24,8 @@ public class CommentService {
         this.blogService = blogService;
     }
 
-    public CommentEntity createComment(CreateCommentDTO commentData, UserEntity user) throws Exception {
-        if (commentData.blog_id() == null) {
-            throw new BadRequestException("Blog id should not be empty");
-        }
-
-        BlogEntity blog = blogService.getBlogById(commentData.blog_id());
+    public CommentEntity createComment(Long blogId, CreateCommentDTO commentData, UserEntity user) {
+        BlogEntity blog = blogService.getBlogById(blogId, user);
 
         CommentEntity comment = CommentEntity.builder()
                 .content(commentData.content())
@@ -42,8 +37,8 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<CommentOutputDTO> getBlogComments(Long blogId) {
-        BlogEntity blog = blogService.getBlogById(blogId);
+    public List<CommentOutputDTO> getBlogComments(Long blogId, UserEntity user) {
+        BlogEntity blog = blogService.getBlogById(blogId, user);
         return commentRepository.findBlogComments(blog.getId());
     }
 

@@ -28,13 +28,13 @@ public class LikeService {
             throw new BadRequestException("Whoops, blog id should not be empty");
         }
 
+        BlogEntity blog = blogService.getBlogById(blogId, user);
         Optional<LikeEntity> existingLike = likeRepository.findByBlogIdAndUserId(blogId, user.getId());
         if (existingLike.isPresent()) {
             likeRepository.delete(existingLike.get());
             return "Like removed successfully";
         }
         
-        BlogEntity blog = blogService.getBlogById(blogId);
         LikeEntity like = LikeEntity.builder()
                 .created_at(new Timestamp(new Date().getTime()))
                 .blog(blog)

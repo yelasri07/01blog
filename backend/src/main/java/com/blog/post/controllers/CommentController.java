@@ -30,11 +30,11 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/comment")
+    @PostMapping("/{blogId}/comment")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CommentOutputDTO post(@Valid @RequestBody CreateCommentDTO commentData,
-            @AuthenticationPrincipal UserEntity user) throws Exception {
-        CommentEntity comment = commentService.createComment(commentData, user);
+    public CommentOutputDTO post(@PathVariable("blogId") Long blogId, @Valid @RequestBody CreateCommentDTO commentData,
+            @AuthenticationPrincipal UserEntity user) {
+        CommentEntity comment = commentService.createComment(blogId, commentData, user);
 
         return CommentOutputDTO.builder()
                 .id(comment.getId())
@@ -47,7 +47,7 @@ public class CommentController {
     }
 
     @GetMapping("/{blogId}/comment")
-    public List<CommentOutputDTO> get(@PathVariable("blogId") Long blogId) {
-        return commentService.getBlogComments(blogId);
+    public List<CommentOutputDTO> get(@PathVariable("blogId") Long blogId, @AuthenticationPrincipal UserEntity user) {
+        return commentService.getBlogComments(blogId, user);
     }
 }
