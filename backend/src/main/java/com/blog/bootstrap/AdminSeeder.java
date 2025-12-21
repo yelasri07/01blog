@@ -19,6 +19,12 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder encoder;
 
+    @Value("${ADMIN_USERNAME}")
+    private String adminUsername;
+    
+    @Value("${ADMIN_EMAIL}")
+    private String adminEmail;
+
     @Value("${ADMIN_PASSWORD}")
     private String adminPassword;
 
@@ -39,8 +45,8 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
         }
 
         UserEntity user = UserEntity.builder()
-                .username("yelasri")
-                .email("yelasri@gmail.com")
+                .username(this.adminUsername)
+                .email(this.adminEmail)
                 .password(encoder.encode(this.adminPassword))
                 .role(RoleEnum.ADMIN)
                 .created_at(new Timestamp(new Date().getTime()))
