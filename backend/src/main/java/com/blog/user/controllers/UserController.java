@@ -1,13 +1,16 @@
 package com.blog.user.controllers;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.model.UserEntity;
 import com.blog.user.service.UserService;
 
@@ -26,5 +29,10 @@ public class UserController {
             @AuthenticationPrincipal UserEntity user) throws Exception {
         String subscribeMessage = userService.createSubscribe(subscribedToId, user);
         return Map.of("message", subscribeMessage);
+    }
+
+    @GetMapping("/{profileId}/followers")
+    public List<SubscribeOutputDTO> get(@PathVariable("profileId") Long profileId) {
+        return userService.getFollowers(profileId);
     }
 }

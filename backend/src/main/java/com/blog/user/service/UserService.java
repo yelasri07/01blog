@@ -2,6 +2,7 @@ package com.blog.user.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.blog.exception.NotFoundException;
+import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.model.SubscribeEntity;
 import com.blog.user.model.UserEntity;
 import com.blog.user.persistence.SubscribeRepository;
@@ -71,4 +73,8 @@ public class UserService implements UserDetailsService {
         return "Subscribed successfully";
     }
 
+    public List<SubscribeOutputDTO> getFollowers(Long profileId) {
+        return subscribeRepository.findFollowers(profileId);
+    }
+ 
 }
