@@ -27,7 +27,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
-@RequestMapping("/blog")
+@RequestMapping("/blogs")
 @Slf4j
 public class BlogController {
 

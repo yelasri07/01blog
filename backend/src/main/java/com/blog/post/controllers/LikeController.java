@@ -12,7 +12,7 @@ import com.blog.post.service.LikeService;
 import com.blog.user.model.UserEntity;
 
 @RestController
-@RequestMapping("/blog")
+@RequestMapping("/blogs")
 public class LikeController {
 
     private final LikeService likeService;
@@ -21,7 +21,7 @@ public class LikeController {
         this.likeService = likeService;
     }
 
-    @PostMapping("/{blogId}/like")
+    @PostMapping("/{blogId}/likes")
     public Map<String, String> post(@PathVariable("blogId") Long blogId, @AuthenticationPrincipal UserEntity user)
             throws Exception {
         String likeMessage = likeService.createLike(blogId, user);

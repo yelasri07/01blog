@@ -21,7 +21,7 @@ import com.blog.user.model.UserEntity;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/blog")
+@RequestMapping("/blogs")
 public class CommentController {
 
     private final CommentService commentService;
@@ -30,7 +30,7 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/{blogId}/comment")
+    @PostMapping("/{blogId}/comments")
     @ResponseStatus(code = HttpStatus.CREATED)
     public CommentOutputDTO post(@PathVariable("blogId") Long blogId, @Valid @RequestBody CreateCommentDTO commentData,
             @AuthenticationPrincipal UserEntity user) {
@@ -46,7 +46,7 @@ public class CommentController {
                 .build();
     }
 
-    @GetMapping("/{blogId}/comment")
+    @GetMapping("/{blogId}/comments")
     public List<CommentOutputDTO> get(@PathVariable("blogId") Long blogId, @AuthenticationPrincipal UserEntity user) {
         return commentService.getBlogComments(blogId, user);
     }
