@@ -24,4 +24,15 @@ public interface SubscribeRepository extends JpaRepository<SubscribeEntity, Long
                 """
     )
     List<SubscribeOutputDTO> findFollowers(Long profileId);
+
+    @Query(
+        nativeQuery = true,
+        value = 
+        """
+            SELECT u.id, u.username FROM subscribe s
+            INNER JOIN users u ON s.subscribed_to_id = u.id
+            WHERE s.subscriber_id = :profileId
+                """
+    )
+    List<SubscribeOutputDTO> findFollowing(Long profileId);
 }

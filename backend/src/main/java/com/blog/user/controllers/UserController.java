@@ -32,7 +32,12 @@ public class UserController {
     }
 
     @GetMapping("/{profileId}/followers")
-    public List<SubscribeOutputDTO> get(@PathVariable("profileId") Long profileId) {
+    public List<SubscribeOutputDTO> getFollowers(@PathVariable("profileId") Long profileId) {
         return userService.getFollowers(profileId);
+    }
+
+    @GetMapping("/{profileId}/following")
+    public List<SubscribeOutputDTO> getFollowing(@PathVariable("profileId") Long profileId) {
+        return userService.getFollowing(profileId);
     }
 }
