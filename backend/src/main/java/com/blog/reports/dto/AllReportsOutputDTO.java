@@ -4,12 +4,8 @@ import java.sql.Timestamp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import lombok.Builder;
-
-@Builder
-public record ReportOutputDTO(
+public record AllReportsOutputDTO(
     Long id,
-    String reason,
     @JsonProperty("created_at")
     Timestamp createdAt,
     Long reportedUserId,

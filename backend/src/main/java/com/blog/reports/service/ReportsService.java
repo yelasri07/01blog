@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
 import com.blog.reports.dto.ReportInputDTO;
-import com.blog.reports.dto.ReportOutputDTO;
+import com.blog.reports.dto.AllReportsOutputDTO;
 import com.blog.reports.model.ReportsEntity;
 import com.blog.reports.persistence.ReportsRepository;
 import com.blog.user.model.UserEntity;
@@ -44,7 +44,14 @@ public class ReportsService {
         return reportsRepository.save(report);
     }
 
-    public List<ReportOutputDTO> getReports() {
+    public List<AllReportsOutputDTO> getReports() {
         return reportsRepository.findReports();
+    }
+
+    public ReportsEntity getReport(Long reportId) {
+        ReportsEntity report = reportsRepository.findById(reportId)
+                .orElseThrow(() -> new NotFoundException("Report not found"));
+
+        return report;
     }
 }

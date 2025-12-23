@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.blog.reports.dto.ReportOutputDTO;
+import com.blog.reports.dto.AllReportsOutputDTO;
 import com.blog.reports.model.ReportsEntity;
 
 @Repository
@@ -19,5 +19,5 @@ public interface ReportsRepository extends JpaRepository<ReportsEntity, Long> {
                 INNER JOIN users u2 ON r.reported_by_user_id = u2.id
                 """
     )
-    List<ReportOutputDTO> findReports();
+    List<AllReportsOutputDTO> findReports();
 }

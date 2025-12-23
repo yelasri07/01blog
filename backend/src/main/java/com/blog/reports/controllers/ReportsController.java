@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.reports.dto.AllReportsOutputDTO;
 import com.blog.reports.dto.ReportInputDTO;
 import com.blog.reports.dto.ReportOutputDTO;
+import com.blog.reports.model.ReportsEntity;
 import com.blog.reports.service.ReportsService;
 import com.blog.user.model.UserEntity;
 
@@ -31,7 +33,8 @@ public class ReportsController {
 
     @PostMapping("/users/{reportedId}/reports")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public Map<String, String> createReport(@PathVariable Long reportedId, @Valid @RequestBody ReportInputDTO reportData,
+    public Map<String, String> createReport(@PathVariable Long reportedId,
+            @Valid @RequestBody ReportInputDTO reportData,
             @AuthenticationPrincipal UserEntity user) {
         reportsService.createReport(reportedId, user, reportData);
         return Map.of("message", "Report submitted successfully");
@@ -39,7 +42,23 @@ public class ReportsController {
 
     @GetMapping("/reports")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<ReportOutputDTO> getReports() {
+    public List<AllReportsOutputDTO> getReports() {
         return reportsService.getReports();
+    }
+
+    @GetMapping("/reports/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ReportOutputDTO getReport(@PathVariable("id") Long reportId) {
+        ReportsEntity report = reportsService.getReport(reportId);
+
+        return ReportOutputDTO.builder()
+                .id(report.getId())
+                .reason(report.getReason())
+                .createdAt(report.getCreated_at())
+                .reportedUserId(report.getReportedUser().getId())
+                .reportedUsername(report.getReportedUser().getUsername())
+                .reportedByUserId(report.getReportedByUser().getId())
+                .reportedByUsername(report.getReportedByUser().getUsername())
+                .build();
     }
 }
