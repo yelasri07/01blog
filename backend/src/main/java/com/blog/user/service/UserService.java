@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
 import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.model.SubscribeEntity;
@@ -46,7 +46,7 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public String createSubscribe(Long subscribedToId, UserEntity user) throws Exception {
+    public String createSubscribe(Long subscribedToId, UserEntity user) {
         if (subscribedToId.equals(user.getId())) {
             throw new BadRequestException("You cannot subscribe to yourself");
         }

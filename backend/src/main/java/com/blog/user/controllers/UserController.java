@@ -26,7 +26,7 @@ public class UserController {
 
     @PostMapping("/{subscribedToId}/subscribe")
     public Map<String, String> post(@PathVariable("subscribedToId") Long subscribedToId,
-            @AuthenticationPrincipal UserEntity user) throws Exception {
+            @AuthenticationPrincipal UserEntity user) {
         String subscribeMessage = userService.createSubscribe(subscribedToId, user);
         return Map.of("message", subscribeMessage);
     }

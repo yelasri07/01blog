@@ -1,5 +1,7 @@
 package com.blog.reports.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,8 +29,9 @@ public class ReportsController {
 
     @PostMapping("/{reportedId}/reports")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public void createReport(@PathVariable("reportedId") Long reportedId, @Valid @RequestBody ReportInputDTO reportData,
+    public Map<String, String> createReport(@PathVariable Long reportedId, @Valid @RequestBody ReportInputDTO reportData,
             @AuthenticationPrincipal UserEntity user) {
-        reportsService.createReport(reportedId, user);
+        reportsService.createReport(reportedId, user, reportData);
+        return Map.of("message", "Report submitted successfully");
     }
 }

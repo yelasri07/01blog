@@ -22,8 +22,7 @@ public class LikeController {
     }
 
     @PostMapping("/{blogId}/likes")
-    public Map<String, String> post(@PathVariable("blogId") Long blogId, @AuthenticationPrincipal UserEntity user)
-            throws Exception {
+    public Map<String, String> post(@PathVariable("blogId") Long blogId, @AuthenticationPrincipal UserEntity user) {
         String likeMessage = likeService.createLike(blogId, user);
         return Map.of("message", likeMessage);
     }
