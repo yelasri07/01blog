@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
+import org.springframework.security.access.AccessDeniedException;
 
 import com.blog.exception.BadRequestException;
 import com.blog.exception.ForbiddenException;
@@ -67,7 +68,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ProblemDetail> HttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex) {
+    public ResponseEntity<ProblemDetail> HttpRequestMethodNotSupportedException(
+            HttpRequestMethodNotSupportedException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.METHOD_NOT_ALLOWED);
         problem.setDetail(ex.getMessage());
         return ResponseEntity
@@ -94,6 +96,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<ProblemDetail> ForbiddenException(ForbiddenException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
+        problem.setDetail(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.FORBIDDEN)
+                .body(problem);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ProblemDetail> AccessDeniedException(AccessDeniedException ex) {
         ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
         problem.setDetail(ex.getMessage());
         return ResponseEntity

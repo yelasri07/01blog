@@ -2,12 +2,14 @@ package com.blog.reports.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
 import com.blog.reports.dto.ReportInputDTO;
+import com.blog.reports.dto.ReportOutputDTO;
 import com.blog.reports.model.ReportsEntity;
 import com.blog.reports.persistence.ReportsRepository;
 import com.blog.user.model.UserEntity;
@@ -42,4 +44,7 @@ public class ReportsService {
         return reportsRepository.save(report);
     }
 
+    public List<ReportOutputDTO> getReports() {
+        return reportsRepository.findReports();
+    }
 }
