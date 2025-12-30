@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blog.auth.dto.AuthDTO;
-import com.blog.auth.security.JwtService;
 import com.blog.exception.UnauthorizedException;
 import com.blog.user.model.RoleEnum;
 import com.blog.user.model.UserEntity;
@@ -26,10 +25,8 @@ public class AuthService {
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtService jwtService;
 
-    public void createUser(AuthDTO.RegisterDTO userData) {
+    public UserEntity createUser(AuthDTO.RegisterDTO userData) {
         UserEntity user = UserEntity.builder()
                 .username(userData.getUsername())
                 .email(userData.getEmail())
@@ -38,10 +35,10 @@ public class AuthService {
                 .role(RoleEnum.USER)
                 .build();
 
-        userRepository.save(user);
+        return userRepository.save(user);
     }
 
-    public String userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
+    public UserEntity userConnexion(AuthDTO.LoginDTO userData) throws AuthenticationException {
         userData.setUsername(userData.getUsername());
         String username = userData.getUsername();
         String password = userData.getPassword();
@@ -55,9 +52,8 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
 
             UserEntity user = (UserEntity) authentication.getPrincipal();
-            String token = jwtService.generateJwt(user.getId(), user.getUsername());
 
-            return token;
+            return user;
         } catch (AuthenticationException ex) {
             throw new UnauthorizedException("Username or password is incorrect");
         }

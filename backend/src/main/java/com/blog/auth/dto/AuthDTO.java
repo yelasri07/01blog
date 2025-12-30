@@ -1,6 +1,7 @@
 package com.blog.auth.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -30,7 +31,7 @@ public class AuthDTO {
         @Pattern(regexp = "\\w*", message = "Username most be like Youssef01, blog15zone")
         private String username;
 
-        @NotNull(message = "Email cannot be empty")
+        @NotBlank(message = "Email cannot be empty")
         @Email(message = "Please provide a valid email")
         private String email;
 
