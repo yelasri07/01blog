@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { User } from '../../user/model/user.interface';
+import { User } from '../../../core/interfaces/user.interface';
 import { API_URL } from '../../../core/constants/API_URL';
 
 @Injectable({

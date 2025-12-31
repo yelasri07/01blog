@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../../features/user/model/user.interface';
+import { User } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../constants/API_URL';
@@ -13,6 +13,10 @@ export class AuthStateService {
 
   findCurrentUser(): Observable<User> {
     return this.http.get<User>(API_URL + "/users/me");
+  }
+
+  isAuthenticated(): boolean {
+    return this.currentUser() !== null ;
   }
 
   getCurrentUser() {

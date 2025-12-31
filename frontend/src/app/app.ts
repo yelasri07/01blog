@@ -23,5 +23,5 @@ export class App implements OnInit {
         console.error(err);
       }
     })
-  }                                                                                                              
+  }                                                                                                    
 }
