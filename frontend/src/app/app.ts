@@ -15,7 +15,8 @@ export class App implements OnInit {
   ngOnInit(): void {
     this.authStateService.findCurrentUser().subscribe({
       next: respone => {
-        console.log(respone)
+        this.authStateService.setCurrentUser(respone)
+        console.log(this.authStateService.getCurrentUser())
       },
 
       error: err => {

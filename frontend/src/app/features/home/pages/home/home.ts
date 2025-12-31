@@ -9,5 +9,4 @@ import { AuthStateService } from '../../../../core/services/auth.state.service';
 })
 export class Home {
   authStateService = inject(AuthStateService)
-  username = signal(this.authStateService.getCurrentUser()?.username)
 }
