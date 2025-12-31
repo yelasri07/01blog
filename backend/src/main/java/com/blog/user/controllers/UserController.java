@@ -11,19 +11,32 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.user.dto.SubscribeOutputDTO;
+import com.blog.user.dto.UserOutputDTO;
 import com.blog.user.model.UserEntity;
 import com.blog.user.service.UserService;
+
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
+    @GetMapping("/me")
+    public UserOutputDTO getMe(@AuthenticationPrincipal UserEntity user) {
+        return UserOutputDTO.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .role(user.getRole())
+                .createdAt(user.getCreated_at())
+                .build();
+    }
+    
     @PostMapping("/{subscribedToId}/subscribe")
     public Map<String, String> post(@PathVariable("subscribedToId") Long subscribedToId,
             @AuthenticationPrincipal UserEntity user) {

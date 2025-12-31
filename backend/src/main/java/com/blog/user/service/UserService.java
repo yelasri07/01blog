@@ -24,8 +24,8 @@ import lombok.AllArgsConstructor;
 @Service
 public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
-    private SubscribeRepository subscribeRepository;
+    private final UserRepository userRepository;
+    private final SubscribeRepository subscribeRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

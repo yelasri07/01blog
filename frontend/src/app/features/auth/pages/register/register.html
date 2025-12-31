@@ -1,5 +1,13 @@
-<form [formGroup]="form" (ngSubmit)="handleSubmit()">
+<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()">
+    {{ registerForm.controls.username.errors | json }}
+    <br>
+    <br>
     <input formControlName="username" type="text" placeholder="username">
+    @if (getUsername().invalid && (getUsername().touched || getUsername().dirty)) {
+        @if (getUsername().hasError('required')) {
+            <p style="color: red;">Invalid username</p>
+        }
+    }
     <br>
     <br>
     <input formControlName="email" type="email" placeholder="email">
