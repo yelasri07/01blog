@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -38,12 +38,21 @@ export class Register {
       },
 
       error: err => {
-        console.error(err)
+        if (!err.error) return
+
+        Object.keys(err.error).forEach(key => {
+          const control = this.registerForm.get(key)
+          if (control) {
+            control.setErrors({
+              'backend': err.error[key]
+            })
+          }
+        })
       }
     })
   }
 
-  getUsername() {
+  get username() {
     return this.registerForm.controls.username;
   }
 }

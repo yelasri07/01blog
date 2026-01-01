@@ -3,11 +3,16 @@
     <br>
     <br>
     <input formControlName="username" type="text" placeholder="username">
-    @if (getUsername().invalid && (getUsername().touched || getUsername().dirty)) {
-        @if (getUsername().hasError('required')) {
-            <p style="color: red;">Invalid username</p>
+    @if (username.hasError('backend')) {
+    <p style="color: red;"> {{username.getError('backend')}}</p>
+    }
+
+    @if (username.invalid && (username.dirty || username.touched)) {
+        @if (username.hasError('required')) {
+        <p style="color: red;">Invalid username</p>
         }
     }
+
     <br>
     <br>
     <input formControlName="email" type="email" placeholder="email">
