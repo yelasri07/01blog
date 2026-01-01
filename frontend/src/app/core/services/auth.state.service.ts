@@ -1,9 +1,8 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { User } from '../interfaces/user.interface';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { API_URL } from '../constants/API_URL';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -13,11 +12,15 @@ export class AuthStateService {
   private http = inject(HttpClient);
 
   loadCurrentUser() {
-    console.log('aaaaaaa')
-  }
-
-  findCurrentUser(): Observable<User> {
-    return this.http.get<User>(API_URL + "/users/me");
+    return this.http.get<User>(API_URL + '/users/me').pipe(
+      tap(respone => {
+        this.currentUser.set(respone)
+      }),
+      catchError(() => {
+        this.currentUser.set(null);
+        return of(null);
+      })
+    );
   }
 
   isAuthenticated(): boolean {

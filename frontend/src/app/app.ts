@@ -9,5 +9,5 @@ import { AuthStateService } from './core/services/auth.state.service';
   styleUrl: './app.scss'
 })
 export class App {
-                                                                                                 
+                                                                           
 }
