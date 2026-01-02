@@ -1,0 +1,28 @@
+div {
+    .img-section {
+        background:
+            linear-gradient(rgba(34, 34, 34, 0.5), rgba(34, 34, 34, 0.5)),
+            url("/assets/images/loginOffice.jpg");
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+
+    img {
+        object-fit: cover;
+    }
+
+    form {
+        width: 450px;
+    }
+
+    .text {
+        width: 450px;
+    }
+
+    .form-section input {
+        padding: 10px 20px;
+        border-radius: 4px;
+        outline: none;
+    }
+}
