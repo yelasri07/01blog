@@ -10,6 +10,7 @@ export const routes: Routes = [
     },
     {
         path: 'auth',
+        loadComponent: () => import('./features/auth/auth').then(m => m.Auth),
         loadChildren: () => import('./features/auth/auth.routes').then(m => m.authRoutes)
     }
 ];
