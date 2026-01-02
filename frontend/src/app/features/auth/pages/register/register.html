@@ -1,9 +1,15 @@
-<main class="auth vh-100 container-fluid g-0 row">
+<div class="row w-100 h-100">
     <section class="img-section col h-100">
         <!-- <img class="w-100 h-100" src="/assets/images/office.jpg"> -->
     </section>
     <section class="form-section col d-flex flex-column justify-content-center align-items-center">
-        <h2 class="mb-5">Create account</h2>
+        <div class="text">
+            <h2 class="mb-2">Create account</h2>
+            <p class="text-muted mb-5" style="max-width: 420px;">
+                Join a space where students can share their learning experiences,
+                discoveries, and progress throughout their journey.
+            </p>
+        </div>
         <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
             <input class="border" formControlName="username" type="text" placeholder="Username">
             <input class="border" formControlName="email" type="email" placeholder="Email Address">
@@ -11,8 +17,8 @@
                 <input class="border col" formControlName="password" type="password" placeholder="Password">
                 <input class="border col" formControlName="password" type="password" placeholder="Confirmation">
             </div>
-            <button class="btn btn-dark" type="submit">send</button>
-            <p>Don't have an account? <a class="text-decoration-none" routerLink="/auth/login">Sign up</a></p>
+            <button class="btn btn-dark" type="submit">Sign up</button>
+            <p class="text-muted">Don't have an account? <a class="text-decoration-none" routerLink="/auth/login">Sign up</a></p>
         </form>
     </section>
-</main>
+</div>

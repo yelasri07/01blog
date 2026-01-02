@@ -1,4 +1,4 @@
-main.auth {
+div {
     .img-section {
         background:
             linear-gradient(rgba(34, 34, 34, 0.5), rgba(34, 34, 34, 0.5)),
@@ -13,7 +13,11 @@ main.auth {
     }
 
     form {
-        width: 60%;
+        width: 450px;
+    }
+
+    .text {
+        width: 450px;
     }
 
     .form-section input {
