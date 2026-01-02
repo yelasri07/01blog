@@ -1,28 +1,18 @@
-<form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" class="">
-    {{ registerForm.controls.username.errors | json }}
-    <br>
-    <br>
-    <input formControlName="username" type="text" placeholder="username">
-    @if (username.hasError('backend')) {
-    <p style="color: red;"> {{username.getError('backend')}}</p>
-    }
-
-    @if (username.invalid && (username.dirty || username.touched)) {
-        @if (username.hasError('required')) {
-        <p style="color: red;">Invalid username</p>
-        }
-    }
-
-    <br>
-    <br>
-    <input formControlName="email" type="email" placeholder="email">
-    <br>
-    <br>
-    <input formControlName="password" type="password" placeholder="password">
-    <br>
-    <br>
-    <input type="submit">
-    <br>
-    <br>
-    <a routerLink="/auth/login">Login</a>
-</form>
+<main class="auth vh-100 container-fluid g-0 row">
+    <section class="img-section col h-100">
+        <!-- <img class="w-100 h-100" src="/assets/images/office.jpg"> -->
+    </section>
+    <section class="form-section col d-flex flex-column justify-content-center align-items-center">
+        <h2 class="mb-5">Create account</h2>
+        <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
+            <input class="border" formControlName="username" type="text" placeholder="Username">
+            <input class="border" formControlName="email" type="email" placeholder="Email Address">
+            <div class="row gap-3 g-0">
+                <input class="border col" formControlName="password" type="password" placeholder="Password">
+                <input class="border col" formControlName="password" type="password" placeholder="Confirmation">
+            </div>
+            <button class="btn btn-dark" type="submit">send</button>
+            <p>Don't have an account? <a class="text-decoration-none" routerLink="/auth/login">Sign up</a></p>
+        </form>
+    </section>
+</main>
