@@ -1,9 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
-import { JsonPipe, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
+
+const confirmPasswordValidator: ValidatorFn = (
+  control: AbstractControl
+): ValidationErrors | null => {
+  return control.value.password === control.value.confirmation
+    ? null
+    : { PasswordNoMatch: true };
+};
 
 @Component({
   selector: 'app-register',
@@ -20,11 +28,20 @@ export class Register {
     username: new FormControl('', {
       validators: [Validators.required, Validators.minLength(3), Validators.maxLength(20), Validators.pattern(/^\w+$/)]
     }),
-    email: new FormControl(''),
-    password: new FormControl(''),
-  })
+    email: new FormControl('', {
+      validators: [Validators.required, Validators.email]
+    }),
+    password: new FormControl('', {
+      validators: [Validators.required, Validators.minLength(8), Validators.maxLength(30)]
+    }),
+    confirmation: new FormControl('')
+  },
+    {
+      validators: confirmPasswordValidator
+    }
+  )
 
-  handleSubmit() {
+  handleSubmit() {    
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched()
       return;
@@ -38,8 +55,7 @@ export class Register {
       },
 
       error: err => {
-        console.log(err)
-        if (err.error && (err.status === 400 || err.status ===409)) {
+        if (err.error && (err.status === 400 || err.status === 409)) {
           Object.keys(err.error).forEach(key => {
             const control = this.registerForm.get(key)
             if (control) {
@@ -55,5 +71,17 @@ export class Register {
 
   get username() {
     return this.registerForm.controls.username;
+  }
+
+  get email() {
+    return this.registerForm.controls.email;
+  }
+
+  get password() {
+    return this.registerForm.controls.password;
+  }
+
+  get confirmation() {
+    return this.registerForm.controls.confirmation;
   }
 }
