@@ -26,3 +26,21 @@ div {
         outline: none;
     }
 }
+
+@media screen and (max-width: 992px) {
+    .img-section {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    div {
+        form{
+            width: 90%;
+        }
+    
+        .text{
+            width: 90%;
+        }
+    }
+}
