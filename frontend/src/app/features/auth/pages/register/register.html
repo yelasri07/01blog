@@ -11,7 +11,18 @@
             </p>
         </div>
         <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
-            <input class="border" formControlName="username" type="text" placeholder="Username">
+            <input [ngClass]="{
+                    'border-danger': username.invalid && username.touched
+                }" class="border" formControlName="username" type="text" placeholder="Username" maxlength="20">
+            @if (username.invalid && username.touched) {
+                @if(username.hasError('required') || username.hasError('minlength') || username.hasError('maxlength')) {
+                    <span class="error text-danger">Username should be between 3 and 20 characters</span>
+                } @else if (username.hasError("pattern")) {
+                    <span class="error text-danger">Username must be like Youssef, AfricanoZone01</span>
+                } @else if (username.hasError("backend")) {
+                    <span class="error text-danger">{{ username.getError('backend') }}</span>
+                }
+            }
             <input class="border" formControlName="email" type="email" placeholder="Email Address">
             <div class="row gap-3 g-0">
                 <input class="border col" formControlName="password" type="password" placeholder="Password">

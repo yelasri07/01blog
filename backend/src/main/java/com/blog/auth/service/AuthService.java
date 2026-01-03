@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.blog.auth.dto.AuthDTO;
+import com.blog.exception.ConflictException;
 import com.blog.exception.UnauthorizedException;
 import com.blog.user.model.RoleEnum;
 import com.blog.user.model.UserEntity;
@@ -27,6 +28,15 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
 
     public UserEntity createUser(AuthDTO.RegisterDTO userData) {
+        if (userRepository.existsByUsername(userData.getUsername())) {
+            throw new ConflictException("Username already exists", "username");
+        }
+
+        if (userRepository.existsByEmail(userData.getEmail())) {
+            System.out.println("sdfsdfsdsdsd");
+            throw new ConflictException("Email already exists", "email");
+        }
+
         UserEntity user = UserEntity.builder()
                 .username(userData.getUsername())
                 .email(userData.getEmail())

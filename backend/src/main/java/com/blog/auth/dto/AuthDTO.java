@@ -28,7 +28,7 @@ public class AuthDTO {
 
         @NotNull(message = "Username cannot be empty")
         @Size(min = 3, max = 20, message = "Username should be between 3 and 20 characters")
-        @Pattern(regexp = "\\w*", message = "Username most be like Youssef01, blog15zone")
+        @Pattern(regexp = "\\w*", message = "Username must be like Youssef01, blog15zone")
         private String username;
 
         @NotBlank(message = "Email cannot be empty")

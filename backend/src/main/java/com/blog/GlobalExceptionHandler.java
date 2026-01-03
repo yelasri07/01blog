@@ -15,6 +15,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 import org.springframework.security.access.AccessDeniedException;
 
 import com.blog.exception.BadRequestException;
+import com.blog.exception.ConflictException;
 import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.exception.UnauthorizedException;
@@ -109,6 +110,18 @@ public class GlobalExceptionHandler {
         problem.setDetail(ex.getMessage());
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
+                .body(problem);
+    }
+
+    @ExceptionHandler(ConflictException.class)
+    public ResponseEntity<ProblemDetail> ConflictException(ConflictException ex) {
+        ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.CONFLICT);
+        if (ex.getPropertyName() != null) {
+            problem.setProperty(ex.getPropertyName(), ex.getMessage());
+        }
+        problem.setDetail(ex.getMessage());
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
                 .body(problem);
     }
 }

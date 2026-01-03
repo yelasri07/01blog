@@ -3,10 +3,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
+import { JsonPipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule, NgClass],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -37,16 +38,17 @@ export class Register {
       },
 
       error: err => {
-        if (!err.error) return
-
-        Object.keys(err.error).forEach(key => {
-          const control = this.registerForm.get(key)
-          if (control) {
-            control.setErrors({
-              'backend': err.error[key]
-            })
-          }
-        })
+        console.log(err)
+        if (err.error && (err.status === 400 || err.status ===409)) {
+          Object.keys(err.error).forEach(key => {
+            const control = this.registerForm.get(key)
+            if (control) {
+              control.setErrors({
+                'backend': err.error[key]
+              })
+            }
+          })
+        }
       }
     })
   }
