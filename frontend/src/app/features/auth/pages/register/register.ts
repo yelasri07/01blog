@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { NgClass } from '@angular/common';
+import { WelcomeMessageComponent } from '../../components/welcome-message.component/welcome-message.component';
 
 const confirmPasswordValidator: ValidatorFn = (
   control: AbstractControl
@@ -15,7 +16,7 @@ const confirmPasswordValidator: ValidatorFn = (
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, ReactiveFormsModule, NgClass],
+  imports: [RouterLink, ReactiveFormsModule, NgClass, WelcomeMessageComponent],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -64,6 +65,8 @@ export class Register {
               })
             }
           })
+        } else {
+          // show popup
         }
       }
     })
