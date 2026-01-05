@@ -1,10 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { NgClass } from '@angular/common';
 import { WelcomeMessageComponent } from '../../components/welcome-message.component/welcome-message.component';
+import { PopupComponent } from "../../../../shared/components/popup.component/popup.component";
+import { popupInterface } from '../../../../shared/interfaces/popup.interface';
+import { PopupService } from '../../../../shared/services/popup.service';
 
 const confirmPasswordValidator: ValidatorFn = (
   control: AbstractControl
@@ -16,7 +19,7 @@ const confirmPasswordValidator: ValidatorFn = (
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, ReactiveFormsModule, NgClass, WelcomeMessageComponent],
+  imports: [RouterLink, ReactiveFormsModule, NgClass, WelcomeMessageComponent, PopupComponent],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -24,6 +27,9 @@ export class Register {
   private authService = inject(AuthService)
   private authStateService = inject(AuthStateService)
   private router = inject(Router)
+  private popupService = inject(PopupService)
+
+  popup = signal(this.popupService.popup);
 
   registerForm = new FormGroup({
     username: new FormControl('', {
@@ -42,7 +48,23 @@ export class Register {
     }
   )
 
-  handleSubmit() {    
+  handleSubmit() {
+    if (!this.popupService.timer) {
+      this.popup.update(p => ({
+        ...p,
+        show: true,
+        message: 'Ooops! something wrong',
+        isValid: false,
+      }))
+      this.popupService.timer = setTimeout(() => {
+        this.popup.update(p => ({
+          ...p,
+          show: false
+        }))
+        this.popupService.timer = null
+      }, 5000)
+    }
+
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched()
       return;
@@ -66,7 +88,7 @@ export class Register {
             }
           })
         } else {
-          // show popup
+
         }
       }
     })
