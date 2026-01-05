@@ -10,9 +10,8 @@ export class PopupService {
   timer: NodeJS.Timeout | null = null;
 
   popup: popupInterface = {
-    show: false,
     message: '',
     isValid: false,
-    timer: 2000
+    delay: 3000
   }
 }

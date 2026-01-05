@@ -30,6 +30,7 @@ export class Register {
   private popupService = inject(PopupService)
 
   popup = signal(this.popupService.popup);
+  showPopup = signal(false);
 
   registerForm = new FormGroup({
     username: new FormControl('', {
@@ -49,22 +50,6 @@ export class Register {
   )
 
   handleSubmit() {
-    if (!this.popupService.timer) {
-      this.popup.update(p => ({
-        ...p,
-        show: true,
-        message: 'Ooops! something wrong',
-        isValid: false,
-      }))
-      this.popupService.timer = setTimeout(() => {
-        this.popup.update(p => ({
-          ...p,
-          show: false
-        }))
-        this.popupService.timer = null
-      }, 5000)
-    }
-
     if (this.registerForm.invalid) {
       this.registerForm.markAllAsTouched()
       return;
@@ -78,7 +63,7 @@ export class Register {
       },
 
       error: err => {
-        if (err.error && (err.status === 400 || err.status === 409)) {
+        if (err.error && (err.status === 400)) {
           Object.keys(err.error).forEach(key => {
             const control = this.registerForm.get(key)
             if (control) {
@@ -88,7 +73,18 @@ export class Register {
             }
           })
         } else {
-
+          if (!this.popupService.timer) {
+            this.showPopup.set(true)
+            this.popup.update(p => ({
+              ...p,
+              message: 'Ooops! something wrong',
+              isValid: false,
+            }))
+            this.popupService.timer = setTimeout(() => {
+              this.showPopup.set(false)
+              this.popupService.timer = null
+            }, this.popup().delay)
+          }
         }
       }
     })

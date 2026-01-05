@@ -1,6 +1,6 @@
 <div class="row w-100 h-100">
-    @if (popup().show) {
-    <app-popup [popup]="popup()"/>
+    @if (showPopup()) {
+    <app-popup [popup]="popup()" />
     }
 
     <section class="img-section col h-100">
