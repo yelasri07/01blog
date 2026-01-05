@@ -63,7 +63,7 @@ export class Register {
       },
 
       error: err => {
-        if (err.error && (err.status === 400)) {
+        if (err.error && (err.status === 400 || err.status === 409)) {
           Object.keys(err.error).forEach(key => {
             const control = this.registerForm.get(key)
             if (control) {
