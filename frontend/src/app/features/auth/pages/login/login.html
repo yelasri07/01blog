@@ -1,4 +1,8 @@
 <div class="row w-100 h-100">
+    @if (showPopup()) {
+    <app-popup [popup]="popup()" />
+    }
+
     <section class="img-section col h-100">
         <!-- <img class="w-100 h-100" src="/assets/images/office.jpg"> -->
     </section>
@@ -8,10 +12,24 @@
             <app-welcome-message />
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
-            <input class="border" formControlName="username" type="text" placeholder="Username">
-            <input class="border col" formControlName="password" type="password" placeholder="Password">
+            @if (loginForm.hasError('backend')) {
+            <span class="error text-center text-danger">{{ loginForm.getError('backend') }}</span>
+            }
+            <input [ngClass]="{
+                    'border-danger': username.invalid && username.touched
+                }" class="border" formControlName="username" type="text" placeholder="Username">
+            @if (username.invalid && username.touched) {
+            <span class="error text-danger">Username cannot be empty</span>
+            }
+            <input [ngClass]="{
+                    'border-danger': password.invalid && password.touched
+                }" class="border col" formControlName="password" type="password" placeholder="Password">
+            @if (password.invalid && password.touched) {
+            <span class="error text-danger">Password cannot be empty</span>
+            }
             <button class="btn btn-dark" type="submit">Sign in</button>
-            <p class="text-muted">Don't have an account? <a class="text-decoration-none" routerLink="/auth/register">Sign up</a></p>
+            <p class="text-muted">Don't have an account? <a class="text-decoration-none"
+                    routerLink="/auth/register">Sign up</a></p>
         </form>
     </section>
 </div>

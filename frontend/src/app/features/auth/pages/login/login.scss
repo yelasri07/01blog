@@ -25,6 +25,10 @@ div {
         border-radius: 4px;
         outline: none;
     }
+
+    .error {
+        margin: -15px 0;
+    }
 }
 
 @media screen and (max-width: 992px) {
@@ -35,11 +39,11 @@ div {
 
 @media screen and (max-width: 600px) {
     div {
-        form{
+        form {
             width: 90%;
         }
-    
-        .text{
+
+        .text {
             width: 90%;
         }
     }
