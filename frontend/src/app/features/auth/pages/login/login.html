@@ -13,7 +13,7 @@
         </div>
         <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
             @if (loginForm.hasError('backend')) {
-            <span class="error text-center text-danger">{{ loginForm.getError('backend') }}</span>
+            <span class="error text-danger">{{ loginForm.getError('backend') }}</span>
             }
             <input [ngClass]="{
                     'border-danger': username.invalid && username.touched
