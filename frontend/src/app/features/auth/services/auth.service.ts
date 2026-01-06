@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { User } from '../../../core/interfaces/user.interface';
@@ -11,7 +11,11 @@ import { API_URL } from '../../../core/constants/API_URL';
 export class AuthService {
   private http = inject(HttpClient)
 
-  submit(form: FormGroup): Observable<User> {
+  register(form: FormGroup): Observable<User> {
     return this.http.post<User>(API_URL + "/auth/register", form.value);
+  }
+
+  login(form: FormGroup): Observable<User> {
+    return this.http.post<User>(API_URL + "/auth/login", form.value);
   }
 }

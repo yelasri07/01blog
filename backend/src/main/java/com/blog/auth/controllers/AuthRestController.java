@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.auth.dto.AuthDTO;
+import com.blog.auth.mapper.AuthMapper;
 import com.blog.auth.security.JwtService;
 import com.blog.auth.service.AuthService;
 import com.blog.user.dto.UserOutputDTO;
@@ -25,6 +26,8 @@ public class AuthRestController {
     private AuthService authService;
     @Autowired
     private JwtService jwtService;
+    @Autowired
+    private AuthMapper authMapper;
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
@@ -33,21 +36,14 @@ public class AuthRestController {
 
         String token = jwtService.generateJwt(user.getId(), user.getUsername());
 
-        return UserOutputDTO.builder()
-                .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .role(user.getRole())
-                .createdAt(user.getCreated_at())
-                .token(token)
-                .build();
+        return authMapper.toUserOutputDTO(user, token);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody AuthDTO.LoginDTO userData) throws AuthenticationException {
+    public UserOutputDTO login(@RequestBody AuthDTO.LoginDTO userData) throws AuthenticationException {
         UserEntity user = authService.userConnexion(userData);
         String token = jwtService.generateJwt(user.getId(), user.getUsername());
 
-        return token;
+        return authMapper.toUserOutputDTO(user, token);
     }
 }

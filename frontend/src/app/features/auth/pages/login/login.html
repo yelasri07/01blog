@@ -7,9 +7,9 @@
             <h2 class="mb-2">Log into your account</h2>
             <app-welcome-message />
         </div>
-        <form class="d-flex flex-column gap-4">
-            <input class="border" type="text" placeholder="Username">
-            <input class="border col" type="password" placeholder="Password">
+        <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
+            <input class="border" formControlName="username" type="text" placeholder="Username">
+            <input class="border col" formControlName="password" type="password" placeholder="Password">
             <button class="btn btn-dark" type="submit">Sign in</button>
             <p class="text-muted">Don't have an account? <a class="text-decoration-none" routerLink="/auth/register">Sign up</a></p>
         </form>

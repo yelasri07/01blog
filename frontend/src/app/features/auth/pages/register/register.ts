@@ -55,7 +55,7 @@ export class Register {
       return;
     }
 
-    this.authService.submit(this.registerForm).subscribe({
+    this.authService.register(this.registerForm).subscribe({
       next: respone => {
         localStorage.setItem('token', respone.token)
         this.authStateService.setCurrentUser(respone)
