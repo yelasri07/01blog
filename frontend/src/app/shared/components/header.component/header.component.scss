@@ -1,0 +1,42 @@
+header {
+    padding: 20px 40px;
+
+    .logo {
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 1.8em;
+    }
+
+    li{
+        position: relative;
+        cursor: pointer;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background-color: black;
+            left: 50%;
+            bottom: 0;
+            transition: .3s;
+        }
+
+        &.active::after{
+            width: 100%;
+            left: 0;
+        }
+
+        &:hover::after {
+            width: 100%;
+            left: 0;
+        }
+    }
+
+    .start {
+        input {
+            padding: 5px 10px;
+            outline: none;
+        }
+    }
+}
