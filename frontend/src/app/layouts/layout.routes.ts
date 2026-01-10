@@ -9,5 +9,9 @@ export const layoutRoutes: Routes = [
     {
         path: 'profile',
         loadComponent: () => import('../features/profile/profile').then(m => m.Profile)
-    }
+    },
+    {
+        path: 'newBlog',
+        loadComponent: () => import('../features/blogs/new-blog/new-blog').then(m => m.NewBlog)
+    },
 ]

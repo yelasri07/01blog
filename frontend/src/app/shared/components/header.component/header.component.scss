@@ -39,4 +39,14 @@ header {
             outline: none;
         }
     }
+
+    .write{
+        cursor: pointer;
+        opacity: .8;
+        font-size: .95em;
+
+        &:hover {
+            color: var(--text-secondary);
+        }
+    }
 }
