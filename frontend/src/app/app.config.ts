@@ -6,6 +6,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { httpInterceptor } from './core/interceptor/http-interceptor';
 import { AuthStateService } from './core/services/auth.state.service';
 import { firstValueFrom } from 'rxjs';
+import { provideMarkdown } from 'ngx-markdown';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
       return firstValueFrom(
         authStateService.loadCurrentUser()
       )
-    })
+    }),
+    provideMarkdown()
   ]
 };

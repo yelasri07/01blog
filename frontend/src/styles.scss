@@ -29,6 +29,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  scroll-behavior: auto !important;
+}
+
 body[data-bs-theme="dark"] .btn {
   background-color: #eee; // light button in dark mode
   color: #222;

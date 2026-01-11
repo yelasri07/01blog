@@ -1,0 +1,28 @@
+.create-blog {
+
+    position: relative;
+
+    .title,
+    .content {
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+    }
+
+    .title {
+        font-size: 1.5em;
+        font-weight: 700;
+    }
+
+    .content {
+        resize: none;
+        font-size: 1.1em;
+        height: 65vh;
+    }
+
+    button {
+        padding: 5px 10px;
+        font-weight: 500;
+        font-size: .8em;
+    }
+}
