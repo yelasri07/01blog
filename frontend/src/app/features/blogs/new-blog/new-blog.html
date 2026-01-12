@@ -1,5 +1,5 @@
 <section class="create-blog">
-    <form>
+    <form [formGroup]="blogForm">
         <div class="header d-flex align-items-center gap-2 mb-3">
             <button class="btn btn-success" type="submit">
                 <div class="d-flex align-items-center gap-2 justify-content-center">
@@ -13,7 +13,7 @@
                     </svg>
                 </div>
             </button>
-            <button class="result btn">
+            <button class="result btn" (click)="blogResult()">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-journals" viewBox="0 0 16 16">
                     <path
@@ -23,8 +23,16 @@
                 </svg>
             </button>
         </div>
-        <input type="text" placeholder="Title..." class="title w-100 border-start border-4 border-dark mb-4">
-        <textarea #textarea formControlName="textarea" class="content w-100 border-start border-4"
+        <input formControlName="title" type="text" placeholder="Title..."
+            class="title w-100 border-start border-4 border-dark mb-4">
+        <textarea #textarea formControlName="content" class="content w-100 border-start border-4"
             placeholder="Write your article here..."></textarea>
     </form>
 </section>
+
+@if (show()) {
+<section class="show-result">
+    qsdqsdqsqds
+    <h2> {{ resultTitle() }} </h2>
+</section>
+}
