@@ -32,7 +32,9 @@
 
 @if (show()) {
 <section class="show-result">
-    qsdqsdqsqds
     <h2> {{ resultTitle() }} </h2>
+    <markdown [data]="resultContent()">
+
+    </markdown>
 </section>
 }
