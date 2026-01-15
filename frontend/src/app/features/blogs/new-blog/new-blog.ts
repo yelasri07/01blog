@@ -70,8 +70,8 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   private updateContent(value?: string) {
-    if (value !== null && value !== undefined) {
-      if (this.inputContent) this.inputContent.nativeElement.textContent += value
+    if (value !== null && value !== undefined && this.inputContent) {
+      this.inputContent.nativeElement.textContent += value
     }
 
     let text = this.inputContent?.nativeElement.textContent

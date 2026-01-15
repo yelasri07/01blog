@@ -20,7 +20,7 @@
 
         &:empty:before {
             content: attr(data-placeholder);
-            color:gray
+            color: gray
         }
     }
 
@@ -29,8 +29,11 @@
         font-weight: 500;
         font-size: .8em;
     }
+
 }
 
-// .show-result {
-//     background-color: gray;
-// }
+:host ::ng-deep {
+    .show-result markdown img {
+        width: 200px;
+    }
+}
