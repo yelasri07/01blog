@@ -1,7 +1,7 @@
 <section class="create-blog">
     <form [formGroup]="blogForm">
         <div class="header d-flex align-items-center gap-2 mb-3">
-            <button class="btn btn-success" type="submit">
+            <button (click)="handleSubmit()" class="btn btn-success" type="submit">
                 <div class="d-flex align-items-center gap-2 justify-content-center">
                     Save
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -22,10 +22,11 @@
                         d="M1 6v-.5a.5.5 0 0 1 1 0V6h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V9h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 2.5v.5H.5a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1H2v-.5a.5.5 0 0 0-1 0" />
                 </svg>
             </button>
+            <input (change)="uploadFile($event)" formControlName="file" type="file">
         </div>
         <input formControlName="title" type="text" placeholder="Title..."
             class="title w-100 border-start border-4 border-dark mb-4">
-        <textarea #textarea formControlName="content" class="content w-100 border-start border-4"
+        <textarea (input)="handleTextareaChange($event)" #textarea formControlName="content" class="content w-100 border-start border-4"
             placeholder="Write your article here..."></textarea>
     </form>
 </section>
