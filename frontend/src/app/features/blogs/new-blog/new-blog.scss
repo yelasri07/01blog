@@ -17,7 +17,11 @@
     .content {
         resize: none;
         font-size: 1.1em;
-        height: 65vh;
+
+        &:empty:before {
+            content: attr(data-placeholder);
+            color:gray
+        }
     }
 
     button {
@@ -27,6 +31,6 @@
     }
 }
 
-.show-result {
-    // background-color: red;
-}
+// .show-result {
+//     background-color: gray;
+// }

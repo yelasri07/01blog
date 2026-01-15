@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { marked } from 'marked';
 import { MarkdownComponent } from "ngx-markdown";
@@ -16,6 +16,7 @@ export class NewBlog implements OnInit, OnDestroy {
   show = signal(true);
 
   textarea = new Subject<Event>();
+  @ViewChild("inputContent") inputContent: ElementRef<HTMLDivElement> | null = null;
 
   blogForm = new FormGroup({
     title: new FormControl(''),
@@ -26,9 +27,8 @@ export class NewBlog implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.textarea.pipe(
       debounceTime(300)
-    ).subscribe(async (event) => {
-      const input = event.target as HTMLTextAreaElement
-      await this.addToMarkdown(input.value);
+    ).subscribe(async () => {
+      await this.addToMarkdown();
     })
   }
 
@@ -41,6 +41,7 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   async handleTextareaChange(event: Event) {
+    this.updateContent();
     if (!this.show()) return;
     this.textarea.next(event)
   }
@@ -52,21 +53,35 @@ export class NewBlog implements OnInit, OnDestroy {
     }
 
     this.show.set(true)
-
-    if (this.title.value !== null) this.resultTitle.set(this.title.value)
-    if (this.content.value !== null) await this.addToMarkdown(this.content.value)
+    await this.addToMarkdown()
   }
 
-  uploadFile(event: Event) {
+  async uploadFile(event: Event) {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
     const file = URL.createObjectURL(input.files[0])
-    console.log(file)
+    let imgText = `![media](${file})`
+
+    input.value = "";
+
+    this.updateContent("\n" + imgText)
+    await this.addToMarkdown()
   }
 
-  private async addToMarkdown(text: string) {
-    let res = await marked.parse(text, {
+  private updateContent(value?: string) {
+    if (value !== null && value !== undefined) {
+      if (this.inputContent) this.inputContent.nativeElement.textContent += value
+    }
+
+    let text = this.inputContent?.nativeElement.textContent
+    if (text !== null && text !== undefined) this.content.setValue(text)
+  }
+
+  private async addToMarkdown() {
+    if (this.title.value !== null) this.resultTitle.set(this.title.value)
+    if (this.content.value === null) return;
+    let res = await marked.parse(this.content.value, {
       breaks: true,
     });
 

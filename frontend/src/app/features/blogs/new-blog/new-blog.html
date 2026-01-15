@@ -24,10 +24,15 @@
             </button>
             <input (change)="uploadFile($event)" formControlName="file" type="file">
         </div>
-        <input formControlName="title" type="text" placeholder="Title..."
+        <input (input)="handleTextareaChange($event)" formControlName="title" type="text" placeholder="Title..."
             class="title w-100 border-start border-4 border-dark mb-4">
-        <textarea (input)="handleTextareaChange($event)" #textarea formControlName="content" class="content w-100 border-start border-4"
-            placeholder="Write your article here..."></textarea>
+        <!-- <textarea (input)="handleTextareaChange($event)" #textarea formControlName="content"
+            class="content w-100 border-start border-4" placeholder="Write your article here..."></textarea> -->
+        <div #inputContent
+            (input)="handleTextareaChange($event)" contenteditable="plaintext-only"
+            class="content w-100 border-start border-4"
+            data-placeholder="Write your article here...">
+        </div>
     </form>
 </section>
 
