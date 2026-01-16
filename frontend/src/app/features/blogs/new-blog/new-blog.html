@@ -1,7 +1,7 @@
 <section class="create-blog">
-    <form [formGroup]="blogForm">
+    <form [formGroup]="blogForm" (ngSubmit)="handleSubmit()">
         <div class="header d-flex align-items-center gap-2 mb-3">
-            <button (click)="handleSubmit()" class="btn btn-success" type="submit">
+            <button class="btn btn-success" type="submit">
                 <div class="d-flex align-items-center gap-2 justify-content-center">
                     Save
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

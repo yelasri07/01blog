@@ -4,6 +4,7 @@ import { marked } from 'marked';
 import { MarkdownComponent } from "ngx-markdown";
 import { debounceTime, Subject } from 'rxjs';
 import { FileInterface } from '../interfaces/file.interface';
+import { BlogService } from '../service/blog.service';
 
 @Component({
   selector: 'app-new-blog',
@@ -12,6 +13,8 @@ import { FileInterface } from '../interfaces/file.interface';
   styleUrl: './new-blog.scss',
 })
 export class NewBlog implements OnInit, OnDestroy {
+  private blogService = inject(BlogService)
+
   resultTitle = signal('');
   resultContent = signal('');
   show = signal(true);
@@ -43,7 +46,7 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
-
+    this.blogService.submitFiles(this.mediaList)
   }
 
   async handleTextareaChange(event: Event) {
@@ -73,12 +76,9 @@ export class NewBlog implements OnInit, OnDestroy {
     const file = input.files[0]
     input.value = "";
     this.addToMediaList(file)
-
-    console.log(this.mediaList)
   }
 
   private deleteUnusedFiles() {
-    console.log(this.content.value)
     for (const [key, value] of this.mediaList) {
       if (!this.content.value?.match("!\\[.*\\s{0,1}.*\\]\\(\\s{0,1}" + value.tempUrl + "\\s{0,1}\\)")) {
         URL.revokeObjectURL(value.tempUrl)
