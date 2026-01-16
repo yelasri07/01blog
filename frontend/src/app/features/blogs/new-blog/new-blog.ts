@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { marked } from 'marked';
 import { MarkdownComponent } from "ngx-markdown";
 import { debounceTime, Subject } from 'rxjs';
+import { FileInterface } from '../interfaces/file.interface';
 
 @Component({
   selector: 'app-new-blog',
@@ -14,6 +15,8 @@ export class NewBlog implements OnInit, OnDestroy {
   resultTitle = signal('');
   resultContent = signal('');
   show = signal(true);
+
+  private mediaList: Map<string, FileInterface> = new Map();
 
   textarea = new Subject<Event>();
   @ViewChild("inputContent") inputContent: ElementRef<HTMLDivElement> | null = null;
@@ -41,6 +44,10 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   async handleTextareaChange(event: Event) {
+    const input = event.target as HTMLDivElement
+    if (input.innerHTML === '<br>') {
+      input.textContent = ''
+    }
     this.updateContent();
     if (!this.show()) return;
     this.textarea.next(event)
@@ -60,13 +67,40 @@ export class NewBlog implements OnInit, OnDestroy {
     const input = event.target as HTMLInputElement;
     if (!input.files) return;
 
-    const file = URL.createObjectURL(input.files[0])
-    let imgText = `![media](${file})`
-
+    const file = input.files[0]
     input.value = "";
+    this.addToMediaList(file)
+  }
 
-    this.updateContent("\n" + imgText)
-    await this.addToMarkdown()
+  private deleteUnusedFiles() {
+    for (const [key, value] of this.mediaList) {
+      if (!this.content.value?.match("!\\[.*\\]\\(" + value.tempUrl + "\\)")) {
+        URL.revokeObjectURL(value.tempUrl)
+        this.mediaList.delete(key)
+      }
+    }
+  }
+
+  private async addToMediaList(file: File) {
+    this.deleteUnusedFiles()
+    let mediaFile = this.mediaList.get(file.name)
+    let imgText: string;
+    if (mediaFile) {
+      imgText = `![${mediaFile.file.name}](${mediaFile.tempUrl})`
+    } else {
+      const fileName = URL.createObjectURL(file)
+      this.mediaList.set(file.name, {
+        file,
+        tempUrl: fileName
+      })
+
+      imgText = `![${file.name}](${fileName})`
+    }
+
+    if (imgText) {
+      this.updateContent("\n" + imgText)
+      await this.addToMarkdown()
+    }
   }
 
   private updateContent(value?: string) {
