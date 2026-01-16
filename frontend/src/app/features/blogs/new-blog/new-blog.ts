@@ -37,6 +37,9 @@ export class NewBlog implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.textarea.complete();
+    for (const value of this.mediaList.values()) {
+      URL.revokeObjectURL(value.tempUrl)
+    }
   }
 
   handleSubmit() {
@@ -70,11 +73,14 @@ export class NewBlog implements OnInit, OnDestroy {
     const file = input.files[0]
     input.value = "";
     this.addToMediaList(file)
+
+    console.log(this.mediaList)
   }
 
   private deleteUnusedFiles() {
+    console.log(this.content.value)
     for (const [key, value] of this.mediaList) {
-      if (!this.content.value?.match("!\\[.*\\]\\(" + value.tempUrl + "\\)")) {
+      if (!this.content.value?.match("!\\[.*\\s{0,1}.*\\]\\(\\s{0,1}" + value.tempUrl + "\\s{0,1}\\)")) {
         URL.revokeObjectURL(value.tempUrl)
         this.mediaList.delete(key)
       }
