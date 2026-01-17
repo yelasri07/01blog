@@ -5,6 +5,7 @@ import { MarkdownComponent } from "ngx-markdown";
 import { debounceTime, Subject } from 'rxjs';
 import { FileInterface } from '../interfaces/file.interface';
 import { BlogService } from '../service/blog.service';
+import { CloudinaryService } from '../../../core/services/cloudinary.service';
 
 @Component({
   selector: 'app-new-blog',
@@ -14,12 +15,14 @@ import { BlogService } from '../service/blog.service';
 })
 export class NewBlog implements OnInit, OnDestroy {
   private blogService = inject(BlogService)
+  private cloudinaryService = inject(CloudinaryService)
 
   resultTitle = signal('');
   resultContent = signal('');
   show = signal(true);
 
   private mediaList: Map<string, FileInterface> = new Map();
+  private files: Map<string, string> = new Map();
 
   textarea = new Subject<Event>();
   @ViewChild("inputContent") inputContent: ElementRef<HTMLDivElement> | null = null;
@@ -47,15 +50,6 @@ export class NewBlog implements OnInit, OnDestroy {
 
   handleSubmit() {
     this.deleteUnusedFiles()
-    this.blogService.submitFiles(this.mediaList).subscribe({
-      next: response => {
-        console.log(response)
-      },
-
-      error: err => {
-        console.error(err)
-      }
-    })
   }
 
   async handleTextareaChange(event: Event) {
@@ -83,8 +77,13 @@ export class NewBlog implements OnInit, OnDestroy {
     if (!input.files) return;
 
     const file = input.files[0]
+    const signatureData = await this.cloudinaryService.getSignature().toPromise();
+    const result = await this.cloudinaryService.uploadFile(file, signatureData!)
+    const res = await result.json();
+
     input.value = "";
-    this.addToMediaList(file)
+    this.addFile(file.name, res.url, res.public_id)
+    console.log(this.files)
   }
 
   private deleteUnusedFiles() {
@@ -96,27 +95,34 @@ export class NewBlog implements OnInit, OnDestroy {
     }
   }
 
-  private async addToMediaList(file: File) {
-    this.deleteUnusedFiles()
-    let mediaFile = this.mediaList.get(file.name)
-    let imgText: string;
-    if (mediaFile) {
-      imgText = `![${mediaFile.file.name}](${mediaFile.tempUrl})`
-    } else {
-      const fileName = URL.createObjectURL(file)
-      this.mediaList.set(file.name, {
-        file,
-        tempUrl: fileName
-      })
-
-      imgText = `![${file.name}](${fileName})`
-    }
-
-    if (imgText) {
-      this.updateContent("\n" + imgText)
-      await this.addToMarkdown()
-    }
+  private async addFile(fileName: string, url: string, public_id: string) {
+    let imgText = `![${fileName}](${url})`
+    this.files.set(url, public_id)
+    this.updateContent("\n" + imgText)
+    await this.addToMarkdown()
   }
+
+  // private async addToMediaList(file: File) {
+  //   this.deleteUnusedFiles()
+  //   let mediaFile = this.mediaList.get(file.name)
+  //   let imgText: string;
+  //   if (mediaFile) {
+  //     imgText = `![${mediaFile.file.name}](${mediaFile.tempUrl})`
+  //   } else {
+  //     const fileName = URL.createObjectURL(file)
+  //     this.mediaList.set(file.name, {
+  //       file,
+  //       tempUrl: fileName
+  //     })
+
+  //     imgText = `![${file.name}](${fileName})`
+  //   }
+
+  //   if (imgText) {
+  //     this.updateContent("\n" + imgText)
+  //     await this.addToMarkdown()
+  //   }
+  // }
 
   private updateContent(value?: string) {
     if (value !== null && value !== undefined && this.inputContent) {

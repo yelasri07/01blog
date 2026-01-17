@@ -1,11 +1,10 @@
 package com.blog.cloudinary.controllers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.cloudinary.dto.CloudinaryDTO;
 import com.blog.cloudinary.services.CloudinaryService;
 
 @RestController
@@ -19,9 +18,8 @@ public class CloudinaryController {
     }
 
     @PostMapping("/signature")
-    @ResponseStatus(code = HttpStatus.ACCEPTED)
-    public void getSignature() {
-        cloudinaryService.getSignature();
+    public CloudinaryDTO getSignature() {
+        return cloudinaryService.getSignature();
     }
 
 }
