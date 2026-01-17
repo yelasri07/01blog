@@ -32,4 +32,16 @@ public class CloudinaryService {
                 .apiKey(cloudinary.config.apiKey)
                 .build();
     }
+
+    public void deleteTempFiles(Map<String, String[]> data) {
+        String[] files = data.get("files");
+        if (files == null || files.length == 0) {
+            return;
+        }
+
+        for (String file : files) {
+            System.out.println(file);
+        }
+        // cloudinary.uploader().destroy(null, null);
+    }
 }

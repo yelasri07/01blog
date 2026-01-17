@@ -6,6 +6,7 @@ import { debounceTime, Subject } from 'rxjs';
 import { FileInterface } from '../interfaces/file.interface';
 import { BlogService } from '../service/blog.service';
 import { CloudinaryService } from '../../../core/services/cloudinary.service';
+import { error } from 'console';
 
 @Component({
   selector: 'app-new-blog',
@@ -23,6 +24,7 @@ export class NewBlog implements OnInit, OnDestroy {
 
   private mediaList: Map<string, FileInterface> = new Map();
   private files: Map<string, string> = new Map();
+  private deletedFileIds: string[] = []
 
   textarea = new Subject<Event>();
   @ViewChild("inputContent") inputContent: ElementRef<HTMLDivElement> | null = null;
@@ -49,7 +51,16 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
-    this.deleteUnusedFiles()
+    this.cleanUnusedFiles()
+    this.cloudinaryService.deleteTempFiles(this.deletedFileIds).subscribe({
+      next: response => {
+        console.log(response)
+      },
+
+      error: err => {
+        console.error(err)
+      }
+    })
   }
 
   async handleTextareaChange(event: Event) {
@@ -77,25 +88,32 @@ export class NewBlog implements OnInit, OnDestroy {
     if (!input.files) return;
 
     const file = input.files[0]
-    const signatureData = await this.cloudinaryService.getSignature().toPromise();
-    const result = await this.cloudinaryService.uploadFile(file, signatureData!)
-    const res = await result.json();
+    this.cloudinaryService.getSignature().subscribe({
+      next: async response => {
+        const result = await this.cloudinaryService.uploadFile(file, response)
+        const res = await result.json();
+        this.addFile(file.name, res.url, res.public_id)
+      },
+
+      error: err => {
+        console.error(err)
+      }
+    });
 
     input.value = "";
-    this.addFile(file.name, res.url, res.public_id)
-    console.log(this.files)
   }
 
-  private deleteUnusedFiles() {
-    for (const [key, value] of this.mediaList) {
-      if (!this.content.value?.match("!\\[.*\\s{0,1}.*\\]\\(\\s{0,1}" + value.tempUrl + "\\s{0,1}\\)")) {
-        URL.revokeObjectURL(value.tempUrl)
-        this.mediaList.delete(key)
+  private cleanUnusedFiles() {
+    for (const [key, value] of this.files) {
+      if (!this.content.value?.match("!\\[.*\\s{0,1}.*\\]\\(\\s{0,1}" + key + "\\s{0,1}\\)")) {
+        this.deletedFileIds.push(value)
+        this.files.delete(key)
       }
     }
   }
 
   private async addFile(fileName: string, url: string, public_id: string) {
+    this.cleanUnusedFiles()
     let imgText = `![${fileName}](${url})`
     this.files.set(url, public_id)
     this.updateContent("\n" + imgText)

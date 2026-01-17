@@ -26,4 +26,12 @@ export class CloudinaryService {
       body: formData
     });
   }
+
+  deleteTempFiles(files: string[]) {
+    return this.http.delete(API_URL + "/cloudinary", {
+      body: {
+        "files": files
+      }
+    })
+  }
 }
