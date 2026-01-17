@@ -15,14 +15,6 @@ export class BlogService {
       formData.append("files", file.file);
     })
 
-    this.http.post(API_URL + "/blogs/files", formData).subscribe({
-      next: response => {
-        console.log(response)
-      },
-
-      error: err => {
-        console.error(err)
-      }
-    })
+    return this.http.post(API_URL + "/cloudinary/upload", formData)
   }
 }

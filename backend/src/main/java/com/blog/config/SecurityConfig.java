@@ -1,4 +1,4 @@
-package com.blog.auth.security;
+package com.blog.config;
 
 import java.util.Arrays;
 
@@ -17,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import com.blog.auth.security.JwtAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity

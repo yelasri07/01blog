@@ -46,7 +46,16 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
-    this.blogService.submitFiles(this.mediaList)
+    this.deleteUnusedFiles()
+    this.blogService.submitFiles(this.mediaList).subscribe({
+      next: response => {
+        console.log(response)
+      },
+
+      error: err => {
+        console.error(err)
+      }
+    })
   }
 
   async handleTextareaChange(event: Event) {

@@ -11,7 +11,7 @@ export const layoutRoutes: Routes = [
         loadComponent: () => import('../features/profile/profile').then(m => m.Profile)
     },
     {
-        path: 'newBlog',
+        path: 'new-blog',
         loadComponent: () => import('../features/blogs/new-blog/new-blog').then(m => m.NewBlog)
     },
 ]
