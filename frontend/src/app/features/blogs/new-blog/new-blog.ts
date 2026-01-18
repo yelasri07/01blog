@@ -6,7 +6,6 @@ import { debounceTime, Subject } from 'rxjs';
 import { FileInterface } from '../interfaces/file.interface';
 import { BlogService } from '../service/blog.service';
 import { CloudinaryService } from '../../../core/services/cloudinary.service';
-import { error } from 'console';
 
 @Component({
   selector: 'app-new-blog',
@@ -22,7 +21,6 @@ export class NewBlog implements OnInit, OnDestroy {
   resultContent = signal('');
   show = signal(true);
 
-  private mediaList: Map<string, FileInterface> = new Map();
   private publicIds: Map<string, string> = new Map();
   private deletedFileIds: string[] = []
 

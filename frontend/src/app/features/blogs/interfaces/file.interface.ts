@@ -1,4 +1,4 @@
 export type FileInterface = {
-    file: File,
-    tempUrl: string,
+    url: string,
+    public_id: string
 }
