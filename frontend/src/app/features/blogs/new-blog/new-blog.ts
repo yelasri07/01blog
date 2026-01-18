@@ -23,7 +23,7 @@ export class NewBlog implements OnInit, OnDestroy {
   show = signal(true);
 
   private mediaList: Map<string, FileInterface> = new Map();
-  private files: Map<string, string> = new Map();
+  private publicIds: Map<string, string> = new Map();
   private deletedFileIds: string[] = []
 
   textarea = new Subject<Event>();
@@ -45,22 +45,15 @@ export class NewBlog implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.textarea.complete();
-    for (const value of this.mediaList.values()) {
-      URL.revokeObjectURL(value.tempUrl)
+    for (const value of this.publicIds.values()) {
+      this.deletedFileIds.push(value);
     }
+    this.cleanFileIds()
   }
 
   handleSubmit() {
     this.cleanUnusedFiles()
-    this.cloudinaryService.deleteTempFiles(this.deletedFileIds).subscribe({
-      next: response => {
-        console.log(response)
-      },
-
-      error: err => {
-        console.error(err)
-      }
-    })
+    this.cleanFileIds()
   }
 
   async handleTextareaChange(event: Event) {
@@ -91,6 +84,9 @@ export class NewBlog implements OnInit, OnDestroy {
     this.cloudinaryService.getSignature().subscribe({
       next: async response => {
         const result = await this.cloudinaryService.uploadFile(file, response)
+        if (!result.ok) {
+          return
+        }
         const res = await result.json();
         this.addFile(file.name, res.url, res.public_id)
       },
@@ -103,44 +99,33 @@ export class NewBlog implements OnInit, OnDestroy {
     input.value = "";
   }
 
-  private cleanUnusedFiles() {
-    for (const [key, value] of this.files) {
-      if (!this.content.value?.match("!\\[.*\\s{0,1}.*\\]\\(\\s{0,1}" + key + "\\s{0,1}\\)")) {
-        this.deletedFileIds.push(value)
-        this.files.delete(key)
-      }
-    }
-  }
-
   private async addFile(fileName: string, url: string, public_id: string) {
     this.cleanUnusedFiles()
     let imgText = `![${fileName}](${url})`
-    this.files.set(url, public_id)
+    this.publicIds.set(url, public_id)
     this.updateContent("\n" + imgText)
     await this.addToMarkdown()
   }
 
-  // private async addToMediaList(file: File) {
-  //   this.deleteUnusedFiles()
-  //   let mediaFile = this.mediaList.get(file.name)
-  //   let imgText: string;
-  //   if (mediaFile) {
-  //     imgText = `![${mediaFile.file.name}](${mediaFile.tempUrl})`
-  //   } else {
-  //     const fileName = URL.createObjectURL(file)
-  //     this.mediaList.set(file.name, {
-  //       file,
-  //       tempUrl: fileName
-  //     })
+  private cleanUnusedFiles() {
+    for (const [key, value] of this.publicIds) {
+      if (!this.content.value?.match("!\\[.*\\s{0,1}.*\\]\\(\\s{0,1}" + key + "\\s{0,1}\\)")) {
+        this.deletedFileIds.push(value)
+        this.publicIds.delete(key)
+      }
+    }
+  }
 
-  //     imgText = `![${file.name}](${fileName})`
-  //   }
-
-  //   if (imgText) {
-  //     this.updateContent("\n" + imgText)
-  //     await this.addToMarkdown()
-  //   }
-  // }
+  private cleanFileIds() {
+    this.cloudinaryService.deleteTempFiles(this.deletedFileIds).subscribe({
+      error: err => {
+        console.error(err)
+      },
+      complete: () => {
+        this.deletedFileIds = [];
+      }
+    })
+  }
 
   private updateContent(value?: string) {
     if (value !== null && value !== undefined && this.inputContent) {

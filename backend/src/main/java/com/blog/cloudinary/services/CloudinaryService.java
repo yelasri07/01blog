@@ -1,5 +1,7 @@
 package com.blog.cloudinary.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -33,15 +35,24 @@ public class CloudinaryService {
                 .build();
     }
 
-    public void deleteTempFiles(Map<String, String[]> data) {
-        String[] files = data.get("files");
-        if (files == null || files.length == 0) {
+    public void deleteTempFiles(Map<String, String[]> data) throws Exception {
+        String[] publicIds = data.get("publicIds");
+        if (publicIds == null) {
+            throw new Exception("Missing publicIds property");
+        }
+
+        if (publicIds.length == 0) {
             return;
         }
 
-        for (String file : files) {
-            System.out.println(file);
-        }
-        // cloudinary.uploader().destroy(null, null);
+        List<String> listPublicIds = Arrays.asList(publicIds);
+
+        cloudinary.api().deleteResources(
+                listPublicIds,
+                ObjectUtils.asMap("resource_type", "image"));
+
+        cloudinary.api().deleteResources(
+                listPublicIds,
+                ObjectUtils.asMap("resource_type", "video"));
     }
 }

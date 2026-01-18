@@ -27,10 +27,10 @@ export class CloudinaryService {
     });
   }
 
-  deleteTempFiles(files: string[]) {
+  deleteTempFiles(publicIds: string[]) {
     return this.http.delete(API_URL + "/cloudinary", {
       body: {
-        "files": files
+        "publicIds": publicIds
       }
     })
   }
