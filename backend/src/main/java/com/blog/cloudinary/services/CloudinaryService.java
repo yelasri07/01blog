@@ -8,7 +8,6 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.blog.cloudinary.dto.CloudinaryDTO;
-import com.blog.exception.NotFoundException;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -58,27 +57,24 @@ public class CloudinaryService {
                 ObjectUtils.asMap("resource_type", "video"));
     }
 
-    public List<String> moveTempFiles(List<String> links) {
+    // the newList returned is always the same length of the origin list
+    public List<String> moveTempFiles(List<String> links) throws Exception {
         List<String> newLinks = new ArrayList<>();
 
         for (String link : links) {
-            try {
-                String publicId = this.extractPublicIdFromUrl(link);
-                if (publicId == null) {
-                    newLinks.add(link);
-                    continue;
-                }
-                String newPublicId = publicId.replace("tempFiles/", "blogImages/");
-                newLinks.add(link.replace("tempFiles/", "blogImages/"));
-                cloudinary.uploader().rename(
-                        publicId,
-                        newPublicId,
-                        ObjectUtils.asMap(
-                                "overwrite", true,
-                                "invalidate", true));
-            } catch (Exception e) {
-                throw new NotFoundException(e.getMessage());
+            String publicId = this.extractPublicIdFromUrl(link);
+            if (publicId == null) {
+                newLinks.add(link);
+                continue;
             }
+            String newPublicId = publicId.replace("tempFiles/", "blogImages/");
+            newLinks.add(link.replace("tempFiles/", "blogImages/"));
+            cloudinary.uploader().rename(
+                    publicId,
+                    newPublicId,
+                    ObjectUtils.asMap(
+                            "overwrite", true,
+                            "invalidate", true));
         }
 
         return newLinks;
