@@ -1,5 +1,6 @@
 package com.blog.cloudinary.services;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.blog.cloudinary.dto.CloudinaryDTO;
+import com.blog.exception.NotFoundException;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 
@@ -54,5 +56,45 @@ public class CloudinaryService {
         cloudinary.api().deleteResources(
                 listPublicIds,
                 ObjectUtils.asMap("resource_type", "video"));
+    }
+
+    public List<String> moveTempFiles(List<String> links) {
+        List<String> newLinks = new ArrayList<>();
+
+        for (String link : links) {
+            try {
+                String publicId = this.extractPublicIdFromUrl(link);
+                if (publicId == null) {
+                    newLinks.add(link);
+                    continue;
+                }
+                String newPublicId = publicId.replace("tempFiles/", "blogImages/");
+                newLinks.add(link.replace("tempFiles/", "blogImages/"));
+                cloudinary.uploader().rename(
+                        publicId,
+                        newPublicId,
+                        ObjectUtils.asMap(
+                                "overwrite", true,
+                                "invalidate", true));
+            } catch (Exception e) {
+                throw new NotFoundException(e.getMessage());
+            }
+        }
+
+        return newLinks;
+    }
+
+    private String extractPublicIdFromUrl(String url) {
+        int tempFilesIndex = url.indexOf("tempFiles/");
+        int lastPointIndex = url.lastIndexOf(".");
+        if (tempFilesIndex == -1 || lastPointIndex == -1) {
+            return null;
+        }
+
+        try {
+            return url.substring(tempFilesIndex, lastPointIndex);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }
