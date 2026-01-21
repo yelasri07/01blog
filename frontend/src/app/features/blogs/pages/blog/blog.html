@@ -1,0 +1,21 @@
+@if (blogError()) {
+<app-error [message]="blogError()" />
+} @else {
+
+<section class="blog">
+    <div class="header">
+        <p class="username d-flex align-items-center gap-2"><i class="bi bi-person-fill"></i> <span>{{ blog()?.username
+                }}</span></p>
+        <span class="created-at">{{ blog()?.created_at | dateFormat }}</span>
+    </div>
+    <h1 class="title border-bottom border-dark">
+        {{ blog()?.title }}
+    </h1>
+    <div class="content">
+        <markdown [data]="blog()?.content | markdownFormat | async">
+
+        </markdown>
+    </div>
+</section>
+
+} 

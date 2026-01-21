@@ -1,0 +1,38 @@
+.blog {
+    padding: 0 150px;
+
+    .header {
+        i {
+            font-size: 1.5em;
+        }
+        
+        .created-at {
+            opacity: .7;
+            display: block;
+            margin-top: -20px;
+            font-size: 0.8em;
+        }
+
+        .username {
+            font-size: 1.3em;
+        }
+    }
+
+    .title {
+        margin-top: 20px;
+        padding-bottom: 10px;
+    }
+
+    .content {
+        margin-top: 30px;
+    }
+}
+
+:host::ng-deep {
+    markdown img{
+        inline-size: 500px;
+        max-inline-size: 100%;
+        aspect-ratio: 1;
+        object-fit: cover;
+    }
+}

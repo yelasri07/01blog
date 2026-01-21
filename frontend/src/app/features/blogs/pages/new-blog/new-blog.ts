@@ -3,9 +3,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { marked } from 'marked';
 import { MarkdownComponent } from "ngx-markdown";
 import { debounceTime, Subject } from 'rxjs';
-import { FileInterface } from '../interfaces/file.interface';
-import { BlogService } from '../service/blog.service';
-import { CloudinaryService } from '../../../core/services/cloudinary.service';
+import { FileInterface } from '../../interfaces/file.interface';
+import { BlogService } from '../../service/blog.service';
+import { CloudinaryService } from '../../../../core/services/cloudinary.service';
 
 @Component({
   selector: 'app-new-blog',
