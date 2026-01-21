@@ -47,6 +47,33 @@ header {
         }
     }
 
+    input[type="search"] {
+        width: 260px;
+        padding: 8px 14px;
+
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+
+        border: 1px solid var(--bg-secondary);
+        border-radius: 20px;
+
+        font-size: 14px;
+        outline: none;
+
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        &:focus {
+            border-color: var(--color-primary);
+            box-shadow:
+                0 0 0 2px rgba(148, 137, 121, 0.1),
+                0 0 8px rgba(223, 208, 184, 0.2)
+        }
+    }
+
     .profile {
 
         button {

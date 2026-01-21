@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthStateService } from '../../../core/services/auth.state.service';
 
@@ -20,8 +20,15 @@ export class HeaderComponent {
     this.router.navigateByUrl('/auth/login')
   }
 
-  dropdownProfile() {
+  dropdownProfile(event: MouseEvent) {
+    event.stopPropagation();
     this.showDropdown.update(prev => !prev)
+  }
+
+  @HostListener('document:click')
+  onDocumentClick() {
+    if (!this.showDropdown()) return;
+    this.showDropdown.set(false);
   }
 
 }
