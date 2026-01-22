@@ -88,20 +88,20 @@ export class NewBlog implements OnInit, OnDestroy {
     if (!input.files) return;
 
     const file = input.files[0]
-    this.cloudinaryService.getSignature().subscribe({
-      next: async response => {
-        const result = await this.cloudinaryService.uploadFile(file, response)
-        if (!result.ok) {
-          return
-        }
-        const res = await result.json();
-        this.addFile(file.name, res.url, res.public_id)
-      },
+    // this.cloudinaryService.getSignature().subscribe({
+    //   next: async response => {
+    //     const result = await this.cloudinaryService.uploadFile(file, response)
+    //     if (!result.ok) {
+    //       return
+    //     }
+    //     const res = await result.json();
+    //     this.addFile(file.name, res.url, res.public_id)
+    //   },
 
-      error: err => {
-        console.error(err)
-      }
-    });
+    //   error: err => {
+    //     console.error(err)
+    //   }
+    // });
 
     input.value = "";
   }

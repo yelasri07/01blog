@@ -1,0 +1,61 @@
+.create-blog {
+
+    .title {
+        padding: 10px 20px;
+        border: none;
+        outline: none;
+        font-size: 1.4em;
+        font-weight: 700;
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+        border-left: 4px solid var(--color-primary);
+    }
+
+    #editorjs {
+        color: var(--text-primary);
+    }
+
+    .submit-btn {
+        background-color: var(--color-primary);
+        color: var(--bg-primary);
+        padding: 10px 24px;
+        font-size: 15px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        letter-spacing: 0.3px;
+        transition:
+            background-color 0.25s ease,
+            box-shadow 0.25s ease,
+            transform 0.15s ease;
+
+        &:hover {
+            background-color: var(--color-secondary);
+            box-shadow: 0 8px 26px rgba(223, 208, 184, 0.45);
+            transform: translateY(-2px);
+        }
+
+        &:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 14px rgba(223, 208, 184, 0.35);
+        }
+
+        &:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(223, 208, 184, 0.4);
+        }
+    }
+}
+
+::ng-deep {
+
+    .ce-toolbar__plus,
+    .ce-toolbar__settings-btn {
+        color: var(--text-primary) !important;
+
+        &:hover {
+            background-color: var(--text-primary) !important;
+            color: var(--bg-primary) !important;
+        }
+    }
+}

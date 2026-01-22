@@ -10,7 +10,13 @@ export class CloudinaryService {
   private http = inject(HttpClient)
 
   getSignature() {
-    return this.http.post<signatureData>(API_URL + "/cloudinary/signature", {})
+    const token = localStorage.getItem('token');
+    return fetch(API_URL + "/cloudinary/signature", {
+      method: "POST",
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    })
   }
 
   uploadFile(file: File, data: signatureData) {

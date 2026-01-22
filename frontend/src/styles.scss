@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 :root {
-  --text-primary: #fff;
+  --text-primary: #E6E6E6;
+  --text-secondary: #BFC3C7;
+  --text-muted: #8E9398; 
 
   --bg-primary: #222831;
   --bg-secondary: #393E46;
@@ -22,7 +24,11 @@ body {
   scroll-behavior: auto;
 }
 
-body[data-bs-theme="dark"] .btn {
-  background-color: #eee; // light button in dark mode
-  color: #222;
+body {
+  background-color: var(--bg-primary) !important;
 }
+
+// body[data-bs-theme="dark"] .btn {
+//   background-color: #eee; // light button in dark mode
+//   color: #222;
+// }
