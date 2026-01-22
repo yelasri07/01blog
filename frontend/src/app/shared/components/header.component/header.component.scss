@@ -1,5 +1,5 @@
 header {
-    padding: 15px 30px;
+    padding: 15px;
     position: fixed;
     width: 100%;
     z-index: 999;
@@ -16,7 +16,9 @@ header {
     li {
         position: relative;
         cursor: pointer;
-        // font-size: .95em;
+        &.active {
+            color: var(--color-secondary);
+        }
 
         &::after {
             content: '';
@@ -24,7 +26,7 @@ header {
             width: 0;
             height: 2px;
             left: 50%;
-            bottom: 0;
+            bottom: -2px;
             transition: .3s;
             background-color: var(--color-primary);
         }
@@ -37,13 +39,6 @@ header {
         &:hover::after {
             width: 100%;
             left: 0;
-        }
-    }
-
-    .start {
-        input {
-            padding: 5px 10px;
-            outline: none;
         }
     }
 

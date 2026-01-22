@@ -26,9 +26,5 @@ body {
 
 body {
   background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
 }
-
-// body[data-bs-theme="dark"] .btn {
-//   background-color: #eee; // light button in dark mode
-//   color: #222;
-// }

@@ -1,4 +1,6 @@
 .create-blog {
+    max-width: 850px;
+    margin: auto;
 
     .title {
         padding: 10px 20px;
@@ -57,5 +59,18 @@
             background-color: var(--text-primary) !important;
             color: var(--bg-primary) !important;
         }
+    }
+
+    .ce-block__content {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .ce-toolbar__content {
+        max-width: 100%;
+    }
+
+    .cdx-block {
+        width: 100%;
     }
 }
