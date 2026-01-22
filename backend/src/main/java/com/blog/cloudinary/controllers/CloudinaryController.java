@@ -22,10 +22,7 @@ public class CloudinaryController {
         this.cloudinaryService = cloudinaryService;
     }
 
-    @PostMapping("/signature")
-    public CloudinaryDTO getSignature() {
-        return cloudinaryService.getSignature();
-    }
+    
 
     @DeleteMapping
     public void deleteTempFiles(@RequestBody Map<String, String[]> data) {

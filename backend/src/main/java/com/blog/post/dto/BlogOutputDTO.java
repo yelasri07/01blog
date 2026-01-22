@@ -1,6 +1,7 @@
 package com.blog.post.dto;
 
 import java.sql.Timestamp;
+import java.util.Map;
 
 import lombok.Builder;
 
@@ -8,7 +9,7 @@ import lombok.Builder;
 public record BlogOutputDTO(
         Long id,
         String title,
-        String content,
+        Map<String, Object> content,
         Timestamp created_at,
         Long user_id,
         String username) {

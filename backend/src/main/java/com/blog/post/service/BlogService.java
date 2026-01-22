@@ -29,13 +29,13 @@ public class BlogService {
     }
 
     public BlogEntity createBlog(CreateBlogDTO blogData, UserEntity user) throws Exception {
-        List<String> imageTempLinks = MarkdownExtractor.extractImageLinks(blogData.content());
-        List<String> imageNewLinks = cloudinaryService.moveTempFiles(imageTempLinks);
-        String newContent = this.replaceTempLinks(imageTempLinks, imageNewLinks, blogData.content());
+        // List<String> imageTempLinks = MarkdownExtractor.extractImageLinks(blogData.content());
+        // List<String> imageNewLinks = cloudinaryService.moveTempFiles(imageTempLinks);
+        // String newContent = this.replaceTempLinks(imageTempLinks, imageNewLinks, blogData.content());
 
         BlogEntity blog = BlogEntity.builder()
                 .title(blogData.title())
-                .content(newContent)
+                .content(blogData.content())
                 .created_at(new Timestamp(System.currentTimeMillis()))
                 .user(user)
                 .build();
@@ -70,7 +70,7 @@ public class BlogService {
         BlogEntity blog = this.getBlogById(blogId, user);
 
         blog.setTitle(blogData.title());
-        blog.setContent(blogData.content());
+        // blog.setContent(blogData.content());
 
         return blogRepository.save(blog);
     }

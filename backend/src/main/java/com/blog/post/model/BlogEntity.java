@@ -1,9 +1,14 @@
 package com.blog.post.model;
 
 import java.sql.Timestamp;
+import java.util.Map;
+
+import org.hibernate.annotations.Type;
 
 import com.blog.user.model.UserEntity;
+import com.vladmihalcea.hibernate.type.json.JsonType;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +34,10 @@ public class BlogEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
-    private String content;
+
+    @Type(JsonType.class)
+    @Column(columnDefinition = "json")
+    private Map<String, Object> content;
     private Timestamp created_at;
 
     @ManyToOne

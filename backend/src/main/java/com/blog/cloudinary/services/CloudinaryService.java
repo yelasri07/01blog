@@ -20,21 +20,7 @@ public class CloudinaryService {
         this.cloudinary = cloudinary;
     }
 
-    public CloudinaryDTO getSignature() {
-        long timestamp = System.currentTimeMillis() / 1000;
-
-        Map<String, Object> params = ObjectUtils.asMap(
-                "timestamp", timestamp,
-                "folder", "tempFiles");
-
-        String signature = cloudinary.apiSignRequest(params, cloudinary.config.apiSecret);
-        return CloudinaryDTO.builder()
-                .signature(signature)
-                .timestamp(timestamp)
-                .cloudName(cloudinary.config.cloudName)
-                .apiKey(cloudinary.config.apiKey)
-                .build();
-    }
+    
 
     public void deleteTempFiles(Map<String, String[]> data) throws Exception {
         String[] publicIds = data.get("publicIds");

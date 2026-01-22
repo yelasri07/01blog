@@ -11,7 +11,7 @@ export class CloudinaryService {
 
   getSignature() {
     const token = localStorage.getItem('token');
-    return fetch(API_URL + "/cloudinary/signature", {
+    return fetch(API_URL + "/media/signature", {
       method: "POST",
       headers: {
         'Authorization': 'Bearer ' + token
@@ -25,7 +25,7 @@ export class CloudinaryService {
     formData.append('api_key', data.apiKey);
     formData.append('timestamp', data.timestamp.toString());
     formData.append('signature', data.signature);
-    formData.append('folder', 'tempFiles');
+    formData.append('folder', 'blogImages');
 
     return fetch(`https://api.cloudinary.com/v1_1/${data.cloudName}/image/upload`, {
       method: 'POST',
@@ -38,6 +38,12 @@ export class CloudinaryService {
       body: {
         "publicIds": publicIds
       }
+    })
+  }
+
+  submitMedia(publicId: string) {
+    return this.http.post(API_URL + "/media", {
+      public_id: publicId
     })
   }
 }
