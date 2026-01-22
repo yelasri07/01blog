@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.blog.cloudinary.services.CloudinaryService;
 import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogsOutputDTO;
@@ -15,24 +14,17 @@ import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
 import com.blog.user.model.RoleEnum;
 import com.blog.user.model.UserEntity;
-import com.blog.utils.MarkdownExtractor;
 
 @Service
 public class BlogService {
 
     private final BlogRepository blogRepository;
-    private final CloudinaryService cloudinaryService;
 
-    public BlogService(BlogRepository blogRepository, CloudinaryService cloudinaryService) {
+    public BlogService(BlogRepository blogRepository) {
         this.blogRepository = blogRepository;
-        this.cloudinaryService = cloudinaryService;
     }
 
     public BlogEntity createBlog(CreateBlogDTO blogData, UserEntity user) throws Exception {
-        // List<String> imageTempLinks = MarkdownExtractor.extractImageLinks(blogData.content());
-        // List<String> imageNewLinks = cloudinaryService.moveTempFiles(imageTempLinks);
-        // String newContent = this.replaceTempLinks(imageTempLinks, imageNewLinks, blogData.content());
-
         BlogEntity blog = BlogEntity.builder()
                 .title(blogData.title())
                 .content(blogData.content())
@@ -73,13 +65,5 @@ public class BlogService {
         // blog.setContent(blogData.content());
 
         return blogRepository.save(blog);
-    }
-
-    private String replaceTempLinks(List<String> TempLinks, List<String> NewLinks, String content) {
-        for (int i = 0; i < NewLinks.size(); i++) {
-            content = content.replace(TempLinks.get(i), NewLinks.get(i));
-        }
-
-        return content;
     }
 }

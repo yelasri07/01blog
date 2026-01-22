@@ -5,7 +5,7 @@ import { MarkdownComponent } from "ngx-markdown";
 import { debounceTime, Subject } from 'rxjs';
 import { FileInterface } from '../../interfaces/file.interface';
 import { BlogService } from '../../service/blog.service';
-import { CloudinaryService } from '../../../../core/services/cloudinary.service';
+import { MediaService } from '../../../../core/services/media.service';
 
 @Component({
   selector: 'app-new-blog',
@@ -15,7 +15,7 @@ import { CloudinaryService } from '../../../../core/services/cloudinary.service'
 })
 export class NewBlog implements OnInit, OnDestroy {
   private blogService = inject(BlogService)
-  private cloudinaryService = inject(CloudinaryService)
+  private cloudinaryService = inject(MediaService)
 
   resultTitle = signal('');
   resultContent = signal('');
@@ -49,7 +49,7 @@ export class NewBlog implements OnInit, OnDestroy {
     this.cleanFileIds()
   }
 
-  
+
   // handleSubmit() {
   //   this.updateContent()
   //   this.cleanUnusedFiles()
@@ -125,14 +125,14 @@ export class NewBlog implements OnInit, OnDestroy {
   }
 
   private cleanFileIds() {
-    this.cloudinaryService.deleteTempFiles(this.deletedFileIds).subscribe({
-      error: err => {
-        console.error(err)
-      },
-      complete: () => {
-        this.deletedFileIds = [];
-      }
-    })
+    // this.cloudinaryService.deleteTempFiles(this.deletedFileIds).subscribe({
+    //   error: err => {
+    //     console.error(err)
+    //   },
+    //   complete: () => {
+    //     this.deletedFileIds = [];
+    //   }
+    // })
   }
 
   private updateContent(value?: string) {

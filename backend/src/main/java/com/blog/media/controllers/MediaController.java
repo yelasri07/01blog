@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.cloudinary.dto.CloudinaryDTO;
+import com.blog.media.dto.MediaDto;
 import com.blog.media.services.MediaService;
 
 @RestController
@@ -26,7 +26,7 @@ public class MediaController {
     }
 
     @PostMapping("/signature")
-    public CloudinaryDTO getSignature() {
+    public MediaDto getSignature() {
         return MediaService.getSignature();
     }
 

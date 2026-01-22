@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
-import ImageTool from '@editorjs/image';
-import { CloudinaryService } from '../../../../core/services/cloudinary.service';
+import { MediaService } from '../../../../core/services/media.service';
 import { signatureData } from '../../../../core/interfaces/signatureData.interface';
 import { BlogService } from '../../service/blog.service';
+import ImageTool from '@editorjs/image';
 
 @Component({
   selector: 'app-create-blog',
@@ -16,7 +16,7 @@ export class CreateBlog {
   private editor: EditorJS;
   private outputData: OutputData | undefined;
 
-  private cloudinaryService = inject(CloudinaryService);
+  private mediaService = inject(MediaService);
   private blogService = inject(BlogService);
 
   constructor() {
@@ -53,15 +53,15 @@ export class CreateBlog {
   }
 
   private async uploadImage(file: File) {
-    const sigRes = await this.cloudinaryService.getSignature();
+    const sigRes = await this.mediaService.getSignature();
     if (!sigRes.ok) return;
     const signature: signatureData = await sigRes.json()
-    const fileRes = await this.cloudinaryService.uploadFile(file, signature)
+    const fileRes = await this.mediaService.uploadFile(file, signature)
     if (!fileRes.ok) {
       return
     }
     const res = await fileRes.json();
-    this.cloudinaryService.submitMedia(res.public_id).subscribe({
+    this.mediaService.submitMedia(res.public_id).subscribe({
       error: err => {
         console.error(err);
       }

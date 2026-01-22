@@ -6,7 +6,7 @@ import { signatureData } from '../interfaces/signatureData.interface';
 @Injectable({
   providedIn: 'root',
 })
-export class CloudinaryService {
+export class MediaService {
   private http = inject(HttpClient)
 
   getSignature() {
@@ -31,14 +31,6 @@ export class CloudinaryService {
       method: 'POST',
       body: formData
     });
-  }
-
-  deleteTempFiles(publicIds: string[]) {
-    return this.http.delete(API_URL + "/cloudinary", {
-      body: {
-        "publicIds": publicIds
-      }
-    })
   }
 
   submitMedia(publicId: string) {

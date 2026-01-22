@@ -1,9 +1,9 @@
-package com.blog.cloudinary.dto;
+package com.blog.media.dto;
 
 import lombok.Builder;
 
 @Builder
-public record CloudinaryDTO(
+public record MediaDto(
         String signature,
         String apiKey,
         String cloudName,

@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.blog.cloudinary.dto.CloudinaryDTO;
 import com.blog.exception.BadRequestException;
+import com.blog.media.dto.MediaDto;
 import com.blog.media.model.MediaEntity;
 import com.blog.media.persistence.MediaRepository;
 import com.cloudinary.Cloudinary;
@@ -42,7 +42,7 @@ public class MediaService {
         mediaRepository.save(media);
     }
 
-    public CloudinaryDTO getSignature() {
+    public MediaDto getSignature() {
         long timestamp = System.currentTimeMillis() / 1000;
 
         Map<String, Object> params = ObjectUtils.asMap(
@@ -50,7 +50,7 @@ public class MediaService {
                 "folder", "blogImages");
 
         String signature = cloudinary.apiSignRequest(params, cloudinary.config.apiSecret);
-        return CloudinaryDTO.builder()
+        return MediaDto.builder()
                 .signature(signature)
                 .timestamp(timestamp)
                 .cloudName(cloudinary.config.cloudName)
