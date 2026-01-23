@@ -1,0 +1,8 @@
+@for (blog of blogs(); track blog.id) {
+<div class="blog">
+    <app-blog-header [blogInfos]="blog" />
+    <p class="title">
+        {{ blog.title }}
+    </p>
+</div>
+}

@@ -21,4 +21,8 @@ export class BlogService {
   getBlogById(blogId: number) {
     return this.http.get<blogInterface>(API_URL + "/blogs/" + blogId);
   }
+
+  getBlogs() {
+    return this.http.get<blogInterface[]>(API_URL + "/blogs")
+  }
 }

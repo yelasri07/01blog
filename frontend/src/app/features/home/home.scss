@@ -1,11 +1,24 @@
 section.search {
     height: 400px;
+    animation: fadeSlideIn 0.8s ease-out forwards;
 
     .welcome-message {
         font-size: 1.3em;
         width: 500px;
         text-align: center;
         color: var(--text-secondary);
+    }
+}
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -18,4 +31,8 @@ section.search {
             font-size: 1.3em;
         }
     }
+}
+
+.home-body {
+    margin-top: 20px;
 }

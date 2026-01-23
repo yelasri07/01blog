@@ -37,6 +37,10 @@ header {
             left: 0;
         }
 
+        &:hover {
+            color: var(--color-secondary);
+        }
+
         &:hover::after {
             width: 100%;
             left: 0;
@@ -118,16 +122,6 @@ header {
             .logout-btn:hover {
                 background-color: rgba(231, 76, 60, 0.1);
             }
-        }
-    }
-
-    .write {
-        cursor: pointer;
-        opacity: .8;
-        font-size: .95em;
-
-        &:hover {
-            color: var(--text-secondary);
         }
     }
 
