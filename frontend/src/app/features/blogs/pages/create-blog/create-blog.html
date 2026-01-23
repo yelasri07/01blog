@@ -1,6 +1,9 @@
 <section class="create-blog">
-    <input type="text" placeholder="Title..."
+    <input #title type="text" placeholder="Title..."
         class="title w-100 mb-4">
     <div id="editorjs"></div>
+    @if (creationBlogError()) {
+        <p class="text-danger">{{ creationBlogError() }}</p>
+    }
     <button class="submit-btn " (click)="handleSubmit()">Create blog</button>
 </section>

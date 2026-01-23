@@ -4,7 +4,7 @@
         <app-blog-header [blogInfos]="blog" />
         <div class="blog-body">
             <p class="title text-center">
-                Learn typescript with youssef
+                {{ blog.title }}
             </p>
             <div class="read">
                 <button [routerLink]="'/blogs/'+ blog.id">View more <i class="bi bi-arrow-up-right"></i></button>

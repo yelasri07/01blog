@@ -1,11 +1,12 @@
 .blog {
-    padding: 0 150px;
+    max-width: 850px;
+    margin: auto;
 
     .header {
         i {
             font-size: 1.5em;
         }
-        
+
         .created-at {
             opacity: .7;
             display: block;
@@ -29,10 +30,40 @@
 }
 
 :host::ng-deep {
-    markdown img{
+    markdown img {
         inline-size: 500px;
         max-inline-size: 100%;
         aspect-ratio: 1;
         object-fit: cover;
+    }
+}
+
+::ng-deep {
+
+    .ce-toolbar__plus,
+    .ce-toolbar__settings-btn {
+        color: var(--text-primary) !important;
+
+        &:hover {
+            background-color: var(--text-primary) !important;
+            color: var(--bg-primary) !important;
+        }
+    }
+
+    .ce-block__content {
+        margin: 0;
+        max-width: 100%;
+    }
+
+    .ce-toolbar__content {
+        max-width: 100%;
+    }
+
+    .cdx-block {
+        width: 100%;
+    }
+
+    .image-tool--caption .image-tool__caption {
+        visibility: hidden;
     }
 }

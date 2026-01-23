@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import { MediaService } from '../../../../core/services/media.service';
@@ -19,6 +19,10 @@ export class CreateBlog {
   private mediaService = inject(MediaService);
   private blogService = inject(BlogService);
 
+  creationBlogError = signal<string | null>(null);
+
+  @ViewChild('title') title: ElementRef<HTMLInputElement> | undefined
+
   constructor() {
     this.editor = new EditorJS({
       holder: 'editorjs',
@@ -27,6 +31,7 @@ export class CreateBlog {
         image: {
           class: ImageTool,
           config: {
+            captionPlaceholder: null,
             uploader: {
               uploadByFile: (file: File) => {
                 return this.uploadImage(file);
@@ -41,13 +46,25 @@ export class CreateBlog {
   }
 
   async handleSubmit() {
+    const titleIpt = this.title?.nativeElement;
     this.outputData = await this.editor.save()
-    this.blogService.submitBlog(this.outputData).subscribe({
+    console.log(this.outputData)
+    this.blogService.submitBlog(this.outputData, titleIpt?.value || "").subscribe({
       next: response => {
         console.log(response)
       },
       error: err => {
-        console.error(err)
+        let errorMessage = "Ooops, something wrong."
+        if (err.error.title) {
+          errorMessage = err.error.title
+        } else if (err.error.content) {
+          errorMessage = err.error.content
+        } else if (err.error.detail) {
+          errorMessage = err.error.detail
+        }
+
+        this.creationBlogError.set(errorMessage);
+
       }
     })
   }

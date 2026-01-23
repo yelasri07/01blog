@@ -11,9 +11,9 @@ import { OutputData } from '@editorjs/editorjs';
 export class BlogService {
   private http = inject(HttpClient)
 
-  submitBlog(blog: OutputData) {
+  submitBlog(blog: OutputData, title: string) {
     return this.http.post<blogInterface>(API_URL + "/blogs", {
-      title: "Youssef",
+      title: title,
       content: blog
     })
   }

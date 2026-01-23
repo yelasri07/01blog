@@ -5,11 +5,12 @@ import { BlogService } from '../../service/blog.service';
 import { blogInterface } from '../../interfaces/blog.interface';
 import { ErrorComponent } from "../../../../shared/components/error.component/error.component";
 import { BlogHeaderComponent } from "../../../../shared/components/blog-header.component/blog-header.component";
-import { BlogFooterComponent } from "../../../../shared/components/blog-footer.component/blog-footer.component";
+import Header from '@editorjs/header';
+import ImageTool from '@editorjs/image';
 
 @Component({
   selector: 'app-blog',
-  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent],
+  imports: [ErrorComponent, BlogHeaderComponent],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
@@ -20,13 +21,10 @@ export class Blog implements OnInit {
   blog = signal<blogInterface | null>(null);
   blogError = signal<string | null>(null);
 
-  private editor: EditorJS;
+  private editor: EditorJS | undefined;
   private readonly blogId: number | null;
   constructor() {
     this.blogId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-    this.editor = new EditorJS({
-      holder: "editorjs"
-    })
   }
 
   ngOnInit(): void {
@@ -38,7 +36,15 @@ export class Blog implements OnInit {
     this.blogService.getBlogById(this.blogId).subscribe({
       next: response => {
         this.blog.set(response)
-        console.log(this.blog()?.content)
+        this.editor = new EditorJS({
+          holder: "editorjs",
+          tools: {
+            header: Header,
+            image: ImageTool,
+          },
+          data: response.content as any,
+          readOnly: true,
+        })
       },
       error: err => {
         if (!err.error) {
