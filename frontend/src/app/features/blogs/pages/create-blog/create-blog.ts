@@ -48,7 +48,6 @@ export class CreateBlog {
   async handleSubmit() {
     const titleIpt = this.title?.nativeElement;
     this.outputData = await this.editor.save()
-    console.log(this.outputData)
     this.blogService.submitBlog(this.outputData, titleIpt?.value || "").subscribe({
       next: response => {
         console.log(response)

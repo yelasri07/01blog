@@ -7,10 +7,11 @@ import { ErrorComponent } from "../../../../shared/components/error.component/er
 import { BlogHeaderComponent } from "../../../../shared/components/blog-header.component/blog-header.component";
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
+import { BlogFooterComponent } from "../../../../shared/components/blog-footer.component/blog-footer.component";
 
 @Component({
   selector: 'app-blog',
-  imports: [ErrorComponent, BlogHeaderComponent],
+  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
@@ -21,7 +22,7 @@ export class Blog implements OnInit {
   blog = signal<blogInterface | null>(null);
   blogError = signal<string | null>(null);
 
-  private editor: EditorJS | undefined;
+  editor: EditorJS | undefined;
   private readonly blogId: number | null;
   constructor() {
     this.blogId = Number(this.activatedRoute.snapshot.paramMap.get('id'))

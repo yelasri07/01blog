@@ -27,6 +27,18 @@
     .content {
         margin-top: 30px;
     }
+
+    #editorjs {
+        word-wrap: break-word;
+    }
+
+    .line {
+        height: 2px;
+        width: 100px;
+        margin: auto;
+        background-color: var(--color-primary);
+        margin-top: 10px;
+    }
 }
 
 :host::ng-deep {
