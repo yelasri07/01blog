@@ -1,8 +1,16 @@
-@for (blog of blogs(); track blog.id) {
-<div class="blog">
-    <app-blog-header [blogInfos]="blog" />
-    <p class="title">
-        {{ blog.title }}
-    </p>
+<div class="blogs d-flex flex-wrap gap-4 justify-content-center">
+    @for (blog of blogs(); track blog.id) {
+    <div class="blog p-3">
+        <app-blog-header [blogInfos]="blog" />
+        <div class="blog-body">
+            <p class="title text-center">
+                Learn typescript with youssef
+            </p>
+            <div class="read">
+                <button [routerLink]="'/blogs/'+ blog.id">View more <i class="bi bi-arrow-up-right"></i></button>
+            </div>
+        </div>
+        <app-blog-footer />
+    </div>
+    }
 </div>
-}

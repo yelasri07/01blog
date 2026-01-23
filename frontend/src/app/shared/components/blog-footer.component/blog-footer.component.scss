@@ -1,0 +1,39 @@
+.blog-footer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.blog-footer i {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.blog-footer i:hover {
+    color: var(--color-primary);
+    transform: scale(1.15);
+}
+
+.blog-footer input {
+    flex: 1;
+    background: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    padding: 6px 14px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.blog-footer input::placeholder {
+    color: var(--text-muted);
+}
+
+.blog-footer input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(148, 137, 121, 0.25);
+}

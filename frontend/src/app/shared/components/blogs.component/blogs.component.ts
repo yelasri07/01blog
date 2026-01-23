@@ -2,10 +2,12 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { BlogService } from '../../../features/blogs/service/blog.service';
 import { blogInterface } from '../../../features/blogs/interfaces/blog.interface';
 import { BlogHeaderComponent } from "../blog-header.component/blog-header.component";
+import { BlogFooterComponent } from "../blog-footer.component/blog-footer.component";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-blogs',
-  imports: [BlogHeaderComponent],
+  imports: [BlogHeaderComponent, BlogFooterComponent, RouterLink],
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss',
 })
@@ -17,7 +19,7 @@ export class BlogsComponent implements OnInit {
     this.blogService.getBlogs().subscribe({
       next: response => {
         this.blogs.set(response);
-        console.log(this.blogs())
+        // console.log(this.blogs())
       },
       error: err => {
         console.error(err);
