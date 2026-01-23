@@ -1,0 +1,21 @@
+section.search {
+    height: 400px;
+
+    .welcome-message {
+        font-size: 1.3em;
+        width: 500px;
+        text-align: center;
+        color: var(--text-secondary);
+    }
+}
+
+:host::ng-deep {
+    .search-input {
+        width: 760px;
+
+        input {
+            padding: 10px 20px;
+            font-size: 1.3em;
+        }
+    }
+}

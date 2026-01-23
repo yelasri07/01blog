@@ -1,10 +1,11 @@
 import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthStateService } from '../../../core/services/auth.state.service';
+import { SearchInput } from "../search-input/search-input";
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [RouterLink, RouterLinkActive, SearchInput],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })

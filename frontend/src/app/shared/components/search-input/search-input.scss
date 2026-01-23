@@ -1,0 +1,35 @@
+.search-input {
+    position: relative;
+
+    input {
+        width: 100%;
+
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+
+        border: 1px solid var(--bg-secondary);
+        border-radius: 20px;
+
+        outline: none;
+
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &::placeholder {
+            color: var(--text-muted);
+        }
+
+        &:focus {
+            border-color: var(--color-primary);
+            box-shadow:
+                0 0 0 2px rgba(148, 137, 121, 0.1),
+                0 0 8px rgba(223, 208, 184, 0.2)
+        }
+    }
+
+    i {
+        position: absolute;
+        top: 50%;
+        right: 18px;
+        transform: translateY(-50%);
+    }
+}

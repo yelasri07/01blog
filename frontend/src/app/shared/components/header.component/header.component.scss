@@ -16,6 +16,7 @@ header {
     li {
         position: relative;
         cursor: pointer;
+
         &.active {
             color: var(--color-secondary);
         }
@@ -42,33 +43,6 @@ header {
         }
     }
 
-    input[type="search"] {
-        width: 260px;
-        padding: 8px 14px;
-
-        background-color: var(--bg-primary);
-        color: var(--text-primary);
-
-        border: 1px solid var(--bg-secondary);
-        border-radius: 20px;
-
-        font-size: 14px;
-        outline: none;
-
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
-
-        &::placeholder {
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        &:focus {
-            border-color: var(--color-primary);
-            box-shadow:
-                0 0 0 2px rgba(148, 137, 121, 0.1),
-                0 0 8px rgba(223, 208, 184, 0.2)
-        }
-    }
-
     .profile {
 
         button {
@@ -86,24 +60,20 @@ header {
                 position: absolute;
                 bottom: 0;
                 right: -3px;
-
-                i {
-                    display: block;
-                    background-color: var(--color-primary);
-                    font-size: .6em;
-                    width: 15px;
-                    height: 15px;
-                    border-radius: 50%;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                }
+                width: 15px;
+                height: 15px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--color-primary);
+                font-size: 12px;
             }
 
             .dropdownSection {
-                position: fixed;
-                right: 30px;
-                top: 75px;
+                position: absolute;
+                right: 0px;
+                top: 65px;
                 width: 180px;
 
                 background-color: var(--bg-primary);
@@ -163,5 +133,14 @@ header {
 
     .logout {
         font-size: .9em;
+    }
+}
+
+:host::ng-deep {
+    .search-input {
+        input {
+            padding: 8px 14px;
+            // font-size: 
+        }
     }
 }
