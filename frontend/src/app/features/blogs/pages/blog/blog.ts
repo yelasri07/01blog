@@ -36,6 +36,7 @@ export class Blog implements OnInit {
 
     this.blogService.getBlogById(this.blogId).subscribe({
       next: response => {
+        console.log(response)
         this.blog.set(response)
         this.editor = new EditorJS({
           holder: "editorjs",

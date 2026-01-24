@@ -22,6 +22,7 @@ import com.blog.post.dto.CreateBlogDTO;
 import com.blog.post.mapper.BlogMapper;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.service.BlogService;
+import com.blog.post.service.LikeService;
 import com.blog.user.model.UserEntity;
 
 import jakarta.validation.Valid;
@@ -33,11 +34,13 @@ import lombok.extern.slf4j.Slf4j;
 public class BlogController {
 
     private final BlogService blogService;
+    private final LikeService likeService;
     private final BlogMapper blogMapper;
 
-    public BlogController(BlogService blogService, BlogMapper blogMapper) {
+    public BlogController(BlogService blogService, BlogMapper blogMapper, LikeService likeService) {
         this.blogService = blogService;
         this.blogMapper = blogMapper;
+        this.likeService = likeService;
     }
 
     @PostMapping
@@ -45,7 +48,7 @@ public class BlogController {
     public BlogOutputDTO post(@Valid @RequestBody CreateBlogDTO blogData, @AuthenticationPrincipal UserEntity user) {
         try {
             BlogEntity blog = blogService.createBlog(blogData, user);
-            return blogMapper.toBlogOutputDTO(blog);
+            return blogMapper.toBlogOutputDTO(blog, false);
         } catch (Exception e) {
             throw new NotFoundException(e.getMessage());
         }
@@ -59,7 +62,8 @@ public class BlogController {
     @GetMapping("/{id}")
     public BlogOutputDTO getOneBlog(@PathVariable("id") Long blogId, @AuthenticationPrincipal UserEntity user) {
         BlogEntity blog = blogService.getBlogById(blogId, user);
-        return blogMapper.toBlogOutputDTO(blog);
+        Boolean like = likeService.isLikedBlog(blog, user.getId());
+        return blogMapper.toBlogOutputDTO(blog, like);
     }
 
     @DeleteMapping("/{id}")
@@ -71,6 +75,6 @@ public class BlogController {
     public BlogOutputDTO update(@PathVariable("id") Long blogId, @RequestBody CreateBlogDTO blogData,
             @AuthenticationPrincipal UserEntity user) {
         BlogEntity blog = blogService.updateBlog(blogId, blogData, user);
-        return blogMapper.toBlogOutputDTO(blog);
+        return blogMapper.toBlogOutputDTO(blog, false);
     }
 }

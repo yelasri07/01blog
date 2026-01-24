@@ -10,4 +10,5 @@ import com.blog.post.model.LikeEntity;
 @Repository
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     Optional<LikeEntity> findByBlogIdAndUserId(Long blogId, Long userId);
+    Boolean existsByBlogIdAndUserId(Long blogId, Long userId);
 }

@@ -15,6 +15,7 @@ public record BlogOutputDTO(
         Timestamp created_at,
         @JsonProperty("like_count")
         Long likeCount,
+        Boolean like,
         Long user_id,
         String username) {
 }

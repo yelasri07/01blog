@@ -1,16 +1,16 @@
 <div class="blogs d-flex flex-wrap gap-4 justify-content-center">
-    @for (blog of blogs(); track blog.id) {
+    @for (blog of blogs(); track blog().id) {
     <div class="blog p-3">
-        <app-blog-header [blog]="blog" />
+        <app-blog-header [blog]="blog()" />
         <div class="blog-body">
             <p class="title text-center">
-                {{ blog.title }}
+                {{ blog().title }}
             </p>
             <div class="read">
-                <button [routerLink]="'/blogs/'+ blog.id">View more <i class="bi bi-arrow-up-right"></i></button>
+                <button [routerLink]="'/blogs/'+ blog().id">View more <i class="bi bi-arrow-up-right"></i></button>
             </div>
         </div>
-        <app-blog-footer />
+        <app-blog-footer [(blog)]="blog" />
     </div>
     }
 </div>

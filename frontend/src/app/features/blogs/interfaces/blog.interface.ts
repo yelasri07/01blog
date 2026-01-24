@@ -4,6 +4,7 @@ export interface blogInterface {
     content?: string,
     created_at: Date,
     like_count: number
+    like: boolean
     user_id: number,
     username: string
 }

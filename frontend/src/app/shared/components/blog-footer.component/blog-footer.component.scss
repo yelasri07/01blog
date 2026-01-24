@@ -18,6 +18,10 @@
     transform: scale(1.15);
 }
 
+.blog-footer i.bi-heart-fill {
+    color: var(--color-primary);
+}
+
 .blog-footer input {
     flex: 1;
     background: var(--bg-primary);

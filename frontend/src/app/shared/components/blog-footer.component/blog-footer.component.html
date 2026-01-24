@@ -1,5 +1,11 @@
 <div class="blog-footer">
-    <span class="d-flex gap-2" (click)="handleReact()"><i class="bi bi-heart"></i> <span class="nb-likes">{{ blog()?.like_count
+    <span class="d-flex gap-2" (click)="handleReact()">
+        @if (!blog()?.like) {
+        <i class="bi bi-heart"></i>
+        } @else {
+        <i class="bi bi-heart-fill"></i>
+        }
+        <span class="nb-likes">{{ blog()?.like_count
             }}</span></span>
     <input type="text" placeholder="Comment...">
 </div>

@@ -59,4 +59,8 @@ public class LikeService {
                 "like_count", blog.getLike_count());
     }
 
+    public Boolean isLikedBlog(BlogEntity blog, Long userId) {
+        return likeRepository.existsByBlogIdAndUserId(blog.getId(), userId);
+    }
+
 }
