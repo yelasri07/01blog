@@ -29,6 +29,8 @@ public class BlogService {
                 .title(blogData.title())
                 .content(blogData.content())
                 .created_at(new Timestamp(System.currentTimeMillis()))
+                .like_count(0L)
+                .comment_count(0L)
                 .user(user)
                 .build();
 

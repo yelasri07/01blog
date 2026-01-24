@@ -1,0 +1,3 @@
+ALTER TABLE blog
+ADD COLUMN like_count BIGINT,
+ADD COLUMN comment_count BIGINT;

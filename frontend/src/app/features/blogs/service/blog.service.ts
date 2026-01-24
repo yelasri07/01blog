@@ -18,6 +18,10 @@ export class BlogService {
     })
   }
 
+  submitReact(blogId: number) {
+    return this.http.post(API_URL + `/blogs/${blogId}/likes`, {})
+  }
+
   getBlogById(blogId: number) {
     return this.http.get<blogInterface>(API_URL + "/blogs/" + blogId);
   }

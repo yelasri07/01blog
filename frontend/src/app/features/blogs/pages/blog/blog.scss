@@ -41,15 +41,6 @@
     }
 }
 
-:host::ng-deep {
-    markdown img {
-        inline-size: 500px;
-        max-inline-size: 100%;
-        aspect-ratio: 1;
-        object-fit: cover;
-    }
-}
-
 ::ng-deep {
 
     .ce-toolbar__plus,
@@ -77,5 +68,9 @@
 
     .image-tool--caption .image-tool__caption {
         visibility: hidden;
+    }
+
+    .codex-editor__redactor {
+        padding-bottom: 40px !important;
     }
 }

@@ -1,7 +1,7 @@
 <div class="blogs d-flex flex-wrap gap-4 justify-content-center">
     @for (blog of blogs(); track blog.id) {
     <div class="blog p-3">
-        <app-blog-header [blogInfos]="blog" />
+        <app-blog-header [blog]="blog" />
         <div class="blog-body">
             <p class="title text-center">
                 {{ blog.title }}

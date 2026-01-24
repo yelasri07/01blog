@@ -39,6 +39,8 @@ public class BlogEntity {
     @Column(columnDefinition = "json")
     private Map<String, Object> content;
     private Timestamp created_at;
+    private Long like_count;
+    private Long comment_count;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

@@ -3,13 +3,13 @@
 } @else {
 
 <section class="blog">
-    <app-blog-header [blogInfos]="blog()" />
+    <app-blog-header [blog]="blog()" />
     <h1 class="title text-center">{{ blog()?.title }}</h1>
     <div class="line"></div>
     <div id="editorjs" class="content">
 
     </div>
-    <app-blog-footer />
+    <app-blog-footer [blog]="blog()" />
 </section>
 
 }

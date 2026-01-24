@@ -9,5 +9,5 @@ import { DateFormatPipe } from '../../pipes/date-format-pipe';
   styleUrl: './blog-header.component.scss',
 })
 export class BlogHeaderComponent {
-  blogInfos = input<blogInterface | null>(null);
+  blog = input<blogInterface | null>(null);
 }
