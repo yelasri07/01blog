@@ -14,6 +14,7 @@ public class BlogMapper {
                 .title(blog.getTitle())
                 .content(blog.getContent())
                 .created_at(blog.getCreated_at())
+                .likeCount(blog.getLike_count())
                 .user_id(blog.getUser().getId())
                 .username(blog.getUser().getUsername())
                 .build();

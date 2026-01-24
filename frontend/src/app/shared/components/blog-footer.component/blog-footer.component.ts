@@ -1,4 +1,4 @@
-import { Component, inject, input } from '@angular/core';
+import { Component, inject, input, model } from '@angular/core';
 import { blogInterface } from '../../../features/blogs/interfaces/blog.interface';
 import { BlogService } from '../../../features/blogs/service/blog.service';
 
@@ -11,14 +11,17 @@ import { BlogService } from '../../../features/blogs/service/blog.service';
 export class BlogFooterComponent {
   private blogService = inject(BlogService);
 
-  blog = input<blogInterface | null>(null);
+  blog = model<blogInterface | null>(null);
 
   handleReact() {
-    if (!this.blog()?.id) return;
+    if (!this.blog()) return;
 
     this.blogService.submitReact(this.blog()?.id!).subscribe({
       next: response => {
-        console.log(response)
+        this.blog.update(prev => ({
+          ...prev!,
+          like_count: response.like_count
+        }))
       },
       error: err => {
         console.error(err);

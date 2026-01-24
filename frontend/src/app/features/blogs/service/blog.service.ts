@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { API_URL } from '../../../core/constants/API_URL';
 import { blogInterface } from '../interfaces/blog.interface';
 import { OutputData } from '@editorjs/editorjs';
+import { reactInterface } from '../interfaces/react.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class BlogService {
   }
 
   submitReact(blogId: number) {
-    return this.http.post(API_URL + `/blogs/${blogId}/likes`, {})
+    return this.http.post<reactInterface>(API_URL + `/blogs/${blogId}/likes`, {})
   }
 
   getBlogById(blogId: number) {

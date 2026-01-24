@@ -3,6 +3,7 @@ export interface blogInterface {
     title: string,
     content?: string,
     created_at: Date,
+    like_count: number
     user_id: number,
     username: string
 }

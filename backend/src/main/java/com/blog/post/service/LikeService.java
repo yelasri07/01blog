@@ -2,6 +2,7 @@ package com.blog.post.service;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class LikeService {
     }
 
     @Transactional
-    public String createLike(Long blogId, UserEntity user) {
+    public Map<String, Object> createLike(Long blogId, UserEntity user) {
         if (blogId == null) {
             throw new BadRequestException("Whoops, blog id should not be empty");
         }
@@ -39,7 +40,9 @@ public class LikeService {
             likeRepository.delete(existingLike.get());
             blog.setLike_count(blog.getLike_count() - 1);
             blogRepository.save(blog);
-            return "Like removed successfully";
+            return Map.of(
+                    "message", "Like removed successfully",
+                    "like_count", blog.getLike_count());
         }
 
         LikeEntity like = LikeEntity.builder()
@@ -51,7 +54,9 @@ public class LikeService {
         likeRepository.save(like);
         blog.setLike_count(blog.getLike_count() + 1);
         blogRepository.save(blog);
-        return "Like added successfully";
+        return Map.of(
+                "message", "Like added successfully",
+                "like_count", blog.getLike_count());
     }
 
 }
