@@ -13,9 +13,9 @@
     <div class="show-comments">
         <button (click)="getComments()">
             @if (!showComments()) {
-                Show comments
+            Show comments
             } @else {
-                Hide comments
+            Hide comments
             }
         </button>
     </div>
@@ -32,7 +32,12 @@
             <p class="comment-content m-0"> {{ comment.content }} </p>
         </div>
         <div class="comment-line"></div>
+        } @empty {
+        <p>no comments</p>
         }
+    </div>
+    <div id="virtual-observer-block" appIntersectionobserver (isIntersecting)="onFetchNextSet($event)">
+        Intersection observer block
     </div>
     }
 </section>

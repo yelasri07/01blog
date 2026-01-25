@@ -10,10 +10,11 @@ import ImageTool from '@editorjs/image';
 import { BlogFooterComponent } from "../../../../shared/components/blog-footer.component/blog-footer.component";
 import { commentInterface } from '../../interfaces/comment.interface';
 import { DateFormatPipe } from '../../../../shared/pipes/date-format-pipe';
+import { IntersectionobserverDirective } from "../../../../shared/directives/intersectionobserver.directive";
 
 @Component({
   selector: 'app-blog',
-  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe],
+  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe, IntersectionobserverDirective],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
@@ -40,7 +41,6 @@ export class Blog implements OnInit {
 
     this.blogService.getBlogById(this.blogId).subscribe({
       next: response => {
-        console.log(response)
         this.blog.set(response)
         this.editor = new EditorJS({
           holder: "editorjs",
@@ -79,5 +79,11 @@ export class Blog implements OnInit {
         console.error(err)
       }
     })
+  }
+
+  onFetchNextSet(value: boolean) {
+    if (!value) return;
+
+    console.log(value);
   }
 }
