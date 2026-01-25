@@ -5,12 +5,10 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { NgClass } from '@angular/common';
-import { PopupService } from '../../../../shared/services/popup.service';
-import { PopupComponent } from "../../../../shared/components/popup.component/popup.component";
 
 @Component({
   selector: 'app-login',
-  imports: [RouterLink, WelcomeMessageComponent, ReactiveFormsModule, NgClass, PopupComponent],
+  imports: [RouterLink, WelcomeMessageComponent, ReactiveFormsModule, NgClass],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -18,9 +16,7 @@ export class Login {
   private authService = inject(AuthService)
   private authStateService = inject(AuthStateService)
   private router = inject(Router)
-  private popupService = inject(PopupService)
 
-  popup = signal(this.popupService.popup);
   showPopup = signal(false);
 
   loginForm = new FormGroup({
@@ -49,18 +45,18 @@ export class Login {
             'backend': err.error.detail
           })
         } else {
-          if (!this.popupService.timer) {
-            this.showPopup.set(true)
-            this.popup.update(p => ({
-              ...p,
-              message: 'Ooops! something wrong',
-              isValid: false,
-            }))
-            this.popupService.timer = setTimeout(() => {
-              this.showPopup.set(false)
-              this.popupService.timer = null
-            }, this.popup().delay)
-          }
+          // if (!this.popupService.timer) {
+          //   this.showPopup.set(true)
+          //   this.popup.update(p => ({
+          //     ...p,
+          //     message: 'Ooops! something wrong',
+          //     isValid: false,
+          //   }))
+          //   this.popupService.timer = setTimeout(() => {
+          //     this.showPopup.set(false)
+          //     this.popupService.timer = null
+          //   }, this.popup().delay)
+          // }
         }
       }
     })

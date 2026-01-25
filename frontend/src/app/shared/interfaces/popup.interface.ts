@@ -1,5 +1,5 @@
 export interface popupInterface {
-    message: string,
-    isValid: boolean,
-    delay: number
+    show?: boolean
+    message?: string,
+    isValid?: boolean,
 }

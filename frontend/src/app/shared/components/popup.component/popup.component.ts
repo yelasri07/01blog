@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, model, OnInit } from '@angular/core';
 import { popupInterface } from '../../interfaces/popup.interface';
 
 @Component({
@@ -7,6 +7,15 @@ import { popupInterface } from '../../interfaces/popup.interface';
   templateUrl: './popup.component.html',
   styleUrl: './popup.component.scss',
 })
-export class PopupComponent {
-  popup = input<popupInterface | null>(null);
+export class Popup2Component implements OnInit {
+  popup = model.required<popupInterface>();
+
+  ngOnInit(): void {
+    setTimeout(() => {
+      this.popup.update(prev => ({
+        ...prev,
+        show: false
+      }))
+    }, 4000)
+  }
 }

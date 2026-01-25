@@ -5,9 +5,6 @@ import { AuthService } from '../../services/auth.service';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { NgClass } from '@angular/common';
 import { WelcomeMessageComponent } from '../../components/welcome-message.component/welcome-message.component';
-import { PopupComponent } from "../../../../shared/components/popup.component/popup.component";
-import { popupInterface } from '../../../../shared/interfaces/popup.interface';
-import { PopupService } from '../../../../shared/services/popup.service';
 
 const confirmPasswordValidator: ValidatorFn = (
   control: AbstractControl
@@ -19,7 +16,7 @@ const confirmPasswordValidator: ValidatorFn = (
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, ReactiveFormsModule, NgClass, WelcomeMessageComponent, PopupComponent],
+  imports: [RouterLink, ReactiveFormsModule, NgClass, WelcomeMessageComponent],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -27,9 +24,7 @@ export class Register {
   private authService = inject(AuthService)
   private authStateService = inject(AuthStateService)
   private router = inject(Router)
-  private popupService = inject(PopupService)
 
-  popup = signal(this.popupService.popup);
   showPopup = signal(false);
 
   registerForm = new FormGroup({
@@ -73,18 +68,18 @@ export class Register {
             }
           })
         } else {
-          if (!this.popupService.timer) {
-            this.showPopup.set(true)
-            this.popup.update(p => ({
-              ...p,
-              message: 'Ooops! something wrong',
-              isValid: false,
-            }))
-            this.popupService.timer = setTimeout(() => {
-              this.showPopup.set(false)
-              this.popupService.timer = null
-            }, this.popup().delay)
-          }
+          // if (!this.popupService.timer) {
+          //   this.showPopup.set(true)
+          //   this.popup.update(p => ({
+          //     ...p,
+          //     message: 'Ooops! something wrong',
+          //     isValid: false,
+          //   }))
+          //   this.popupService.timer = setTimeout(() => {
+          //     this.showPopup.set(false)
+          //     this.popupService.timer = null
+          //   }, this.popup().delay)
+          // }
         }
       }
     })

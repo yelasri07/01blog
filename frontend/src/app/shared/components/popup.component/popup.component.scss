@@ -1,34 +1,61 @@
 .popup {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    padding: 12px 18px;
-    animation: slideIn 0.35s ease-out forwards;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 
-    p{
-        font-size: 14px;
-    }
+  padding: 14px 18px;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+  color: var(--text-primary);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.45),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+
+  animation: slideIn 0.45s ease-out, fadeOut 0.4s ease-in 3.5s forwards;
 }
 
-.popup svg {
-    font-size: 18px;
+.popup.success {
+  border: 1px solid rgba(223, 208, 184, 0.25);
 }
 
-.popup svg.bi-check-circle-fill {
-    color: #2ecc71;
+.popup.success i {
+  color: var(--color-secondary);
 }
 
-.popup svg.bi-x-circle-fill {
-    color: #e74c3c;
+.popup.error {
+  border: 1px solid rgba(220, 80, 80, 0.35);
+}
+
+.popup.error i {
+  color: #dc5050;
+}
+
+.popup p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
 @keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(0);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(-10px);
-    }
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(120%);
+  }
 }

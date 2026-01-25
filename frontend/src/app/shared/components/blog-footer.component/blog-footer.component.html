@@ -8,6 +8,9 @@
         <span class="nb-likes">{{ blog()?.like_count
             }}</span></span>
     <form class="comment" [formGroup]="commentForm" (ngSubmit)="handleCommentSubmit()">
-        <input formControlName="content" type="text" placeholder="Comment...">
+        <input maxlength="1000" formControlName="content" type="text" placeholder="Comment...">
     </form>
 </div>
+@if (popup().show) {
+<app-popup [(popup)]="popup" />
+}
