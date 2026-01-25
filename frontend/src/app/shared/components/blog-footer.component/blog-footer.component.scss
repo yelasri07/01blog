@@ -22,8 +22,12 @@
     color: var(--color-primary);
 }
 
-.blog-footer input {
+.blog-footer .comment {
     flex: 1;
+}
+
+.blog-footer input {
+    width: 100%;
     background: var(--bg-primary);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 999px;

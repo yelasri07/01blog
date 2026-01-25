@@ -7,5 +7,7 @@
         }
         <span class="nb-likes">{{ blog()?.like_count
             }}</span></span>
-    <input type="text" placeholder="Comment...">
+    <form class="comment" [formGroup]="commentForm" (ngSubmit)="handleCommentSubmit()">
+        <input formControlName="content" type="text" placeholder="Comment...">
+    </form>
 </div>

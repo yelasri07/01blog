@@ -8,10 +8,12 @@ import { BlogHeaderComponent } from "../../../../shared/components/blog-header.c
 import Header from '@editorjs/header';
 import ImageTool from '@editorjs/image';
 import { BlogFooterComponent } from "../../../../shared/components/blog-footer.component/blog-footer.component";
+import { commentInterface } from '../../interfaces/comment.interface';
+import { DateFormatPipe } from '../../../../shared/pipes/date-format-pipe';
 
 @Component({
   selector: 'app-blog',
-  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent],
+  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
@@ -21,6 +23,8 @@ export class Blog implements OnInit {
 
   blog = signal<blogInterface | null>(null);
   blogError = signal<string | null>(null);
+  comments = signal<commentInterface[] | null>(null)
+  showComments = signal(false);
 
   editor: EditorJS | undefined;
   private readonly blogId: number | null;
@@ -55,6 +59,24 @@ export class Blog implements OnInit {
         }
 
         this.blogError.set(err.error.detail)
+      }
+    })
+  }
+
+  getComments() {
+    if (this.showComments()) {
+      this.showComments.set(false);
+      this.comments.set(null);
+      return;
+    }
+
+    this.blogService.getComments(this.blog()?.id!).subscribe({
+      next: respnse => {
+        this.comments.set(respnse)
+        this.showComments.set(true)
+      },
+      error: err => {
+        console.error(err)
       }
     })
   }

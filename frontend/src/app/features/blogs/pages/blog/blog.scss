@@ -39,6 +39,66 @@
         background-color: var(--color-primary);
         margin-top: 10px;
     }
+
+    .show-comments {
+        text-align: center;
+        margin: 10px 0;
+
+        button {
+            background-color: var(--bg-primary);
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            border: 1px solid var(--bg-secondary);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            outline: none;
+
+            &:hover {
+                background-color: var(--bg-primary);
+                color: var(--color-secondary);
+                border-color: var(--color-primary);
+            }
+
+            &:active {
+                transform: scale(0.96);
+            }
+        }
+    }
+
+    .comments {
+        .comment-header {
+            img {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid var(--color-primary);
+            }
+
+            .username {
+                color: var(--text-primary);
+                font-size: .9em;
+            }
+
+            .created-at {
+                font-size: 0.75rem;
+                color: var(--text-primary);
+            }
+        }
+
+        .comment-content {
+            padding: 10px 0;
+        }
+
+        .comment-line {
+            width: 100%;
+            height: 1px;
+            background-color: var(--bg-secondary)
+        }
+    }
+
 }
 
 ::ng-deep {

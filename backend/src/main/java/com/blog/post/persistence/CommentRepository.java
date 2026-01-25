@@ -14,7 +14,10 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
     @Query(
         nativeQuery = true,
         value = 
-        "SELECT c.*, u.username FROM blog_comments c INNER JOIN users u ON c.user_id = u.id WHERE c.blog_id = :blogId"
+        """
+            SELECT c.*, u.username FROM blog_comments c INNER JOIN users u ON c.user_id = u.id WHERE c.blog_id = :blogId
+            ORDER BY c.id DESC
+                """
     )
     List<CommentOutputDTO> findBlogComments(Long blogId);
 }
