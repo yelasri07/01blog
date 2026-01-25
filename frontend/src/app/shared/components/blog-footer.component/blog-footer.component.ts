@@ -1,7 +1,7 @@
 import { Component, inject, model, signal } from '@angular/core';
 import { blogInterface } from '../../../features/blogs/interfaces/blog.interface';
 import { BlogService } from '../../../features/blogs/service/blog.service';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { commentInterface } from '../../../features/blogs/interfaces/comment.interface';
 import { Popup2Component } from "../popup.component/popup.component";
 import { popupInterface } from '../../interfaces/popup.interface';
@@ -21,7 +21,9 @@ export class BlogFooterComponent {
   popup = signal<popupInterface>({});
 
   commentForm = new FormGroup({
-    content: new FormControl('')
+    content: new FormControl('', {
+      validators: [Validators.required]
+    })
   })
 
   handleReact() {
@@ -34,12 +36,30 @@ export class BlogFooterComponent {
         }))
       },
       error: err => {
-        console.error(err);
+        const errObj: popupInterface = {
+          isValid: false,
+          show: true,
+        }
+        if (err.error.detail) {
+          errObj.message = err.error.detail
+        } else {
+          errObj.message = "Ooops! something wrong"
+        }
+
+        this.popup.set(errObj)
       }
     })
   }
 
   handleCommentSubmit() {
+    if (this.comment.invalid) {
+      this.popup.set({
+        isValid: false,
+        show: true,
+        message: "Comment content should not be empty"
+      })
+      return;
+    }
 
     this.blogService.submitComment(this.blog()?.id!, this.commentForm).subscribe({
       next: response => {

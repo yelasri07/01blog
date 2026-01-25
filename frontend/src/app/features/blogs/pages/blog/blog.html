@@ -11,7 +11,13 @@
     </div>
     <app-blog-footer [(comments)]="comments" [(blog)]="blog" [blog]="blog()" />
     <div class="show-comments">
-        <button (click)="getComments()">Show comments</button>
+        <button (click)="getComments()">
+            @if (!showComments()) {
+                Show comments
+            } @else {
+                Hide comments
+            }
+        </button>
     </div>
     @if (showComments()) {
     <div class="comments d-flex flex-column gap-3">
