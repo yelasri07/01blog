@@ -33,13 +33,24 @@
         </div>
         <div class="comment-line"></div>
         } @empty {
-        <p>no comments</p>
+        <p class="no-comments"><i class="bi bi-chat"></i> <span>No comments yet. Be the first to start the
+                conversation.</span></p>
         }
     </div>
     <div appIntersectionobserver (isIntersecting)="onFetchNextCommentsSet($event)">
-        
+
     </div>
+    @if (!isAbleToFetchComments() && comments()?.length! > 0) {
+    <p class="no-comments">
+        <i class="bi bi-chat"></i>
+        <span>No comments available.</span>
+    </p>
+    }
     }
 </section>
 
+}
+
+@if (popup().show) {
+<app-popup [(popup)]="popup" />
 }

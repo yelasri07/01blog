@@ -6,6 +6,7 @@ import { blogInterface } from '../interfaces/blog.interface';
 import { OutputData } from '@editorjs/editorjs';
 import { reactInterface } from '../interfaces/react.interface';
 import { commentInterface } from '../interfaces/comment.interface';
+import { delay } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,6 @@ export class BlogService {
 
   getComments(blogId: number, lastId?: number) {
     if (!lastId) lastId = -1;
-    return this.http.get<commentInterface[]>(API_URL + `/blogs/${blogId}/comments?last_id=${lastId}&limit=2`)
+    return this.http.get<commentInterface[]>(API_URL + `/blogs/${blogId}/comments?last_id=${lastId}&limit=10`)
   }
 }

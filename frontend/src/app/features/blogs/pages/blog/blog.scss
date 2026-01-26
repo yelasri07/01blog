@@ -101,6 +101,23 @@
 
 }
 
+.no-comments {
+    padding: 20px;
+    color: var(--text-muted);
+    font-size: 0.95em;
+    background-color: var(--bg-secondary);
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+
+    &:hover {
+        color: var(--text-secondary);
+    }
+}
+
 ::ng-deep {
 
     .ce-toolbar__plus,
