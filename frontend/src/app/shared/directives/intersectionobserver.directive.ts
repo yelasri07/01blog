@@ -1,16 +1,15 @@
-import { Directive, ElementRef, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, inject, OnDestroy, OnInit, Output } from '@angular/core';
 
 @Directive({
   selector: '[appIntersectionobserver]',
 })
 export class IntersectionobserverDirective implements OnInit, OnDestroy {
-  hasInitialised: boolean = false;
+  private el = inject(ElementRef);
   private observer: IntersectionObserver | undefined;
+  hasInitialised: boolean = false;
 
   @Output()
   isIntersecting: EventEmitter<boolean> = new EventEmitter(false);
-
-  constructor(private el: ElementRef) { }
 
   ngOnInit(): void {
     this.watchElementForEntry()

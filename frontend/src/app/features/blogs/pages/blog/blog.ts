@@ -70,9 +70,14 @@ export class Blog implements OnInit {
       return;
     }
 
-    this.blogService.getComments(this.blog()?.id!).subscribe({
+    this.fetchComments()
+  }
+
+  private fetchComments(lastId?: number) {
+    this.blogService.getComments(this.blog()?.id!, lastId).subscribe({
       next: respnse => {
-        this.comments.set(respnse)
+        this.comments.update(prev => [...prev || [], ...respnse])
+        console.log(this.comments())
         this.showComments.set(true)
       },
       error: err => {
@@ -81,9 +86,12 @@ export class Blog implements OnInit {
     })
   }
 
-  onFetchNextSet(value: boolean) {
+  onFetchNextCommentsSet(value: boolean) {
     if (!value) return;
 
-    console.log(value);
+    if (this.comments() && this.comments()?.length! > 0) {
+      console.log('first')
+      this.fetchComments(this.comments()![this.comments()?.length! - 1].id)
+    }
   }
 }

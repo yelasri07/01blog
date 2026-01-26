@@ -36,7 +36,8 @@ export class BlogService {
     return this.http.get<blogInterface[]>(API_URL + "/blogs")
   }
 
-  getComments(blogId: number) {
-    return this.http.get<commentInterface[]>(API_URL + `/blogs/${blogId}/comments`)
+  getComments(blogId: number, lastId?: number) {
+    if (!lastId) lastId = -1;
+    return this.http.get<commentInterface[]>(API_URL + `/blogs/${blogId}/comments?last_id=${lastId}&limit=2`)
   }
 }

@@ -11,13 +11,12 @@ import com.blog.post.model.CommentEntity;
 
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
-    @Query(
-        nativeQuery = true,
-        value = 
-        """
-            SELECT c.*, u.username FROM blog_comments c INNER JOIN users u ON c.user_id = u.id WHERE c.blog_id = :blogId
+    @Query(nativeQuery = true, value = """
+            SELECT c.*, u.username FROM blog_comments c INNER JOIN users u ON c.user_id = u.id
+            WHERE c.blog_id = :blogId
+            AND (c.id < :last_id OR :last_id <= 0)
             ORDER BY c.id DESC
-                """
-    )
-    List<CommentOutputDTO> findBlogComments(Long blogId);
+            LIMIT :limit
+                """)
+    List<CommentOutputDTO> findBlogComments(Long blogId, Long last_id, Long limit);
 }

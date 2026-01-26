@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +33,7 @@ public class CommentController {
 
     @PostMapping("/{blogId}/comments")
     @ResponseStatus(code = HttpStatus.CREATED)
-    public CommentOutputDTO post(@PathVariable("blogId") Long blogId, @Valid @RequestBody CreateCommentDTO commentData,
+    public CommentOutputDTO post(@PathVariable Long blogId, @Valid @RequestBody CreateCommentDTO commentData,
             @AuthenticationPrincipal UserEntity user) {
         CommentEntity comment = commentService.createComment(blogId, commentData, user);
 
@@ -47,7 +48,10 @@ public class CommentController {
     }
 
     @GetMapping("/{blogId}/comments")
-    public List<CommentOutputDTO> get(@PathVariable("blogId") Long blogId, @AuthenticationPrincipal UserEntity user) {
-        return commentService.getBlogComments(blogId, user);
+    public List<CommentOutputDTO> get(@PathVariable Long blogId,
+            @RequestParam(name = "last_id", defaultValue = "-1") Long lastId,
+            @RequestParam(defaultValue = "50") Long limit,
+            @AuthenticationPrincipal UserEntity user) {
+        return commentService.getBlogComments(blogId, user, lastId, limit);
     }
 }

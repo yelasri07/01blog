@@ -37,9 +37,12 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public List<CommentOutputDTO> getBlogComments(Long blogId, UserEntity user) {
+    public List<CommentOutputDTO> getBlogComments(Long blogId, UserEntity user, Long lastId, Long limit) {
         BlogEntity blog = blogService.getBlogById(blogId, user);
-        return commentRepository.findBlogComments(blog.getId());
+        if (limit <= 0 || limit > 50) {
+            limit = 50l;
+        }
+        return commentRepository.findBlogComments(blog.getId(), lastId, limit);
     }
 
 }
