@@ -78,6 +78,7 @@ export class Blog implements OnInit {
     }
 
     this.isAbleToFetchComments.set(true);
+    this.comments.set([])
     this.fetchComments()
   }
 
