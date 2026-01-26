@@ -5,6 +5,8 @@ import { MediaService } from '../../../../core/services/media.service';
 import { signatureData } from '../../../../core/interfaces/signatureData.interface';
 import { BlogService } from '../../service/blog.service';
 import ImageTool from '@editorjs/image';
+import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-create-blog',
@@ -18,10 +20,13 @@ export class CreateBlog {
 
   private mediaService = inject(MediaService);
   private blogService = inject(BlogService);
+  private router = inject(Router)
 
   creationBlogError = signal<string | null>(null);
+  buttonDisabled = signal(false);
 
   @ViewChild('title') title: ElementRef<HTMLInputElement> | undefined
+  // @ViewChild('submitButton') submitButton: ElementRef<HTMLButtonElement> | undefined
 
   constructor() {
     this.editor = new EditorJS({
@@ -48,11 +53,13 @@ export class CreateBlog {
   async handleSubmit() {
     const titleIpt = this.title?.nativeElement;
     this.outputData = await this.editor.save()
+    this.buttonDisabled.set(true);
     this.blogService.submitBlog(this.outputData, titleIpt?.value || "").subscribe({
       next: response => {
-        console.log(response)
+        this.router.navigate(['blogs', response.id])
       },
       error: err => {
+        this.buttonDisabled.set(false)
         let errorMessage = "Ooops, something wrong."
         if (err.error.title) {
           errorMessage = err.error.title
@@ -63,8 +70,7 @@ export class CreateBlog {
         }
 
         this.creationBlogError.set(errorMessage);
-
-      }
+      },
     })
   }
 
