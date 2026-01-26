@@ -26,7 +26,6 @@ export class CreateBlog {
   buttonDisabled = signal(false);
 
   @ViewChild('title') title: ElementRef<HTMLInputElement> | undefined
-  // @ViewChild('submitButton') submitButton: ElementRef<HTMLButtonElement> | undefined
 
   constructor() {
     this.editor = new EditorJS({
