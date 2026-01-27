@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.blog.exception.BadRequestException;
 import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogsOutputDTO;
@@ -15,14 +14,17 @@ import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
 import com.blog.user.model.RoleEnum;
 import com.blog.user.model.UserEntity;
+import com.blog.user.persistence.UserRepository;
 
 @Service
 public class BlogService {
 
     private final BlogRepository blogRepository;
+    private final UserRepository userRepository;
 
-    public BlogService(BlogRepository blogRepository) {
+    public BlogService(BlogRepository blogRepository, UserRepository userRepository) {
         this.blogRepository = blogRepository;
+        this.userRepository = userRepository;
     }
 
     public BlogEntity createBlog(CreateBlogDTO blogData, UserEntity user) throws Exception {
@@ -39,13 +41,13 @@ public class BlogService {
         return blog;
     }
 
-    public List<AllBlogsOutputDTO> getBlogs(String filter, Long userId) {
-        if (filter.equals("homeBlogs")) {
+    public List<AllBlogsOutputDTO> getBlogs(Long userId) {
+        if (userId == null) {
             return blogRepository.findBlogs();
-        } else if (filter.equals("profileBlogs")) {
-            return blogRepository.findMyBlogs(userId);
         }
-        throw new BadRequestException("Filter type should be 'homeBlogs' or 'profileBlogs'");
+
+        userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Whoops, user not found"));
+        return blogRepository.findProfileBlogs(userId);
     }
 
     public BlogEntity getBlogById(Long blogId, UserEntity user) {

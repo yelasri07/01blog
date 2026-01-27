@@ -5,6 +5,9 @@
     <div class="profile-infos col-4">
         <div class="profile-picture">
             <img src="/assets/images/ana.webp" alt="profile-picture">
+            <div class="subscribe">
+                <span (click)="addFollow()"><i class="bi bi-plus-circle"></i></span>
+            </div>
         </div>
         <div class="infos">
             <p class="username m-0 mb-2"> {{ userProfile()?.username }} </p>
@@ -13,7 +16,7 @@
         </div>
     </div>
     <div class="profile-blogs col">
-        <app-blogs />
+        <app-blogs [profileUserId]="userProfile()?.id" />
     </div>
 </section>
 }

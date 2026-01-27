@@ -33,7 +33,8 @@ export class BlogService {
     return this.http.get<blogInterface>(API_URL + "/blogs/" + blogId);
   }
 
-  getBlogs() {
+  getBlogs(userId?: number) {
+    if (userId) this.http.get<blogInterface[]>(API_URL + "/blogs/profile/" + userId)
     return this.http.get<blogInterface[]>(API_URL + "/blogs")
   }
 

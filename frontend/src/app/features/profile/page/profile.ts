@@ -28,6 +28,10 @@ export class Profile implements OnInit {
     });
   }
 
+  addFollow() {
+  
+  }
+
   private fetchProfile(userId: number) {
     this.profileService.getUserProfile(userId).subscribe({
       next: response => {

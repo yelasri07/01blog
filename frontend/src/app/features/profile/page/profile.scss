@@ -23,12 +23,27 @@
     height: max-content;
 
     .profile-picture {
+        position: relative;
+
         img {
             width: 180px;
             height: 180px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid var(--color-primary);
+        }
+
+        .subscribe {
+            position: absolute;
+            bottom: -15px;
+            right: 0px;
+            font-size: 1.8em;
+            cursor: pointer;
+            transition: .2s;
+
+            &:hover {
+                color: var(--color-primary);
+            }
         }
     }
 

@@ -15,5 +15,5 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
     List<AllBlogsOutputDTO> findBlogs();
 
     @Query(value = "SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b INNER JOIN users u ON b.user_id = u.id WHERE u.id = :userId ORDER BY b.id DESC", nativeQuery = true)
-    List<AllBlogsOutputDTO> findMyBlogs(Long userId);
+    List<AllBlogsOutputDTO> findProfileBlogs(Long userId);
 }
