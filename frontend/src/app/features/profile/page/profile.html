@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="profile-blogs col">
-        <app-blogs [profileUserId]="userProfile()?.id" />
+        <app-blogs [profileUserId]="userProfile()?.id || 0" />
     </div>
 </section>
 }

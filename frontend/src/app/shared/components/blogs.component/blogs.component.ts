@@ -1,9 +1,9 @@
-import { Component, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { Component, inject, input, OnChanges, OnInit, signal, SimpleChanges, WritableSignal } from '@angular/core';
 import { BlogService } from '../../../features/blogs/service/blog.service';
 import { blogInterface } from '../../../features/blogs/interfaces/blog.interface';
 import { BlogHeaderComponent } from "../blog-header.component/blog-header.component";
 import { BlogFooterComponent } from "../blog-footer.component/blog-footer.component";
-import { ActivatedRoute, RouterLink } from "@angular/router";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-blogs',
@@ -11,14 +11,14 @@ import { ActivatedRoute, RouterLink } from "@angular/router";
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss',
 })
-export class BlogsComponent implements OnInit {
+export class BlogsComponent implements OnChanges {
   private blogService = inject(BlogService);
-  private activatedRoute = inject(ActivatedRoute)
   blogs = signal<WritableSignal<blogInterface>[] | null>(null);
 
-  profileUserId = input<number | undefined>(undefined);
+  profileUserId = input.required<number>();
 
-  ngOnInit(): void {
+  ngOnChanges(changes: SimpleChanges<BlogsComponent>): void {
+    if (location.pathname.startsWith('/profile/') && !changes.profileUserId?.currentValue) return;
     this.blogService.getBlogs(this.profileUserId()).subscribe({
       next: response => {
         this.blogs.set(

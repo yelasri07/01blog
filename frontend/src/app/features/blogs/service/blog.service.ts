@@ -7,6 +7,7 @@ import { OutputData } from '@editorjs/editorjs';
 import { reactInterface } from '../interfaces/react.interface';
 import { commentInterface } from '../interfaces/comment.interface';
 import { delay } from 'rxjs';
+import { use } from 'marked';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,7 @@ export class BlogService {
   }
 
   getBlogs(userId?: number) {
-    if (userId) this.http.get<blogInterface[]>(API_URL + "/blogs/profile/" + userId)
+    if (userId) return this.http.get<blogInterface[]>(API_URL + "/blogs/profile/" + userId)
     return this.http.get<blogInterface[]>(API_URL + "/blogs")
   }
 
