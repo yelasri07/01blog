@@ -15,7 +15,6 @@ import com.blog.user.dto.UserOutputDTO;
 import com.blog.user.model.UserEntity;
 import com.blog.user.service.UserService;
 
-
 @RestController
 @RequestMapping("/users")
 public class UserController {
@@ -36,7 +35,19 @@ public class UserController {
                 .createdAt(user.getCreated_at())
                 .build();
     }
-    
+
+    @GetMapping("/{userId}")
+    public UserOutputDTO getUserProfile(@PathVariable Long userId, @AuthenticationPrincipal UserEntity user) {
+        UserEntity userProfile = (UserEntity) userService.loadUserById(userId);
+        return UserOutputDTO.builder()
+                .id(userProfile.getId())
+                .username(userProfile.getUsername())
+                .email(userProfile.getEmail())
+                .createdAt(userProfile.getCreated_at())
+                .itsMe(userId.equals(user.getId()))
+                .build();
+    }
+
     @PostMapping("/{subscribedToId}/subscribe")
     public Map<String, String> post(@PathVariable("subscribedToId") Long subscribedToId,
             @AuthenticationPrincipal UserEntity user) {

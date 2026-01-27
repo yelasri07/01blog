@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,8 +56,9 @@ public class BlogController {
     }
 
     @GetMapping
-    public List<AllBlogsOutputDTO> get() {
-        return blogService.getBlogs();
+    public List<AllBlogsOutputDTO> get(@RequestParam(defaultValue = "homeBlogs") String filter,
+            @AuthenticationPrincipal UserEntity user) {
+        return blogService.getBlogs(filter, user.getId());
     }
 
     @GetMapping("/{id}")

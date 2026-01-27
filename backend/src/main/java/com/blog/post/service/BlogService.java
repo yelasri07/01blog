@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.blog.exception.BadRequestException;
 import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogsOutputDTO;
@@ -38,8 +39,13 @@ public class BlogService {
         return blog;
     }
 
-    public List<AllBlogsOutputDTO> getBlogs() {
-        return blogRepository.findBlogs();
+    public List<AllBlogsOutputDTO> getBlogs(String filter, Long userId) {
+        if (filter.equals("homeBlogs")) {
+            return blogRepository.findBlogs();
+        } else if (filter.equals("profileBlogs")) {
+            return blogRepository.findMyBlogs(userId);
+        }
+        throw new BadRequestException("Filter type should be 'homeBlogs' or 'profileBlogs'");
     }
 
     public BlogEntity getBlogById(Long blogId, UserEntity user) {
@@ -64,8 +70,6 @@ public class BlogService {
         BlogEntity blog = this.getBlogById(blogId, user);
 
         blog.setTitle(blogData.title());
-        // blog.setContent(blogData.content());
-
         return blogRepository.save(blog);
     }
 }

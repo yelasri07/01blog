@@ -1,1 +1,19 @@
-<p>page works!</p>
+@if (showNotFoundError()) {
+<p>profile not found</p>
+} @else {
+<section class="profile row">
+    <div class="profile-infos col-4">
+        <div class="profile-picture">
+            <img src="/assets/images/ana.webp" alt="profile-picture">
+        </div>
+        <div class="infos">
+            <p class="username m-0 mb-2"> {{ userProfile()?.username }} </p>
+            <p class="followers m-0">1324 followers</p>
+            <p class="following m-0">145 following</p>
+        </div>
+    </div>
+    <div class="profile-blogs col">
+        <app-blogs />
+    </div>
+</section>
+}

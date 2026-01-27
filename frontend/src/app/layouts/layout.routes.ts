@@ -12,7 +12,7 @@ export const layoutRoutes: Routes = [
     },
     {
         path: "profile/:id",
-        loadComponent: () => import('../features/profile/page/profile').then(m => m.Page)
+        loadComponent: () => import('../features/profile/page/profile').then(m => m.Profile),
     },
     {
         path: 'create-blog',

@@ -34,7 +34,7 @@ export class Login {
 
     this.authService.login(this.loginForm).subscribe({
       next: respone => {
-        localStorage.setItem('token', respone.token)
+        localStorage.setItem('token', respone.token || "")
         this.authStateService.setCurrentUser(respone)
         this.router.navigateByUrl('/')
       },
