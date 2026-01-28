@@ -11,9 +11,21 @@ import com.blog.post.model.BlogEntity;
 
 @Repository
 public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
-    @Query(value = "SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b INNER JOIN users u ON b.user_id = u.id ORDER BY b.id DESC", nativeQuery = true)
-    List<AllBlogsOutputDTO> findBlogs();
+    @Query(value = """
+            SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b
+            INNER JOIN users u ON b.user_id = u.id
+            WHERE b.id < :lastId OR :lastId <= 0
+            ORDER BY b.id DESC
+            LIMIT :limit
+            """, nativeQuery = true)
+    List<AllBlogsOutputDTO> findBlogs(Long lastId, Long limit);
 
-    @Query(value = "SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b INNER JOIN users u ON b.user_id = u.id WHERE u.id = :userId ORDER BY b.id DESC", nativeQuery = true)
-    List<AllBlogsOutputDTO> findProfileBlogs(Long userId);
+    @Query(value = """
+            SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b
+            INNER JOIN users u ON b.user_id = u.id
+            WHERE u.id = :userId AND (b.id < :lastId OR :lastId <= 0)
+            ORDER BY b.id DESC
+            LIMIT :limit
+            """, nativeQuery = true)
+    List<AllBlogsOutputDTO> findProfileBlogs(Long userId, Long lastId, Long limit);
 }

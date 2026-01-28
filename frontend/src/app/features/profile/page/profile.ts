@@ -51,7 +51,7 @@ export class Profile implements OnInit {
         console.log(this.userProfile());
       },
       error: err => {
-        console.log(err)
+        console.error(err)
         this.showNotFoundError.set(true)
       }
     })

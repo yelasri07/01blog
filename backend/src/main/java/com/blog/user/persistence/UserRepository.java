@@ -1,5 +1,7 @@
 package com.blog.user.persistence;
 
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -30,5 +32,5 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
             ) FROM users u
             WHERE u.id = :userProfileId
                 """)
-    UserProfileOutputDTO findUserProfile(Long userProfileId, Long userId);
+    Optional<UserProfileOutputDTO> findUserProfile(Long userProfileId, Long userId);
 }

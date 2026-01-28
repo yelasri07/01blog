@@ -13,4 +13,5 @@
         <app-blog-footer [(blog)]="blog" />
     </div>
     }
+    <div appIntersectionobserver (isIntersecting)="onFetchNextBlogSet($event)"></div>
 </div>

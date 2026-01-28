@@ -48,7 +48,8 @@ public class UserService implements UserDetailsService {
     }
 
     public UserProfileOutputDTO getUser(Long profileUserId, Long userId) {
-        return userRepository.findUserProfile(profileUserId, userId);
+        return userRepository.findUserProfile(profileUserId, userId)
+                .orElseThrow(() -> new NotFoundException("Whoops! user not found"));
     }
 
     public String createSubscribe(Long subscribedToId, UserEntity user) {

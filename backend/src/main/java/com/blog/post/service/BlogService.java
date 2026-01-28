@@ -41,13 +41,17 @@ public class BlogService {
         return blog;
     }
 
-    public List<AllBlogsOutputDTO> getBlogs(Long userId) {
+    public List<AllBlogsOutputDTO> getBlogs(Long userId, Long lastId, Long limit) {
+        if (limit <= 0 || limit > 50) {
+            limit = 50l;
+        }
+
         if (userId == null) {
-            return blogRepository.findBlogs();
+            return blogRepository.findBlogs(lastId, limit);
         }
 
         userRepository.findById(userId).orElseThrow(() -> new NotFoundException("Whoops, user not found"));
-        return blogRepository.findProfileBlogs(userId);
+        return blogRepository.findProfileBlogs(userId, lastId, limit);
     }
 
     public BlogEntity getBlogById(Long blogId, UserEntity user) {

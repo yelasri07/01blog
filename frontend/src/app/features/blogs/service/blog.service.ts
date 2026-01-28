@@ -34,9 +34,9 @@ export class BlogService {
     return this.http.get<blogInterface>(API_URL + "/blogs/" + blogId);
   }
 
-  getBlogs(userId?: number) {
-    if (userId) return this.http.get<blogInterface[]>(API_URL + "/blogs/profile/" + userId)
-    return this.http.get<blogInterface[]>(API_URL + "/blogs")
+  getBlogs(userId?: number, lastId?: number) {
+    if (userId) return this.http.get<blogInterface[]>(API_URL + `/blogs/profile/${userId}?limit=10&last_id=${lastId || -1}`)
+    return this.http.get<blogInterface[]>(API_URL + `/blogs?limit=10&last_id=${lastId || -1}`)
   }
 
   getComments(blogId: number, lastId?: number) {
