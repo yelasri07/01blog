@@ -14,7 +14,7 @@ export class ProfileService {
   }
 
   submitFollow(subscribedToId: number) {
-    return this.http.post(API_URL + `/users/${subscribedToId}/subscribe`, {});
+    return this.http.post<User>(API_URL + `/users/${subscribedToId}/subscribe`, {});
   }
 
 }

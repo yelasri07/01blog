@@ -5,6 +5,8 @@ export interface User {
     role?: 'USER' | 'ADMIN',
     token?: string,
     its_me?: boolean,
+    followers_count?: number,
+    following_count?: number,
     subscribe?: boolean,
     created_at: Date
 }

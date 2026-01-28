@@ -16,7 +16,19 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByEmail(String email);
 
     @Query(nativeQuery = true, value = """
-            SELECT u.id FROM users u WHERE u.id = :userProfileId
+            SELECT u.id, u.username, u.email, (
+                SELECT COUNT(*) FROM subscribe s
+                WHERE s.subscribed_to_id = :userProfileId
+            ),(
+                SELECT COUNT(*) FROM subscribe s
+                WHERE s.subscriber_id = :userProfileId
+            ), EXISTS (
+                SELECT true
+                FROM subscribe s
+                WHERE s.subscriber_id = :userId
+                AND s.subscribed_to_id = :userProfileId
+            ) FROM users u
+            WHERE u.id = :userProfileId
                 """)
-    UserProfileOutputDTO findUserProfile(Long userProfileId);
+    UserProfileOutputDTO findUserProfile(Long userProfileId, Long userId);
 }

@@ -36,10 +36,7 @@ export class Profile implements OnInit {
     this.profileService.submitFollow(this.userProfile()?.id!).subscribe({
       next: response => {
         console.log(response)
-        this.userProfile.update(prev => ({
-          ...prev!,
-          subscribe: !prev?.subscribe
-        }))
+        this.userProfile.set(response)
       },
       error: err => {
         console.error(err)

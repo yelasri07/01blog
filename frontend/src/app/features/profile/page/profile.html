@@ -17,8 +17,8 @@
         </div>
         <div class="infos">
             <p class="username m-0 mb-2"> {{ userProfile()?.username }} </p>
-            <p class="followers m-0">1324 followers</p>
-            <p class="following m-0">145 following</p>
+            <p class="followers m-0">{{ userProfile()?.followers_count }} followers</p>
+            <p class="following m-0">{{ userProfile()?.following_count }} following</p>
         </div>
     </div>
     <div class="profile-blogs col">

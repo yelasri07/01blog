@@ -1,7 +1,6 @@
 package com.blog.user.controllers;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,24 +38,14 @@ public class UserController {
 
     @GetMapping("/{userId}")
     public UserProfileOutputDTO getUserProfile(@PathVariable Long userId, @AuthenticationPrincipal UserEntity user) {
-        // UserEntity userProfile = (UserEntity) userService.loadUserById(userId);
-        // Boolean isSubscribed = userService.isSubscribed(userProfile, user.getId());
-        return userService.getUser(userId);
-        // return UserOutputDTO.builder()
-        // .id(userProfile.id())
-        // .username(userProfile.username())
-        // .email(userProfile.email())
-        // .createdAt(userProfile.createdAt())
-        // .itsMe(userId.equals(user.getId()))
-        // .subscribe(isSubscribed)
-        // .build();
+        return userService.getUser(userId, user.getId());
     }
 
     @PostMapping("/{subscribedToId}/subscribe")
-    public Map<String, String> post(@PathVariable Long subscribedToId,
+    public UserProfileOutputDTO post(@PathVariable Long subscribedToId,
             @AuthenticationPrincipal UserEntity user) {
-        String subscribeMessage = userService.createSubscribe(subscribedToId, user);
-        return Map.of("message", subscribeMessage);
+        userService.createSubscribe(subscribedToId, user);
+        return userService.getUser(subscribedToId, user.getId());
     }
 
     @GetMapping("/{profileId}/followers")

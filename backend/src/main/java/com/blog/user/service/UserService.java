@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
 import com.blog.user.dto.SubscribeOutputDTO;
-import com.blog.user.dto.UserOutputDTO;
 import com.blog.user.dto.UserProfileOutputDTO;
 import com.blog.user.model.SubscribeEntity;
 import com.blog.user.model.UserEntity;
@@ -48,8 +47,8 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    public UserProfileOutputDTO getUser(Long id) {
-        return userRepository.findUserProfile(id);
+    public UserProfileOutputDTO getUser(Long profileUserId, Long userId) {
+        return userRepository.findUserProfile(profileUserId, userId);
     }
 
     public String createSubscribe(Long subscribedToId, UserEntity user) {
