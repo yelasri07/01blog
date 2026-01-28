@@ -19,18 +19,34 @@ export class MediaService {
     })
   }
 
-  uploadFile(file: File, data: signatureData) {
+  async uploadFile(file: File) {
+    const sigRes = await this.getSignature();
+    if (!sigRes.ok) {
+      throw new Error("Signature error");
+    };
+    const signature: signatureData = await sigRes.json()
+
     const formData = new FormData();
     formData.append('file', file)
-    formData.append('api_key', data.apiKey);
-    formData.append('timestamp', data.timestamp.toString());
-    formData.append('signature', data.signature);
+    formData.append('api_key', signature.apiKey);
+    formData.append('timestamp', signature.timestamp.toString());
+    formData.append('signature', signature.signature);
     formData.append('folder', 'blogImages');
 
-    return fetch(`https://api.cloudinary.com/v1_1/${data.cloudName}/image/upload`, {
+    const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/image/upload`, {
       method: 'POST',
       body: formData
     });
+    if (!fileRes.ok) {
+      throw new Error("Uploading error");
+    }
+    const res = await fileRes.json();
+    this.submitMedia(res.public_id).subscribe({
+      error: err => {
+        console.error(err);
+      }
+    })
+    return res;
   }
 
   submitMedia(publicId: string) {

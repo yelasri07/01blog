@@ -33,7 +33,7 @@
             border: 3px solid var(--color-primary);
         }
 
-        .subscribe {
+        > div {
             position: absolute;
             bottom: -15px;
             right: 0px;
@@ -43,6 +43,14 @@
 
             &:hover {
                 color: var(--color-primary);
+            }
+
+            label {
+                cursor: pointer;
+            }
+
+            input {
+                display: none;
             }
         }
     }

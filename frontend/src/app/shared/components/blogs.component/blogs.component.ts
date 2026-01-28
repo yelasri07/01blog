@@ -29,19 +29,16 @@ export class BlogsComponent implements OnChanges {
   }
 
   onFetchNextBlogSet(value: boolean) {
-    console.log(value)
     if (!value) return;
 
     if (this.isAbleToFetchBlogs()) {
       this.fetchBlogs(this.lastBlogId())
-
     }
   }
 
   private fetchBlogs(lastId?: number) {
     this.blogService.getBlogs(this.profileUserId(), lastId).subscribe({
       next: response => {
-        console.log(response)
         if (response.length === 0) {
           this.isAbleToFetchBlogs.set(false)
           return

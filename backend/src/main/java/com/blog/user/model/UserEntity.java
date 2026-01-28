@@ -19,10 +19,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,6 +35,7 @@ public class UserEntity implements UserDetails {
     private String username;
     private String email;
     private String password;
+    private String profile_image;
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
     private Timestamp created_at;

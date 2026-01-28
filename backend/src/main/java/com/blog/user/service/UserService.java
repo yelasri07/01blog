@@ -9,9 +9,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
+import com.blog.media.model.MediaEntity;
+import com.blog.media.persistence.MediaRepository;
+import com.blog.user.dto.ProfileImageDTO;
 import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.dto.UserProfileOutputDTO;
 import com.blog.user.model.SubscribeEntity;
@@ -27,6 +31,7 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final SubscribeRepository subscribeRepository;
+    private final MediaRepository mediaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -95,6 +100,18 @@ public class UserService implements UserDetailsService {
 
     public Boolean isSubscribed(UserEntity userProfile, Long userId) {
         return subscribeRepository.existsBySubscriberIdAndSubscribedToId(userId, userProfile.getId());
+    }
+
+    @Transactional
+    public void updateProfileImage(ProfileImageDTO file, UserEntity user) {
+        MediaEntity media = mediaRepository.findByPublicId(file.publicId())
+                .orElseThrow(() -> new NotFoundException("Whoops! file not found"));
+
+        media.setIs_done(true);
+        mediaRepository.save(media);
+
+        user.setProfile_image(file.url());
+        userRepository.save(user);
     }
 
 }

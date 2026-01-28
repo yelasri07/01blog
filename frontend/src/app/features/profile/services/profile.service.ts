@@ -17,4 +17,11 @@ export class ProfileService {
     return this.http.post<User>(API_URL + `/users/${subscribedToId}/subscribe`, {});
   }
 
+  submitProfileImage(url: string, publicId: string) {
+    return this.http.patch<User>(API_URL + "/users/profileImage", {
+      url: url,
+      public_id: publicId
+    });
+  }
+
 }

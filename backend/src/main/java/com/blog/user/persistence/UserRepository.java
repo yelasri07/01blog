@@ -18,7 +18,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     boolean existsByEmail(String email);
 
     @Query(nativeQuery = true, value = """
-            SELECT u.id, u.username, u.email, (
+            SELECT u.id, u.username, u.email, u.profile_image, (
                 SELECT COUNT(*) FROM subscribe s
                 WHERE s.subscribed_to_id = :userProfileId
             ),(

@@ -2,6 +2,7 @@ package com.blog.media.model;
 
 import java.sql.Timestamp;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,7 +25,8 @@ public class MediaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String public_id;
+    @Column(name = "public_id")
+    private String publicId;
     private Boolean is_done;
     private Timestamp created_at;
 }

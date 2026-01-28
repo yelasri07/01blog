@@ -74,19 +74,7 @@ export class CreateBlog {
   }
 
   private async uploadImage(file: File) {
-    const sigRes = await this.mediaService.getSignature();
-    if (!sigRes.ok) return;
-    const signature: signatureData = await sigRes.json()
-    const fileRes = await this.mediaService.uploadFile(file, signature)
-    if (!fileRes.ok) {
-      return
-    }
-    const res = await fileRes.json();
-    this.mediaService.submitMedia(res.public_id).subscribe({
-      error: err => {
-        console.error(err);
-      }
-    })
+    const res = await this.mediaService.uploadFile(file);
     return {
       success: 1,
       file: {

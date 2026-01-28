@@ -34,7 +34,7 @@ public class MediaService {
         }
 
         MediaEntity media = MediaEntity.builder()
-                .public_id(publicId)
+                .publicId(publicId)
                 .is_done(false)
                 .created_at(new Timestamp(new Date().getTime()))
                 .build();

@@ -4,6 +4,8 @@ import { User } from '../../../core/interfaces/user.interface';
 import { ProfileService } from '../services/profile.service';
 import { BlogsComponent } from '../../../shared/components/blogs.component/blogs.component';
 import { AuthStateService } from '../../../core/services/auth.state.service';
+import { MediaService } from '../../../core/services/media.service';
+import { signatureData } from '../../../core/interfaces/signatureData.interface';
 
 @Component({
   selector: 'app-page',
@@ -15,6 +17,7 @@ export class Profile implements OnInit {
   private activatedRoute = inject(ActivatedRoute)
   private profileService = inject(ProfileService)
   private authStateService = inject(AuthStateService);
+  private mediaService = inject(MediaService)
   currentUser = signal(this.authStateService.getCurrentUser());
 
   showNotFoundError = signal(false);
@@ -40,6 +43,22 @@ export class Profile implements OnInit {
       },
       error: err => {
         console.error(err)
+      }
+    })
+  }
+
+  async uploadImage(event: Event) {
+    const ipt = event.target as HTMLInputElement;
+    if (!ipt.files) return;
+    const file = ipt.files[0];
+    const result = await this.mediaService.uploadFile(file)
+    this.profileService.submitProfileImage(result.url, result.public_id).subscribe({
+      next: response => {
+        console.log(response);
+        this.userProfile.set(response)
+      },
+      error: err => {
+        console.error(err);
       }
     })
   }
