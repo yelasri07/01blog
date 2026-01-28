@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.dto.UserOutputDTO;
+import com.blog.user.dto.UserProfileOutputDTO;
 import com.blog.user.model.UserEntity;
 import com.blog.user.service.UserService;
 
@@ -37,31 +38,34 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    public UserOutputDTO getUserProfile(@PathVariable Long userId, @AuthenticationPrincipal UserEntity user) {
-        UserEntity userProfile = (UserEntity) userService.loadUserById(userId);
-        return UserOutputDTO.builder()
-                .id(userProfile.getId())
-                .username(userProfile.getUsername())
-                .email(userProfile.getEmail())
-                .createdAt(userProfile.getCreated_at())
-                .itsMe(userId.equals(user.getId()))
-                .build();
+    public UserProfileOutputDTO getUserProfile(@PathVariable Long userId, @AuthenticationPrincipal UserEntity user) {
+        // UserEntity userProfile = (UserEntity) userService.loadUserById(userId);
+        // Boolean isSubscribed = userService.isSubscribed(userProfile, user.getId());
+        return userService.getUser(userId);
+        // return UserOutputDTO.builder()
+        // .id(userProfile.id())
+        // .username(userProfile.username())
+        // .email(userProfile.email())
+        // .createdAt(userProfile.createdAt())
+        // .itsMe(userId.equals(user.getId()))
+        // .subscribe(isSubscribed)
+        // .build();
     }
 
     @PostMapping("/{subscribedToId}/subscribe")
-    public Map<String, String> post(@PathVariable("subscribedToId") Long subscribedToId,
+    public Map<String, String> post(@PathVariable Long subscribedToId,
             @AuthenticationPrincipal UserEntity user) {
         String subscribeMessage = userService.createSubscribe(subscribedToId, user);
         return Map.of("message", subscribeMessage);
     }
 
     @GetMapping("/{profileId}/followers")
-    public List<SubscribeOutputDTO> getFollowers(@PathVariable("profileId") Long profileId) {
+    public List<SubscribeOutputDTO> getFollowers(@PathVariable Long profileId) {
         return userService.getFollowers(profileId);
     }
 
     @GetMapping("/{profileId}/following")
-    public List<SubscribeOutputDTO> getFollowing(@PathVariable("profileId") Long profileId) {
+    public List<SubscribeOutputDTO> getFollowing(@PathVariable Long profileId) {
         return userService.getFollowing(profileId);
     }
 }

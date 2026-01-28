@@ -8,9 +8,13 @@ import { User } from '../../../core/interfaces/user.interface';
 })
 export class ProfileService {
   private http = inject(HttpClient);
-  
+
   getUserProfile(userId: number) {
     return this.http.get<User>(API_URL + `/users/${userId}`)
+  }
+
+  submitFollow(subscribedToId: number) {
+    return this.http.post(API_URL + `/users/${subscribedToId}/subscribe`, {});
   }
 
 }

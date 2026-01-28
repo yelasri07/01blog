@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../core/interfaces/user.interface';
 import { ProfileService } from '../services/profile.service';
 import { BlogsComponent } from '../../../shared/components/blogs.component/blogs.component';
+import { AuthStateService } from '../../../core/services/auth.state.service';
 
 @Component({
   selector: 'app-page',
@@ -13,6 +14,9 @@ import { BlogsComponent } from '../../../shared/components/blogs.component/blogs
 export class Profile implements OnInit {
   private activatedRoute = inject(ActivatedRoute)
   private profileService = inject(ProfileService)
+  private authStateService = inject(AuthStateService);
+  currentUser = signal(this.authStateService.getCurrentUser());
+
   showNotFoundError = signal(false);
   userProfile = signal<User | null>(null);
 
@@ -29,7 +33,18 @@ export class Profile implements OnInit {
   }
 
   addFollow() {
-  
+    this.profileService.submitFollow(this.userProfile()?.id!).subscribe({
+      next: response => {
+        console.log(response)
+        this.userProfile.update(prev => ({
+          ...prev!,
+          subscribe: !prev?.subscribe
+        }))
+      },
+      error: err => {
+        console.error(err)
+      }
+    })
   }
 
   private fetchProfile(userId: number) {
@@ -39,6 +54,7 @@ export class Profile implements OnInit {
         console.log(this.userProfile());
       },
       error: err => {
+        console.log(err)
         this.showNotFoundError.set(true)
       }
     })

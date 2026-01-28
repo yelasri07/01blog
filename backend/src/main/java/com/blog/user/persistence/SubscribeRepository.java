@@ -14,25 +14,19 @@ import com.blog.user.model.SubscribeEntity;
 public interface SubscribeRepository extends JpaRepository<SubscribeEntity, Long> {
     Optional<SubscribeEntity> findBySubscriberIdAndSubscribedToId(Long userId, Long subscribedToId);
 
-    @Query(
-        nativeQuery = true,
-        value = 
-        """
+    @Query(nativeQuery = true, value = """
             SELECT u.id, u.username FROM subscribe s
             INNER JOIN users u ON s.subscriber_id = u.id
             WHERE s.subscribed_to_id = :profileId
-                """
-    )
+                """)
     List<SubscribeOutputDTO> findFollowers(Long profileId);
 
-    @Query(
-        nativeQuery = true,
-        value = 
-        """
+    @Query(nativeQuery = true, value = """
             SELECT u.id, u.username FROM subscribe s
             INNER JOIN users u ON s.subscribed_to_id = u.id
             WHERE s.subscriber_id = :profileId
-                """
-    )
+                """)
     List<SubscribeOutputDTO> findFollowing(Long profileId);
+
+    Boolean existsBySubscriberIdAndSubscribedToId(Long userId, Long profileId);
 }

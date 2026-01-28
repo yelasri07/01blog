@@ -20,6 +20,8 @@ public record UserOutputDTO(
         @JsonProperty("its_me")
         @JsonInclude(JsonInclude.Include.NON_NULL)
         Boolean itsMe,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        Boolean subscribe,
         @JsonProperty("created_at") Timestamp createdAt) {
 
 }
