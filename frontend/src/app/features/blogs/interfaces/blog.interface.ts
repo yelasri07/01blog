@@ -7,4 +7,5 @@ export interface blogInterface {
     like: boolean
     user_id: number,
     username: string
+    profile_image?: string
 }

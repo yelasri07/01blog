@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { API_URL } from '../constants/API_URL';
 import { signatureData } from '../interfaces/signatureData.interface';
+import { waitForAngularReady } from '@angular/cdk/testing/selenium-webdriver';
 
 @Injectable({
   providedIn: 'root',
@@ -35,23 +36,34 @@ export class MediaService {
 
     const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/image/upload`, {
       method: 'POST',
-      body: formData
+      body: formData,
     });
     if (!fileRes.ok) {
-      throw new Error("Uploading error");
+      const err = await fileRes.json()
+      throw new Error(err.error.message);
     }
     const res = await fileRes.json();
-    this.submitMedia(res.public_id).subscribe({
-      error: err => {
-        console.error(err);
-      }
-    })
+    const mediaRes = await this.submitMedia(res.public_id);
+    if (!mediaRes.ok) {
+      throw new Error('Cannot upload this file')
+    };
     return res;
   }
 
-  submitMedia(publicId: string) {
-    return this.http.post(API_URL + "/media", {
-      public_id: publicId
+  async submitMedia(publicId: string) {
+    const token = localStorage.getItem('token');
+    const formData = new FormData();
+    formData.append("public_id", publicId);
+
+    return fetch(API_URL + "/media", {
+      method: "POST",
+      body: JSON.stringify({
+        public_id: publicId,
+      }),
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      }
     })
   }
 }

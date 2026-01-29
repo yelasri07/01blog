@@ -12,7 +12,7 @@ import com.blog.post.model.BlogEntity;
 @Repository
 public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
     @Query(value = """
-            SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b
+            SELECT b.id, b.title, b.created_at, b.user_id, u.username, u.profile_image FROM blog b
             INNER JOIN users u ON b.user_id = u.id
             WHERE b.id < :lastId OR :lastId <= 0
             ORDER BY b.id DESC
@@ -21,7 +21,7 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
     List<AllBlogsOutputDTO> findBlogs(Long lastId, Long limit);
 
     @Query(value = """
-            SELECT b.id, b.title, b.created_at, b.user_id, u.username FROM blog b
+            SELECT b.id, b.title, b.created_at, b.user_id, u.username, u.profile_image FROM blog b
             INNER JOIN users u ON b.user_id = u.id
             WHERE u.id = :userId AND (b.id < :lastId OR :lastId <= 0)
             ORDER BY b.id DESC

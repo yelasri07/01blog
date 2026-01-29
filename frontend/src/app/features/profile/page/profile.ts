@@ -1,11 +1,10 @@
-import { Component, inject, OnChanges, OnInit, signal, SimpleChanges } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../core/interfaces/user.interface';
 import { ProfileService } from '../services/profile.service';
 import { BlogsComponent } from '../../../shared/components/blogs.component/blogs.component';
 import { AuthStateService } from '../../../core/services/auth.state.service';
 import { MediaService } from '../../../core/services/media.service';
-import { signatureData } from '../../../core/interfaces/signatureData.interface';
 
 @Component({
   selector: 'app-page',
@@ -38,11 +37,7 @@ export class Profile implements OnInit {
   addFollow() {
     this.profileService.submitFollow(this.userProfile()?.id!).subscribe({
       next: response => {
-        console.log(response)
         this.userProfile.set(response)
-      },
-      error: err => {
-        console.error(err)
       }
     })
   }
@@ -54,11 +49,7 @@ export class Profile implements OnInit {
     const result = await this.mediaService.uploadFile(file)
     this.profileService.submitProfileImage(result.url, result.public_id).subscribe({
       next: response => {
-        console.log(response);
         this.userProfile.set(response)
-      },
-      error: err => {
-        console.error(err);
       }
     })
   }
@@ -67,10 +58,8 @@ export class Profile implements OnInit {
     this.profileService.getUserProfile(userId).subscribe({
       next: response => {
         this.userProfile.set(response)
-        console.log(this.userProfile());
       },
-      error: err => {
-        console.error(err)
+      error: _ => {
         this.showNotFoundError.set(true)
       }
     })
