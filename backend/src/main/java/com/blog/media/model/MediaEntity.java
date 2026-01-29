@@ -29,4 +29,5 @@ public class MediaEntity {
     private String publicId;
     private Boolean is_done;
     private Timestamp created_at;
+    private String url;
 }

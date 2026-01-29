@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.blog.exception.BadRequestException;
 import com.blog.media.dto.MediaDto;
+import com.blog.media.dto.MediaInputDTO;
 import com.blog.media.model.MediaEntity;
 import com.blog.media.persistence.MediaRepository;
 import com.cloudinary.Cloudinary;
@@ -24,17 +25,10 @@ public class MediaService {
         this.cloudinary = cloudinary;
     }
 
-    public void createMedia(Map<String, String> mediaData) {
-        String publicId = mediaData.get("public_id");
-        if (publicId == null) {
-            throw new BadRequestException("Missing public_id property");
-        }
-        if (publicId.length() > 300) {
-            throw new BadRequestException("Public id should be valid!");
-        }
-
+    public void createMedia(MediaInputDTO mediaData) {
         MediaEntity media = MediaEntity.builder()
-                .publicId(publicId)
+                .publicId(mediaData.publicId())
+                .url(mediaData.url())
                 .is_done(false)
                 .created_at(new Timestamp(new Date().getTime()))
                 .build();
@@ -42,12 +36,17 @@ public class MediaService {
         mediaRepository.save(media);
     }
 
-    public MediaDto getSignature() {
+    public MediaDto getSignature(Map<String, String> data) {
+        String folder = data.get("folder");
+        if (folder == null) {
+            throw new BadRequestException("Missing folder name");
+        }
+
         long timestamp = System.currentTimeMillis() / 1000;
 
         Map<String, Object> params = ObjectUtils.asMap(
                 "timestamp", timestamp,
-                "folder", "blogImages");
+                "folder", folder);
 
         String signature = cloudinary.apiSignRequest(params, cloudinary.config.apiSecret);
         return MediaDto.builder()

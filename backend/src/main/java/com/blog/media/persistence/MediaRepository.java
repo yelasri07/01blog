@@ -8,4 +8,5 @@ import com.blog.media.model.MediaEntity;
 
 public interface MediaRepository extends JpaRepository<MediaEntity, Long> {
     Optional<MediaEntity> findByPublicId(String publicId);
+    Optional<MediaEntity> findByUrl(String url);
 }

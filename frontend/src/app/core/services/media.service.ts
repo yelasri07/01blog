@@ -8,31 +8,32 @@ import { waitForAngularReady } from '@angular/cdk/testing/selenium-webdriver';
   providedIn: 'root',
 })
 export class MediaService {
-  private http = inject(HttpClient)
-
-  getSignature() {
+  getSignature(folderName: string) {
     const token = localStorage.getItem('token');
     return fetch(API_URL + "/media/signature", {
       method: "POST",
+      body: JSON.stringify({
+        folder: folderName
+      }),
       headers: {
+        'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + token
       }
     })
   }
 
-  async uploadFile(file: File) {
-    const sigRes = await this.getSignature();
+  async uploadFile(file: File, folderName: string) {
+    const sigRes = await this.getSignature(folderName);
     if (!sigRes.ok) {
       throw new Error("Signature error");
     };
     const signature: signatureData = await sigRes.json()
-
     const formData = new FormData();
     formData.append('file', file)
     formData.append('api_key', signature.apiKey);
     formData.append('timestamp', signature.timestamp.toString());
     formData.append('signature', signature.signature);
-    formData.append('folder', 'blogImages');
+    formData.append('folder', folderName);
 
     const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/image/upload`, {
       method: 'POST',
@@ -43,22 +44,20 @@ export class MediaService {
       throw new Error(err.error.message);
     }
     const res = await fileRes.json();
-    const mediaRes = await this.submitMedia(res.public_id);
+    const mediaRes = await this.submitMedia(res.public_id, res.url);
     if (!mediaRes.ok) {
       throw new Error('Cannot upload this file')
     };
     return res;
   }
 
-  async submitMedia(publicId: string) {
+  async submitMedia(publicId: string, url: string) {
     const token = localStorage.getItem('token');
-    const formData = new FormData();
-    formData.append("public_id", publicId);
-
     return fetch(API_URL + "/media", {
       method: "POST",
       body: JSON.stringify({
         public_id: publicId,
+        url: url
       }),
       headers: {
         'Authorization': 'Bearer ' + token,

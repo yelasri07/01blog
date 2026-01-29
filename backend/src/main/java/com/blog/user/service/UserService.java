@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
+import com.blog.media.dto.MediaInputDTO;
 import com.blog.media.model.MediaEntity;
 import com.blog.media.persistence.MediaRepository;
-import com.blog.user.dto.ProfileImageDTO;
 import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.dto.UserProfileOutputDTO;
 import com.blog.user.model.SubscribeEntity;
@@ -103,13 +103,20 @@ public class UserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateProfileImage(ProfileImageDTO file, UserEntity user) {
+    public void updateProfileImage(MediaInputDTO file, UserEntity user) {
         MediaEntity media = mediaRepository.findByPublicId(file.publicId())
                 .orElseThrow(() -> new NotFoundException("Whoops! file not found"));
 
         media.setIs_done(true);
         mediaRepository.save(media);
 
+        if (user.getProfile_image() != null) {
+            Optional<MediaEntity> existingMedia = mediaRepository.findByUrl(user.getProfile_image());
+            if (existingMedia.isPresent()) {
+                existingMedia.get().setIs_done(false);
+                mediaRepository.save(existingMedia.get());
+            }
+        }
         user.setProfile_image(file.url());
         userRepository.save(user);
     }

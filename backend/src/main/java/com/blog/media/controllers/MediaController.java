@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.blog.media.dto.MediaDto;
+import com.blog.media.dto.MediaInputDTO;
 import com.blog.media.services.MediaService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/media")
@@ -21,13 +24,13 @@ public class MediaController {
     }
 
     @PostMapping
-    public void post(@RequestBody Map<String, String> mediaData) {
+    public void post(@Valid @RequestBody MediaInputDTO mediaData) {
         this.MediaService.createMedia(mediaData);
     }
 
     @PostMapping("/signature")
-    public MediaDto getSignature() {
-        return MediaService.getSignature();
+    public MediaDto getSignature(@RequestBody Map<String, String> data) {
+        return MediaService.getSignature(data);
     }
 
 }

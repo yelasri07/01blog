@@ -10,9 +10,9 @@ export class CustomErrorHandlerService implements ErrorHandler {
 
   handleError(error: any): void {
     let errMessage: string;
-    if (error.error.detail) {
+    if (error?.error?.detail) {
       errMessage = error.error.detail
-    } else if (error.message) {
+    } else if (error?.message) {
       errMessage = error.message
     } else {
       errMessage = "Oops! something wrong."

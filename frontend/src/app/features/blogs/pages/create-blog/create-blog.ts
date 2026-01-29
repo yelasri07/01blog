@@ -74,7 +74,7 @@ export class CreateBlog {
   }
 
   private async uploadImage(file: File) {
-    const res = await this.mediaService.uploadFile(file);
+    const res = await this.mediaService.uploadFile(file, "blogImages");
     return {
       success: 1,
       file: {

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.user.dto.ProfileImageDTO;
+import com.blog.media.dto.MediaInputDTO;
 import com.blog.user.dto.SubscribeOutputDTO;
 import com.blog.user.dto.UserOutputDTO;
 import com.blog.user.dto.UserProfileOutputDTO;
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     @PatchMapping("/profileImage")
-    public UserProfileOutputDTO updateProfileImage(@Valid @RequestBody ProfileImageDTO file,
+    public UserProfileOutputDTO updateProfileImage(@Valid @RequestBody MediaInputDTO file,
             @AuthenticationPrincipal UserEntity user) {
         userService.updateProfileImage(file, user);
         return userService.getUser(user.getId(), user.getId());

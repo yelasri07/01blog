@@ -46,7 +46,7 @@ export class Profile implements OnInit {
     const ipt = event.target as HTMLInputElement;
     if (!ipt.files) return;
     const file = ipt.files[0];
-    const result = await this.mediaService.uploadFile(file)
+    const result = await this.mediaService.uploadFile(file, "profileImages")
     this.profileService.submitProfileImage(result.url, result.public_id).subscribe({
       next: response => {
         this.userProfile.set(response)
