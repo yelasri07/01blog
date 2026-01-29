@@ -18,4 +18,9 @@ export const layoutRoutes: Routes = [
         path: 'create-blog',
         loadComponent: () => import('../features/blogs/pages/create-blog/create-blog').then(m => m.CreateBlog)
     },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('../features/dashboard/dashboard').then(m => m.Dashboard),
+        loadChildren: () => import("../features/dashboard/dashboard.routes").then(m => m.dashboardRoutes)
+    },
 ]
