@@ -8,6 +8,6 @@ export const dashboardRoutes: Routes = [
     },
     {
         path: "users",
-        loadComponent: () => import("./pages/users/users").then(m => m.Users)
+        loadComponent: () => import("./pages/dashboard-users/dashboard-users").then(m => m.Users)
     }
 ]

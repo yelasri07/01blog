@@ -13,7 +13,7 @@ public class AuthMapper {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .role(user.getRole())
+                .role(user.getRole().toString())
                 .createdAt(user.getCreated_at())
                 .token(token)
                 .build();

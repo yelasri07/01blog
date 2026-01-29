@@ -2,7 +2,6 @@ package com.blog.user.dto;
 
 import java.sql.Timestamp;
 
-import com.blog.user.model.RoleEnum;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -14,14 +13,12 @@ public record UserOutputDTO(
         String username,
         String email,
         @JsonInclude(JsonInclude.Include.NON_NULL)
-        RoleEnum role,
+        @JsonProperty("profile_image")
+        String profileImage,
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        String role,
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String token,
-        @JsonProperty("its_me")
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        Boolean itsMe,
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        Boolean subscribe,
         @JsonProperty("created_at") Timestamp createdAt) {
 
 }

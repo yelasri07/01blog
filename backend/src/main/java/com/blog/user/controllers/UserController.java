@@ -2,6 +2,7 @@ package com.blog.user.controllers;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -36,9 +37,15 @@ public class UserController {
                 .id(user.getId())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .role(user.getRole())
+                .role(user.getRole().toString())
                 .createdAt(user.getCreated_at())
                 .build();
+    }
+
+    @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<UserOutputDTO> getUsers() {
+        return userService.getUsers();
     }
 
     @GetMapping("/{userId}")

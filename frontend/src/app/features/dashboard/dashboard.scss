@@ -58,4 +58,8 @@
 .data {
     padding: 0 40px;
     padding-top: 90px;
+
+    .title {
+        color: var(--text-secondary);
+    }
 }

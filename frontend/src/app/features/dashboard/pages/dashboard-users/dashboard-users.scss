@@ -1,0 +1,90 @@
+.users {
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 10px;
+        color: var(--text-secondary);
+
+        tr {
+            background: linear-gradient(170deg,
+            var(--bg-primary),
+            var(--bg-secondary));
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            position: relative;
+
+            // &:hover {
+            //     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+            // }
+
+            > span {
+                position: absolute;
+                right: 10px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 1.2em;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--color-secondary);
+                }
+            }
+        }
+
+        th {
+            text-align: left;
+            padding: 14px 18px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            background: transparent;
+        }
+
+        td {
+            padding: 14px 18px;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            vertical-align: middle;
+
+            &:first-child {
+                border-radius: 14px 0 0 14px;
+                color: var(--text-muted);
+                font-size: 0.85rem;
+            }
+
+            &.role {
+                border-radius: 0 14px 14px 0;
+            }
+
+            img {
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                object-fit: cover;
+                border: 2px solid var(--color-primary);
+            }
+
+            span {
+                margin-left: 10px;
+                font-weight: 500;
+            }
+        }
+
+        tr:first-child {
+            background: transparent;
+            box-shadow: none;
+
+            th {
+                padding-bottom: 10px;
+            }
+        }
+
+        td.role {
+            font-weight: 500;
+            color: var(--color-secondary);
+            text-transform: capitalize;
+        }
+    }
+
+}

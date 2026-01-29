@@ -1,0 +1,23 @@
+<div class="users">
+    <h4>Users</h4>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>username</th>
+            <th>email</th>
+            <th>role</th>
+        </tr>
+        @for (user of users(); track user.id) {
+            <tr>
+                <td>{{user.id}}</td>
+                <td><img [src]="user.profile_image || '/assets/images/profileImage.webp'" alt="profile image"> <span>{{user.username}}</span></td>
+                <td>{{user.email}}</td>
+                <td class="role">{{user.role}}</td>
+                <span class="config"><i class="bi bi-caret-down-fill"></i></span>
+                <div class="options">
+                    
+                </div>
+            </tr>
+        }
+    </table>
+</div>

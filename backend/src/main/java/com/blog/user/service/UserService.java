@@ -17,6 +17,7 @@ import com.blog.media.dto.MediaInputDTO;
 import com.blog.media.model.MediaEntity;
 import com.blog.media.persistence.MediaRepository;
 import com.blog.user.dto.SubscribeOutputDTO;
+import com.blog.user.dto.UserOutputDTO;
 import com.blog.user.dto.UserProfileOutputDTO;
 import com.blog.user.model.SubscribeEntity;
 import com.blog.user.model.UserEntity;
@@ -55,6 +56,10 @@ public class UserService implements UserDetailsService {
     public UserProfileOutputDTO getUser(Long profileUserId, Long userId) {
         return userRepository.findUserProfile(profileUserId, userId)
                 .orElseThrow(() -> new NotFoundException("Whoops! user not found"));
+    }
+
+    public List<UserOutputDTO> getUsers() {
+        return userRepository.findAllUsers();
     }
 
     public String createSubscribe(Long subscribedToId, UserEntity user) {
