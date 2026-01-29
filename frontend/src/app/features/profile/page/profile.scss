@@ -24,16 +24,20 @@
 
     .profile-picture {
         position: relative;
+        width: 180px;
+        height: 180px;
+        background-color: var(--text-primary);
+        border-radius: 50%;
+        border: 3px solid var(--color-primary);
 
         img {
-            width: 180px;
-            height: 180px;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--color-primary);
         }
 
-        > div {
+        >div {
             position: absolute;
             bottom: -15px;
             right: 0px;
@@ -52,6 +56,72 @@
             input {
                 display: none;
             }
+        }
+    }
+
+    .loader {
+        width: 65px;
+        aspect-ratio: 1;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .loader:before,
+    .loader:after {
+        content: "";
+        position: absolute;
+        border-radius: 50px;
+        box-shadow: 0 0 0 3px inset var(--bg-primary);
+        animation: l4 2.5s infinite;
+    }
+
+    .loader:after {
+        animation-delay: -1.25s;
+    }
+
+    @keyframes l4 {
+        0% {
+            inset: 0 35px 35px 0;
+        }
+
+        12.5% {
+            inset: 0 35px 0 0;
+        }
+
+        25% {
+            inset: 35px 35px 0 0;
+        }
+
+        37.5% {
+            inset: 35px 0 0 0;
+        }
+
+        50% {
+            inset: 35px 0 0 35px;
+        }
+
+        62.5% {
+            inset: 0 0 0 35px;
+        }
+
+        75% {
+            inset: 0 0 35px 35px;
+        }
+
+        87.5% {
+            inset: 0 0 35px 0;
+        }
+
+        100% {
+            inset: 0 35px 35px 0;
+        }
+    }
+
+    @keyframes l1 {
+        100% {
+            box-shadow: 0 0 0 30px #0000
         }
     }
 

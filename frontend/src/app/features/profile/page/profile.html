@@ -4,6 +4,9 @@
 <section class="profile row">
     <div class="profile-infos col-4">
         <div class="profile-picture">
+            @if (loader()) {
+            <div class="loader"></div>
+            } @else {
             <img [src]="userProfile()?.profile_image || '/assets/images/profileImage.webp'" alt="profile-picture">
             @if (userProfile()?.id !== currentUser()?.id) {
             <div class="subscribe">
@@ -13,11 +16,12 @@
                 <span (click)="addFollow()"><i class="bi bi-check"></i></span>
                 }
             </div>
-            } @else {
+            } @else if (!loader()) {
             <div class="update-picture">
                 <label for="upload-image"><i class="bi bi-camera"></i></label>
                 <input (input)="uploadImage($event)" id="upload-image" type="file">
             </div>
+            }
             }
         </div>
         <div class="infos">

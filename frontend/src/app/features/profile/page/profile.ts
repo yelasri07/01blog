@@ -5,6 +5,7 @@ import { ProfileService } from '../services/profile.service';
 import { BlogsComponent } from '../../../shared/components/blogs.component/blogs.component';
 import { AuthStateService } from '../../../core/services/auth.state.service';
 import { MediaService } from '../../../core/services/media.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-page',
@@ -21,6 +22,7 @@ export class Profile implements OnInit {
 
   showNotFoundError = signal(false);
   userProfile = signal<User | null>(null);
+  loader = signal(true);
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -46,22 +48,31 @@ export class Profile implements OnInit {
     const ipt = event.target as HTMLInputElement;
     if (!ipt.files) return;
     const file = ipt.files[0];
-    const result = await this.mediaService.uploadFile(file, "profileImages")
-    this.profileService.submitProfileImage(result.url, result.public_id).subscribe({
-      next: response => {
-        this.userProfile.set(response)
-      }
-    })
+    this.loader.set(true);
+    try {
+      const result = await this.mediaService.uploadFile(file, "profileImages")
+      this.profileService.submitProfileImage(result.url, result.public_id).subscribe({
+        next: response => {
+          this.userProfile.set(response)
+        }
+      })
+    } finally {
+      this.loader.set(false)
+    }
   }
 
   private fetchProfile(userId: number) {
-    this.profileService.getUserProfile(userId).subscribe({
+    this.profileService.getUserProfile(userId).pipe(
+      finalize(() => {
+        this.loader.set(false)
+      })
+    ).subscribe({
       next: response => {
         this.userProfile.set(response)
       },
       error: _ => {
         this.showNotFoundError.set(true)
-      }
+      },
     })
   }
 
