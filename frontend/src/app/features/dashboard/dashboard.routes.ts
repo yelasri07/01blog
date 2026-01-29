@@ -4,7 +4,7 @@ export const dashboardRoutes: Routes = [
     {
         path: '',
         pathMatch: 'full',
-        redirectTo: "users"
+        loadComponent: () => import("./pages/dashboard-home/dashboard-home").then(m => m.DashboardHome)
     },
     {
         path: "users",

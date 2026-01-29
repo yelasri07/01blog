@@ -14,5 +14,10 @@ export const routes: Routes = [
         canActivateChild: [loginRegisterGuard],
         loadComponent: () => import('./features/auth/auth').then(m => m.Auth),
         loadChildren: () => import('./features/auth/auth.routes').then(m => m.authRoutes)
-    }
+    },
+    {
+        path: 'dashboard',
+        loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
+        loadChildren: () => import("./features/dashboard/dashboard.routes").then(m => m.dashboardRoutes)
+    },
 ];
