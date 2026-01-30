@@ -17,4 +17,8 @@ export class DashboardService {
     return this.http.put(API_URL + `/users/${userId}/ban`, {})
   }
 
+  submitDelete(userId: number) {
+    return this.http.delete(API_URL + `/users/${userId}`)
+  }
+
 }

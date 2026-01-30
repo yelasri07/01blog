@@ -5,6 +5,7 @@ import { CdkAriaLive } from "../../../../../../node_modules/@angular/cdk/types/_
 import { RouterLink } from "@angular/router";
 import { use } from 'marked';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
+import { needConfirmation } from '../../../../shared/decorators/confirm-dialog.decorator';
 
 @Component({
   selector: 'app-users',
@@ -35,6 +36,7 @@ export class Users implements OnInit {
     }
   }
 
+  @needConfirmation()
   banUser(userId: number) {
     this.dashboardService.submitBan(userId).subscribe(response => {
       this.users.set(
@@ -44,6 +46,15 @@ export class Users implements OnInit {
           }
           return user
         }) ?? []
+      )
+    })
+  }
+
+  @needConfirmation()
+  deleteUser(userId: number) {
+    this.dashboardService.submitDelete(userId).subscribe(response => {
+      this.users.set(
+        this.users()?.filter(user => user.id !== userId) ?? []
       )
     })
   }

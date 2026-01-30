@@ -151,4 +151,18 @@ public class UserService implements UserDetailsService {
                 "banned_status", bannedUser.getIs_banned());
     }
 
+    public Map<String, String> deleteUser(Long deletedUserId, UserEntity user) {
+        if (deletedUserId.equals(user.getId())) {
+            throw new BadRequestException("Do you want to delete yourself?");
+        }
+
+        UserEntity deletedUser = userRepository.findById(deletedUserId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        userRepository.delete(deletedUser);
+
+        return Map.of(
+                "message", "User deleted successfully");
+    }
+
 }
