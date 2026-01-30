@@ -78,4 +78,8 @@ public class BlogService {
         blog.setTitle(blogData.title());
         return blogRepository.save(blog);
     }
+
+    public List<BlogEntity> getDashboardBlogs() {
+        return blogRepository.findAll();
+    }
 }

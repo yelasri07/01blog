@@ -9,5 +9,9 @@ export const dashboardRoutes: Routes = [
     {
         path: "users",
         loadComponent: () => import("./pages/dashboard-users/dashboard-users").then(m => m.Users)
+    },
+    {
+        path: "blogs",
+        loadComponent: () => import("./pages/dashboard-blogs/dashboard-blogs").then(m => m.DashboardBlogs)
     }
 ]
