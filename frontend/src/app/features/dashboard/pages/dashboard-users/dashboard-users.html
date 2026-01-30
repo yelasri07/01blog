@@ -24,13 +24,13 @@
             </span>
             @if (showOptions() == user.id) {
             <div class="options">
-                <p [routerLink]="['/profile', user.id]" class="m-0">Show profile</p>
+                <p [routerLink]="['/profile', user.id]" class="m-0">show profile</p>
                 @if (user.id != currentUser()?.id) {
                 <p (click)="banUser(user.id)" class="m-0">
                     @if (user.is_banned) {
-                    Unban user
+                    unban user
                     } @else {
-                    Ban user
+                    ban user
                     }
                 </p>
                 <p (click)="deleteUser(user.id)" class="m-0 delete">delete user</p>

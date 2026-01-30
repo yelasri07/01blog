@@ -41,6 +41,7 @@ public class BlogEntity {
     private Timestamp created_at;
     private Long like_count;
     private Long comment_count;
+    private Boolean is_hidden;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

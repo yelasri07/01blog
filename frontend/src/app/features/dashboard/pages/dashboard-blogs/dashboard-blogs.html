@@ -1,1 +1,37 @@
-<p>dashboard-blogs works!</p>
+<div class="blogs">
+    <h4>Users</h4>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>created at</th>
+        </tr>
+        @for (blog of blogs(); track blog.id) {
+        <tr>
+            <td>{{blog.id}}</td>
+            <td>{{blog.title}}</td>
+            <td>{{blog.created_at | dateFormat}}</td>
+            <span (click)="displayOptions($event, blog.id)" class="config">
+                @if (showOptions() == blog.id) {
+                <i class="bi bi-caret-up-fill"></i>
+                } @else {
+                <i class="bi bi-caret-down-fill"></i>
+                }
+            </span>
+            @if (showOptions() == blog.id) {
+            <div class="options">
+                <p [routerLink]="['/blogs', blog.id]" class="m-0">show blog</p>
+                <p class="m-0">
+                    @if (blog.is_hidden) {
+                    to visible
+                    } @else {
+                    to hidden
+                    }
+                </p>
+                <p class="m-0 delete">delete blog</p>
+            </div>
+            }
+        </tr>
+        }
+    </table>
+</div>

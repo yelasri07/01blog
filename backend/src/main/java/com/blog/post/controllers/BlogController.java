@@ -21,6 +21,7 @@ import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogsOutputDTO;
 import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateBlogDTO;
+import com.blog.post.dto.DashboardBlogsOutputDTO;
 import com.blog.post.mapper.BlogMapper;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.service.BlogService;
@@ -64,7 +65,7 @@ public class BlogController {
 
     @GetMapping("dashboard")
     @PreAuthorize("hasRole('ADMIN')")
-    public List<BlogEntity> getDashboardBlogs() {
+    public List<DashboardBlogsOutputDTO> getDashboardBlogs() {
         return blogService.getDashboardBlogs();
     }
 

@@ -10,6 +10,7 @@ import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogsOutputDTO;
 import com.blog.post.dto.CreateBlogDTO;
+import com.blog.post.dto.DashboardBlogsOutputDTO;
 import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
 import com.blog.user.model.RoleEnum;
@@ -79,7 +80,7 @@ public class BlogService {
         return blogRepository.save(blog);
     }
 
-    public List<BlogEntity> getDashboardBlogs() {
-        return blogRepository.findAll();
+    public List<DashboardBlogsOutputDTO> getDashboardBlogs() {
+        return blogRepository.findAllBlogs();
     }
 }

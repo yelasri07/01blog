@@ -1,0 +1,2 @@
+ALTER TABLE blog
+ADD COLUMN is_hidden BOOLEAN
