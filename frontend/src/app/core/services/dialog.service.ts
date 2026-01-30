@@ -20,7 +20,7 @@ export class DialogService {
   openDialog<T>(data: any, component: ComponentType<T>): Observable<boolean> {
     return this.matDialog.open(component, {
       data: data,
-      disableClose: true,
+      // disableClose: true,
     }).afterClosed();
 
   }

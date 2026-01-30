@@ -1,0 +1,77 @@
+.confrimation {
+    background: linear-gradient(145deg, var(--bg-primary), var(--bg-secondary));
+    border-radius: 16px;
+    padding: 20px;
+    min-width: 320px;
+    color: var(--text-primary);
+
+    /* dialog depth */
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.35),
+        0 5px 15px rgba(0, 0, 0, 0.2);
+
+    .header {
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+        h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            color: var(--color-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    [mat-dialog-content] {
+        padding: 16px 4px;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        color: var(--text-muted);
+        text-align: center;
+    }
+
+    [mat-dialog-actions] {
+        margin: -10px 0;
+
+        button {
+            min-width: 90px;
+            border-radius: 10px;
+            text-transform: none;
+            font-weight: 500;
+            box-shadow: none;
+            text-align: end;
+        }
+
+        button[mat-dialog-close="false"] {
+            background-color: transparent;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+
+            &:hover {
+                background: rgba(255, 255, 255, 0.05);
+            }
+        }
+
+        button[color="primary"] {
+            background: linear-gradient(
+                145deg,
+                var(--accent-primary),
+                var(--accent-secondary)
+            );
+            color: var(--text-primary);
+
+            &:hover {
+                filter: brightness(1.05);
+            }
+        }
+    }
+}
+
+::ng-deep {
+    .mat-mdc-dialog-surface {
+        background-color: transparent !important;
+    }
+}
