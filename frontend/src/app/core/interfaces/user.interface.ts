@@ -7,6 +7,7 @@ export interface User {
     profile_image?: string,
     followers_count?: number,
     following_count?: number,
+    is_banned: boolean,
     subscribe?: boolean,
     created_at: Date
 }

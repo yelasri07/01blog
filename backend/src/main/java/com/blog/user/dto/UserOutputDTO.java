@@ -19,6 +19,8 @@ public record UserOutputDTO(
         String role,
         @JsonInclude(JsonInclude.Include.NON_NULL)
         String token,
-        @JsonProperty("created_at") Timestamp createdAt) {
+        @JsonProperty("created_at") Timestamp createdAt,
+        @JsonProperty("is_banned")
+        Boolean isBanned) {
 
 }

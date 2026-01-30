@@ -1,5 +1,5 @@
 <div class="blog-header d-flex align-items-center justify-content-between">
-    <p [routerLink]="['profile', blog()?.user_id]" class="d-flex align-items-center gap-3 m-0"><img [src]="blog()?.profile_image || '/assets/images/profileImage.webp'">
+    <p [routerLink]="['/profile', blog()?.user_id]" class="d-flex align-items-center gap-3 m-0"><img [src]="blog()?.profile_image || '/assets/images/profileImage.webp'">
         <span>{{ blog()?.username }}</span></p>
     <span class="updated-at"> {{ blog()?.created_at | dateFormat }} </span>
 </div>

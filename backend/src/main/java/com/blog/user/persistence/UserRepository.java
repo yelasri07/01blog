@@ -40,7 +40,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
         nativeQuery = true,
         value = 
         """
-            SELECT u.id, u.username, u.email, u.profile_image, u.role, NULL as token, u.created_at
+            SELECT u.id, u.username, u.email, u.profile_image, u.role, NULL as token, u.created_at, u.is_banned
             FROM users u
             ORDER BY u.id
                 """

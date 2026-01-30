@@ -24,6 +24,7 @@ export class BlogsComponent implements OnChanges {
     if (location.pathname.startsWith('/profile/') && !changes.profileUserId?.currentValue) return;
     if (location.pathname.startsWith('/profile/')) {
       this.blogs.set([])
+      this.isAbleToFetchBlogs.set(false)
     }
     this.fetchBlogs()
   }

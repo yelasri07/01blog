@@ -1,6 +1,7 @@
 package com.blog.user.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -75,5 +77,12 @@ public class UserController {
             @AuthenticationPrincipal UserEntity user) {
         userService.updateProfileImage(file, user);
         return userService.getUser(user.getId(), user.getId());
+    }
+
+    @PutMapping("{userId}/ban")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Object> banUser(@PathVariable("userId") Long bannedUserId,
+            @AuthenticationPrincipal UserEntity user) {
+        return userService.banUser(bannedUserId, user);
     }
 }

@@ -4,10 +4,11 @@ import java.io.IOException;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.blog.exception.UnauthorizedException;
+import com.blog.user.model.UserEntity;
 import com.blog.user.service.UserService;
 
 import jakarta.servlet.FilterChain;
@@ -39,7 +40,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String token = authorization.substring(7);
                 Long user_id = jwtService.getIdFromToken(token);
                 if (user_id != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                    UserDetails userDetails = userService.loadUserById(user_id);
+                    UserEntity userDetails = (UserEntity) userService.loadUserById(user_id);
+                    if (userDetails.getIs_banned()) {
+                        throw new UnauthorizedException("Account banned");
+                    }
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
 

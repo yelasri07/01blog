@@ -3,6 +3,7 @@ package com.blog.user.service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -124,6 +125,30 @@ public class UserService implements UserDetailsService {
         }
         user.setProfile_image(file.url());
         userRepository.save(user);
+    }
+
+    public Map<String, Object> banUser(Long bannedUserId, UserEntity user) {
+        if (bannedUserId.equals(user.getId())) {
+            throw new BadRequestException("Do you want to ban/unban yourself?");
+        }
+
+        UserEntity bannedUser = userRepository.findById(bannedUserId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+
+        bannedUser.setIs_banned(!bannedUser.getIs_banned());
+        userRepository.save(bannedUser);
+
+        String message;
+        if (bannedUser.getIs_banned()) {
+            message = "User banned successfully";
+        } else {
+            message = "User unbanned successfully";
+        }
+
+        return Map.of(
+                "message", message,
+                "user_id", bannedUser.getId(),
+                "banned_status", bannedUser.getIs_banned());
     }
 
 }

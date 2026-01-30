@@ -39,6 +39,7 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleEnum role;
     private Timestamp created_at;
+    private Boolean is_banned;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

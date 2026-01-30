@@ -10,8 +10,11 @@ export class DashboardService {
   private http = inject(HttpClient);
 
   getUsers() {
-    return  this.http.get<User[]>(API_URL + "/users");
+    return this.http.get<User[]>(API_URL + "/users");
   }
- 
+
+  submitBan(userId: number) {
+    return this.http.put(API_URL + `/users/${userId}/ban`, {})
+  }
 
 }

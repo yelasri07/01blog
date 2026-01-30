@@ -8,16 +8,36 @@
             <th>role</th>
         </tr>
         @for (user of users(); track user.id) {
-            <tr>
-                <td>{{user.id}}</td>
-                <td><img [src]="user.profile_image || '/assets/images/profileImage.webp'" alt="profile image"> <span>{{user.username}}</span></td>
-                <td>{{user.email}}</td>
-                <td class="role">{{user.role}}</td>
-                <span class="config"><i class="bi bi-caret-down-fill"></i></span>
-                <div class="options">
-                    
-                </div>
-            </tr>
+        <tr>
+            <td>{{user.id}}</td>
+            <td><img [src]="user.profile_image || '/assets/images/profileImage.webp'" alt="profile image">
+                <span>{{user.username}}</span>
+            </td>
+            <td>{{user.email}}</td>
+            <td class="role">{{user.role}}</td>
+            <span (click)="displayOptions($event, user.id)" class="config">
+                @if (showOptions() == user.id) {
+                <i class="bi bi-caret-up-fill"></i>
+                } @else {
+                <i class="bi bi-caret-down-fill"></i>
+                }
+            </span>
+            @if (showOptions() == user.id) {
+            <div class="options">
+                <p [routerLink]="['/profile', user.id]" class="m-0">Show profile</p>
+                @if (user.id != currentUser()?.id) {
+                <p (click)="banUser(user.id)" class="m-0">
+                    @if (user.is_banned) {
+                    Unban user
+                    } @else {
+                    Ban user
+                    }
+                </p>
+                <p class="m-0 delete">delete user</p>
+                }
+            </div>
+            }
+        </tr>
         }
     </table>
 </div>

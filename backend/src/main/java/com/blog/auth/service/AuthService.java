@@ -43,6 +43,7 @@ public class AuthService {
                 .password(passwordEncoder.encode(userData.getPassword()))
                 .created_at(new Timestamp(System.currentTimeMillis()))
                 .role(RoleEnum.USER)
+                .is_banned(false)
                 .build();
 
         return userRepository.save(user);
@@ -62,6 +63,9 @@ public class AuthService {
                     new UsernamePasswordAuthenticationToken(userData.getUsername(), userData.getPassword()));
 
             UserEntity user = (UserEntity) authentication.getPrincipal();
+            if (user.getIs_banned()) {
+                throw new UnauthorizedException("Account banned");
+            }
 
             return user;
         } catch (AuthenticationException ex) {
