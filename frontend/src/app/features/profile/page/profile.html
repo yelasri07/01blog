@@ -3,6 +3,16 @@
 } @else {
 <section class="profile row">
     <div class="profile-infos col-4">
+        <div class="options">
+            <span (click)="changeOptionsVisibility($event)">
+                ...
+            </span>
+            @if (showOptions()) {
+            <div (click)="showReportModal()" class="dropdown-options shadow">
+                <p class="m-0 text-danger">Report <i class="bi bi-flag-fill"></i></p>
+            </div>
+            }
+        </div>
         <div class="profile-picture">
             @if (loader()) {
             <div class="loader"></div>
@@ -34,4 +44,7 @@
         <app-blogs [profileUserId]="userProfile()?.id || 0" />
     </div>
 </section>
+}
+@if (isReportModalVisible()) {
+<app-report-modal (close)="hideReportModal()" (submit)="handleSubmitReport($event)" />
 }

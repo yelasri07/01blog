@@ -1,0 +1,43 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999;
+}
+
+.report-modal {
+    padding: 15px 30px;
+    border-radius: 20px;
+    width: 450px;
+    background-color: var(--bg-primary);
+
+    .report-header {
+        border-bottom: 1px solid var(--bg-secondary);
+        padding-bottom: 10px;
+    }
+
+    textarea {
+        resize: none;
+        border-radius: 20px;
+        outline: none;
+        background-color: transparent;
+        color: var(--text-primary);
+        padding: 10px 20px;
+        border: 1px solid var(--bg-secondary);
+    }
+
+    button {
+        padding: 5px 4px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        background: none;
+        color: var(--text-secondary);
+    }
+}

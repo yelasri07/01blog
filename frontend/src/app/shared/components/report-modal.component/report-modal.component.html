@@ -1,0 +1,12 @@
+<div class="modal-overlay">
+    <div class="report-modal shadow-lg d-flex flex-column gap-2">
+        <h3 class="report-header">
+            Modal title
+        </h3>
+            <textarea #textarea formControlName="content" class="w-100" placeholder="Type..."></textarea>
+            <div class="report-footer d-flex justify-content-end gap-3">
+                <button (click)="closeModal()">Close</button>
+                <button (click)="submitReport()">Submit</button>
+            </div>
+    </div>
+</div>

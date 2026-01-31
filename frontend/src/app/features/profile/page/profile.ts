@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from '../../../core/interfaces/user.interface';
 import { ProfileService } from '../services/profile.service';
@@ -6,10 +6,12 @@ import { BlogsComponent } from '../../../shared/components/blogs.component/blogs
 import { AuthStateService } from '../../../core/services/auth.state.service';
 import { MediaService } from '../../../core/services/media.service';
 import { finalize } from 'rxjs';
+import { ReportModalComponent } from "../../../shared/components/report-modal.component/report-modal.component";
+import { needConfirmation } from '../../../shared/decorators/confirm-dialog.decorator';
 
 @Component({
   selector: 'app-page',
-  imports: [BlogsComponent],
+  imports: [BlogsComponent, ReportModalComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -19,6 +21,8 @@ export class Profile implements OnInit {
   private authStateService = inject(AuthStateService);
   private mediaService = inject(MediaService)
   currentUser = signal(this.authStateService.getCurrentUser());
+  showOptions = signal(false);
+  isReportModalVisible = signal(false);
 
   showNotFoundError = signal(false);
   userProfile = signal<User | null>(null);
@@ -44,6 +48,11 @@ export class Profile implements OnInit {
     })
   }
 
+  changeOptionsVisibility(event: MouseEvent) {
+    event.stopPropagation();
+    this.showOptions.update(prev => !prev);
+  }
+
   async uploadImage(event: Event) {
     const ipt = event.target as HTMLInputElement;
     if (!ipt.files) return;
@@ -61,6 +70,19 @@ export class Profile implements OnInit {
     }
   }
 
+  @needConfirmation()
+  handleSubmitReport(content: string) {
+    console.log(content)
+  }
+
+  hideReportModal() {
+    this.isReportModalVisible.set(false)
+  }
+
+  showReportModal() {
+    this.isReportModalVisible.set(true)
+  }
+
   private fetchProfile(userId: number) {
     this.profileService.getUserProfile(userId).pipe(
       finalize(() => {
@@ -74,6 +96,11 @@ export class Profile implements OnInit {
         this.showNotFoundError.set(true)
       },
     })
+  }
+
+  @HostListener("document:click")
+  hideOptions() {
+    this.showOptions.set(false)
   }
 
 }
