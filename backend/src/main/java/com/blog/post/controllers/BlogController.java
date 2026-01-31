@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -93,5 +94,11 @@ public class BlogController {
             @AuthenticationPrincipal UserEntity user) {
         BlogEntity blog = blogService.updateBlog(blogId, blogData, user);
         return blogMapper.toBlogOutputDTO(blog, false);
+    }
+
+    @PatchMapping("/{blogId}/visibility")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Map<String, Object> blogVisibility(@PathVariable Long blogId) {
+        return blogService.changeBlogVisibility(blogId);
     }
 }

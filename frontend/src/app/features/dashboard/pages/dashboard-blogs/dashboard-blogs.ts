@@ -3,10 +3,12 @@ import { DashboardService } from '../../services/dashboard-service';
 import { blogInterface } from '../../../blogs/interfaces/blog.interface';
 import { DateFormatPipe } from '../../../../shared/pipes/date-format-pipe';
 import { RouterLink } from "@angular/router";
+import { needConfirmation } from '../../../../shared/decorators/confirm-dialog.decorator';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard-blogs',
-  imports: [DateFormatPipe, RouterLink],
+  imports: [DateFormatPipe, RouterLink, NgClass],
   templateUrl: './dashboard-blogs.html',
   styleUrl: './dashboard-blogs.scss',
 })
@@ -19,6 +21,29 @@ export class DashboardBlogs implements OnInit {
   ngOnInit(): void {
     this.dashboardService.getBlogs().subscribe(response => {
       this.blogs.set(response)
+    })
+  }
+
+  @needConfirmation()
+  hideBlog(blogId: number) {
+    this.dashboardService.submitHideBlog(blogId).subscribe(response => {
+      this.blogs.set(
+        this.blogs()?.map(blog => {
+          if (blog.id === blogId) {
+            blog.is_hidden = !blog.is_hidden
+          }
+          return blog
+        }) ?? []
+      )
+    })
+  }
+
+  @needConfirmation()
+  deleteBlog(blogId: number) {
+    this.dashboardService.submitDeleteBlog(blogId).subscribe(response => {
+      this.blogs.set(
+        this.blogs()?.filter(blog => blog.id !== blogId) ?? []
+      )
     })
   }
 

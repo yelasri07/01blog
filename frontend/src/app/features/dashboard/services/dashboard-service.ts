@@ -18,12 +18,20 @@ export class DashboardService {
     return this.http.get<blogInterface[]>(API_URL + "/blogs/dashboard")
   }
 
-  submitBan(userId: number) {
-    return this.http.put(API_URL + `/users/${userId}/ban`, {})
+  submitBanUser(userId: number) {
+    return this.http.patch(API_URL + `/users/${userId}/ban`, {})
   }
 
-  submitDelete(userId: number) {
+  submitDeleteUser(userId: number) {
     return this.http.delete(API_URL + `/users/${userId}`)
+  }
+
+  submitHideBlog(blogId: number) {
+    return this.http.patch(API_URL + `/blogs/${blogId}/visibility`, {})
+  }
+
+  submitDeleteBlog(blogId: number) {
+    return this.http.delete(API_URL + `/blogs/${blogId}`)
   }
 
 }

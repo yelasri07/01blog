@@ -1,15 +1,14 @@
 import { Component, HostListener, inject, OnInit, signal } from '@angular/core';
 import { DashboardService } from '../../services/dashboard-service';
 import { User } from '../../../../core/interfaces/user.interface';
-import { CdkAriaLive } from "../../../../../../node_modules/@angular/cdk/types/_a11y-module-chunk";
 import { RouterLink } from "@angular/router";
-import { use } from 'marked';
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { needConfirmation } from '../../../../shared/decorators/confirm-dialog.decorator';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-users',
-  imports: [RouterLink],
+  imports: [RouterLink, NgClass],
   templateUrl: './dashboard-users.html',
   styleUrl: './dashboard-users.scss',
 })
@@ -38,7 +37,7 @@ export class Users implements OnInit {
 
   @needConfirmation()
   banUser(userId: number) {
-    this.dashboardService.submitBan(userId).subscribe(response => {
+    this.dashboardService.submitBanUser(userId).subscribe(response => {
       this.users.set(
         this.users()?.map<User>(user => {
           if (user.id === userId) {
@@ -52,7 +51,7 @@ export class Users implements OnInit {
 
   @needConfirmation()
   deleteUser(userId: number) {
-    this.dashboardService.submitDelete(userId).subscribe(response => {
+    this.dashboardService.submitDeleteUser(userId).subscribe(response => {
       this.users.set(
         this.users()?.filter(user => user.id !== userId) ?? []
       )

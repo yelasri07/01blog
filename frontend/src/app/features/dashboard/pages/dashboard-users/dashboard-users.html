@@ -5,6 +5,7 @@
             <th>id</th>
             <th>username</th>
             <th>email</th>
+            <th>status</th>
             <th>role</th>
         </tr>
         @for (user of users(); track user.id) {
@@ -14,6 +15,13 @@
                 <span>{{user.username}}</span>
             </td>
             <td>{{user.email}}</td>
+            <td [ngClass]="{'text-danger':user.is_banned, 'text-success': !user.is_banned}">
+                @if (user.is_banned) {
+                Banned
+                } @else {
+                Active
+                }
+            </td>
             <td class="role">{{user.role}}</td>
             <span (click)="displayOptions($event, user.id)" class="config">
                 @if (showOptions() == user.id) {

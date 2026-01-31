@@ -67,7 +67,12 @@ public class BlogService {
     }
 
     public Map<String, String> deleteBlog(Long blogId, UserEntity user) {
-        BlogEntity blog = this.getBlogById(blogId, user);
+        BlogEntity blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new NotFoundException("Blog not found"));
+
+        if (!user.getId().equals(blog.getUser().getId()) && !user.getRole().equals(RoleEnum.ADMIN)) {
+            throw new ForbiddenException("Access denied");
+        }
 
         blogRepository.delete(blog);
         return Map.of("message", "Blog deleted successfully");
@@ -82,5 +87,27 @@ public class BlogService {
 
     public List<DashboardBlogsOutputDTO> getDashboardBlogs() {
         return blogRepository.findAllBlogs();
+    }
+
+    public Map<String, Object> changeBlogVisibility(Long blogId) {
+        BlogEntity blog = blogRepository.findById(blogId)
+                .orElseThrow(() -> new NotFoundException("Blog not found"));
+
+        if (blog.getIs_hidden() == null) {
+            blog.setIs_hidden(true);
+        } else {
+            blog.setIs_hidden(!blog.getIs_hidden());
+        }
+        blogRepository.save(blog);
+
+        String message = "The blog is visible";
+        if (blog.getIs_hidden()) {
+            message = "The blog is hidden";
+        }
+
+        return Map.of(
+                "message", message,
+                "blog_id", blog.getId(),
+                "is_hidden", blog.getIs_hidden());
     }
 }
