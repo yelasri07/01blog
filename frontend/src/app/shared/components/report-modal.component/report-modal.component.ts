@@ -29,7 +29,7 @@ export class ReportModalComponent {
   handleSubmitReport() {
     const reason = this.textarea?.nativeElement.value ?? ""
 
-    this.reportService.submitReport(reason, 55, this.reportType()).subscribe({
+    this.reportService.submitReport(reason, this.targetId(), this.reportType()).subscribe({
       next: res => {
         this.close.emit(res.message);
       },

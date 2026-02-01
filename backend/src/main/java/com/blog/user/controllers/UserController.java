@@ -41,6 +41,7 @@ public class UserController {
                 .email(user.getEmail())
                 .role(user.getRole().toString())
                 .createdAt(user.getCreated_at())
+                .profileImage(user.getProfile_image())
                 .build();
     }
 

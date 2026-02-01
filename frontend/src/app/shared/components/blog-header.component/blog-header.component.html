@@ -1,5 +1,24 @@
 <div class="blog-header d-flex align-items-center justify-content-between">
-    <p [routerLink]="['/profile', blog()?.user_id]" class="d-flex align-items-center gap-3 m-0"><img [src]="blog()?.profile_image || '/assets/images/profileImage.webp'">
-        <span>{{ blog()?.username }}</span></p>
+    <p [routerLink]="['/profile', blog()?.user_id]" class="d-flex align-items-center gap-3 m-0"><img
+            [src]="blog()?.profile_image || '/assets/images/profileImage.webp'">
+        <span>{{ blog()?.username }}</span>
+    </p>
     <span class="updated-at"> {{ blog()?.created_at | dateFormat }} </span>
+    <div (click)="showOptions($event)" class="options">
+        <span>
+            ...
+        </span>
+        @if (isVisibleOptions()) {
+        <div (click)="showReportModal()" class="dropdown-options shadow">
+            <p class="m-0 text-danger">Report <i class="bi bi-flag-fill"></i></p>
+        </div>
+        }
+    </div>
 </div>
+@if (isVisibleModalReport()) {
+<app-report-modal [targetId]="blog()?.id!" [reportType]="'BLOG'" [modalTitle]="'Report blog'"
+    (close)="hideReportModal($event)" />
+}
+@if (isVisibleSuccessPopup()) {
+<app-success-popup [message]="isVisibleSuccessPopup()" (close)="hideSuccessPopup()" />
+}

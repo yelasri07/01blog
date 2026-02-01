@@ -4,17 +4,18 @@
             <a [routerLink]="'/'" class="logo">01BLOG</a>
             <app-search-input />
         </div>
-       
+
         <div class="end d-flex align-items-center gap-4">
             <ul class="list-unstyled d-flex m-0 gap-4">
                 <li routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">Home</li>
-                <li  routerLink="/dashboard" [routerLinkActive]="['active']">Dashboard</li>
-                <li routerLink="/create-blog" [routerLinkActive]="['active']" class="d-flex align-items-center gap-2">Write <i class="bi bi-book"></i></li>
+                <li routerLink="/dashboard" [routerLinkActive]="['active']">Dashboard</li>
+                <li routerLink="/create-blog" [routerLinkActive]="['active']" class="d-flex align-items-center gap-2">
+                    Write <i class="bi bi-book"></i></li>
             </ul>
-            
+
             <div class="profile">
                 <button (click)="dropdownProfile($event)">
-                    <i class="bi bi-person-fill"></i>
+                    <img [src]="userInfos()?.profile_image || '/assets/images/profileImage.webp'" alt="profile-picture">
                     <div class="arrow">
                         @if (!showDropdown()) {
                         <i class="bi bi-arrow-down-short"></i>
@@ -24,7 +25,7 @@
                     </div>
                     @if (showDropdown()) {
                     <div class="dropdownSection shadow">
-                        <p [routerLink]="['/profile', userInfos()?.id]"  class="username">{{ userInfos()?.username }}</p>
+                        <p [routerLink]="['/profile', userInfos()?.id]" class="username">{{ userInfos()?.username }}</p>
 
                         <div class="divider"></div>
 
