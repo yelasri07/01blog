@@ -12,6 +12,8 @@
         </div>
         <app-blog-footer [(blog)]="blog" />
     </div>
+    } @empty {
+        <p>No blogs</p>
     }
     <div appIntersectionobserver (isIntersecting)="onFetchNextBlogSet($event)"></div>
 </div>

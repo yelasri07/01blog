@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 
 public record ReportInputDTO(
     @NotBlank(message = "Reason should not be empty")
-    @Size(min = 15, max = 2000, message = "Reason should be between 15 and 2000 characters")
+    @Size(min = 5, max = 2000, message = "Reason should be between 5 and 2000 characters")
     String reason,
     @NotNull(message = "Report type should not be null" )
     String type,

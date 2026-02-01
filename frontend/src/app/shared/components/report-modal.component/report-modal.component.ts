@@ -18,6 +18,8 @@ export class ReportModalComponent {
 
   targetId = input.required<number>();
   reportType = input.required<"USER" | "BLOG">();
+  modalTitle = input.required<string>()
+  showReasonError = signal("");
 
   closeModal() {
     this.close.emit("");
@@ -25,12 +27,18 @@ export class ReportModalComponent {
 
   @needConfirmation()
   handleSubmitReport() {
-    this.reportService.submitReport(this.textarea?.nativeElement.value ?? "", this.targetId(), this.reportType()).subscribe({
+    const reason = this.textarea?.nativeElement.value ?? ""
+
+    this.reportService.submitReport(reason, 55, this.reportType()).subscribe({
       next: res => {
         this.close.emit(res.message);
       },
       error: err => {
-        console.error(err)
+        if (err?.error?.reason) {
+          this.showReasonError.set(err.error.reason)
+        } else {
+          throw err
+        }
       }
     })
   }
