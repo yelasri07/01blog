@@ -1,0 +1,64 @@
+<div class="reports">
+    <h4>Reports</h4>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>reporter</th>
+            <th>reason</th>
+            <th>target</th>
+            <th>status</th>
+            <th>created at</th>
+        </tr>
+        @for (report of reports(); track report.id) {
+        <tr>
+            <td>{{report.id}}</td>
+            <td><a [routerLink]="['/profile', report.reporter_id]">profile</a></td>
+            @if (report.show_more) {
+            <td (click)="showReason($event, report.reason)" class="show-more">{{report.reason | showMorePipe}}</td>
+            } @else {
+            <td>{{report.reason}}</td>
+            }
+            <td>
+                @if (report.type === "USER") {
+                <a [routerLink]="['/profile', report.target_id]">profile</a>
+                } @else {
+                <a [routerLink]="['/blogs', report.target_id]">blog</a>
+                }
+            </td>
+            <td>{{report.status}}</td>
+            <td class="date">{{report.created_at | dateFormat}}</td>
+
+            <!-- <span (click)="displayOptions($event, blog.id)" class="config">
+                @if (showOptions() == blog.id) {
+                <i class="bi bi-caret-up-fill"></i>
+                } @else {
+                <i class="bi bi-caret-down-fill"></i>
+                }
+            </span>
+            @if (showOptions() == blog.id) {
+            <div class="options">
+                <p [routerLink]="['/blogs', blog.id]" class="m-0">show blog</p>
+                <p (click)="hideBlog(blog.id)" class="m-0">
+                    @if (blog.is_hidden) {
+                    to visible
+                    } @else {
+                    to hidden
+                    }
+                </p>
+                <p (click)="deleteBlog(blog.id)" class="m-0 delete">delete blog</p>
+            </div>
+            } -->
+
+        </tr>
+        }
+    </table>
+</div>
+@if (isVisibleReason()) {
+<div (click)="$event.stopPropagation()" class="reason shadow-lg">
+    <h3 class="text-center mb-4">Reason</h3>
+    <pre class="m-0">{{isVisibleReason()}}</pre>
+    <div class="text-center">
+        <button (click)="hideReason()" class="mt-4">cancel</button>
+    </div>
+</div>
+}

@@ -28,4 +28,5 @@ public class ReportsEntity {
     private Long target_id;
     private String type;
     private String status;
+    private Boolean show_more;
 }

@@ -3,7 +3,7 @@
         <h3 class="report-header">
             {{modalTitle()}}
         </h3>
-        <textarea #textarea formControlName="content" class="w-100" placeholder="Type the reason..."></textarea>
+        <textarea maxlength="2000" #textarea formControlName="content" class="w-100" placeholder="Type the reason..."></textarea>
         @if (showReasonError()) {
         <p class="text-danger">{{showReasonError()}}</p>
         }

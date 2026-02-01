@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { API_URL } from '../../../core/constants/API_URL';
 import { User } from '../../../core/interfaces/user.interface';
 import { blogInterface } from '../../blogs/interfaces/blog.interface';
+import { reportInterface } from '../interfaces/report.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +17,10 @@ export class DashboardService {
 
   getBlogs() {
     return this.http.get<blogInterface[]>(API_URL + "/blogs/dashboard")
+  }
+
+  getReports() {
+    return this.http.get<reportInterface[]>(API_URL + "/reports")
   }
 
   submitBanUser(userId: number) {

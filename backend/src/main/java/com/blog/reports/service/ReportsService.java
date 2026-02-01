@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
 import com.blog.post.persistence.BlogRepository;
-import com.blog.reports.dto.AllReportsOutputDTO;
 import com.blog.reports.dto.ReportInputDTO;
 import com.blog.reports.model.ReportsEntity;
 import com.blog.reports.persistence.ReportsRepository;
@@ -43,26 +42,26 @@ public class ReportsService {
             default -> throw new BadRequestException("Report type should be 'USER' or 'BLOG'");
         }
 
+        Boolean showMore = false;
+        if (reportData.reason().length() > 7) {
+            showMore = true;
+        }
+
         ReportsEntity report = ReportsEntity.builder()
                 .reason(reportData.reason())
                 .created_at(new Timestamp(new Date().getTime()))
                 .reporter_id(user.getId())
                 .target_id(reportData.targetId())
                 .type(reportData.type())
+                .show_more(showMore)
                 .status("PENDING")
                 .build();
 
         return reportsRepository.save(report);
     }
 
-    public List<AllReportsOutputDTO> getReports() {
-        return reportsRepository.findReports();
+    public List<ReportsEntity> getReports() {
+        return reportsRepository.findAll();
     }
 
-    public ReportsEntity getReport(Long reportId) {
-        ReportsEntity report = reportsRepository.findById(reportId)
-                .orElseThrow(() -> new NotFoundException("Report not found"));
-
-        return report;
-    }
 }
