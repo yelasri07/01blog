@@ -2,14 +2,10 @@ package com.blog.reports.model;
 
 import java.sql.Timestamp;
 
-import com.blog.user.model.UserEntity;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,12 +24,8 @@ public class ReportsEntity {
     private Long id;
     private String reason;
     private Timestamp created_at;
-
-    @ManyToOne
-    @JoinColumn(name = "reported_user_id", referencedColumnName = "id")
-    private UserEntity reportedUser;
-
-    @ManyToOne
-    @JoinColumn(name = "reported_by_user_id", referencedColumnName = "id")
-    private UserEntity reportedByUser;
+    private Long reporter_id;
+    private Long target_id;
+    private String type;
+    private String status;
 }

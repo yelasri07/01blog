@@ -1,6 +1,6 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, inject, input, Input, Output, signal, ViewChild } from '@angular/core';
 import { needConfirmation } from '../../decorators/confirm-dialog.decorator';
+import { ReportService } from '../../../core/services/report.service';
 
 @Component({
   selector: 'app-report-modal',
@@ -9,19 +9,29 @@ import { needConfirmation } from '../../decorators/confirm-dialog.decorator';
   styleUrl: './report-modal.component.scss',
 })
 export class ReportModalComponent {
-  @Output()
-  close = new EventEmitter<void>();
-  @Output()
-  submit = new EventEmitter<string>();
+  private reportService = inject(ReportService);
 
+  @Output()
+  close = new EventEmitter<string>();
   @ViewChild('textarea')
   textarea: ElementRef<HTMLTextAreaElement> | undefined;
 
+  targetId = input.required<number>();
+  reportType = input.required<"USER" | "BLOG">();
+
   closeModal() {
-    this.close.emit();
+    this.close.emit("");
   }
 
-  submitReport() {
-    this.submit.emit(this.textarea?.nativeElement.value)
+  @needConfirmation()
+  handleSubmitReport() {
+    this.reportService.submitReport(this.textarea?.nativeElement.value ?? "", this.targetId(), this.reportType()).subscribe({
+      next: res => {
+        this.close.emit(res.message);
+      },
+      error: err => {
+        console.error(err)
+      }
+    })
   }
 }

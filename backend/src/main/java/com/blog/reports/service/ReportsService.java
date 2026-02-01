@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
-import com.blog.reports.dto.ReportInputDTO;
+import com.blog.post.persistence.BlogRepository;
 import com.blog.reports.dto.AllReportsOutputDTO;
+import com.blog.reports.dto.ReportInputDTO;
 import com.blog.reports.model.ReportsEntity;
 import com.blog.reports.persistence.ReportsRepository;
 import com.blog.user.model.UserEntity;
@@ -20,25 +21,35 @@ public class ReportsService {
 
     private final ReportsRepository reportsRepository;
     private final UserRepository userRepository;
+    private final BlogRepository blogRepository;
 
-    public ReportsService(ReportsRepository reportsRepository, UserRepository userRepository) {
+    public ReportsService(ReportsRepository reportsRepository, UserRepository userRepository,
+            BlogRepository blogRepository) {
         this.reportsRepository = reportsRepository;
         this.userRepository = userRepository;
+        this.blogRepository = blogRepository;
     }
 
-    public ReportsEntity createReport(Long reportedId, UserEntity user, ReportInputDTO reportData) {
-        if (reportedId.equals(user.getId())) {
+    public ReportsEntity createReport(UserEntity user, ReportInputDTO reportData) {
+        if (reportData.type().equals("USER") && reportData.targetId().equals(user.getId())) {
             throw new BadRequestException("Reporting yourself? That's a new level of honesty");
         }
 
-        UserEntity reportedUser = userRepository.findById(reportedId)
-                .orElseThrow(() -> new NotFoundException("Whoops, user not found"));
+        switch (reportData.type()) {
+            case "USER" -> userRepository.findById(reportData.targetId())
+                    .orElseThrow(() -> new NotFoundException("Whoops, user not found"));
+            case "BLOG" -> blogRepository.findById(reportData.targetId())
+                    .orElseThrow(() -> new NotFoundException("Whoops! blog not found"));
+            default -> throw new BadRequestException("Report type should be 'USER' or 'BLOG'");
+        }
 
         ReportsEntity report = ReportsEntity.builder()
                 .reason(reportData.reason())
                 .created_at(new Timestamp(new Date().getTime()))
-                .reportedUser(reportedUser)
-                .reportedByUser(user)
+                .reporter_id(user.getId())
+                .target_id(reportData.targetId())
+                .type(reportData.type())
+                .status("PENDING")
                 .build();
 
         return reportsRepository.save(report);

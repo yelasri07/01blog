@@ -50,6 +50,7 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
                 .password(encoder.encode(this.adminPassword))
                 .role(RoleEnum.ADMIN)
                 .created_at(new Timestamp(new Date().getTime()))
+                .is_banned(false)
                 .build();
 
         userRepository.save(user);

@@ -8,10 +8,11 @@ import { MediaService } from '../../../core/services/media.service';
 import { finalize } from 'rxjs';
 import { ReportModalComponent } from "../../../shared/components/report-modal.component/report-modal.component";
 import { needConfirmation } from '../../../shared/decorators/confirm-dialog.decorator';
+import { SuccessPopupComponent } from "../../../shared/components/success-popup.component/success-popup.component";
 
 @Component({
   selector: 'app-page',
-  imports: [BlogsComponent, ReportModalComponent],
+  imports: [BlogsComponent, ReportModalComponent, SuccessPopupComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -27,6 +28,7 @@ export class Profile implements OnInit {
   showNotFoundError = signal(false);
   userProfile = signal<User | null>(null);
   loader = signal(true);
+  successPopup = signal<string>("")
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -70,12 +72,12 @@ export class Profile implements OnInit {
     }
   }
 
-  @needConfirmation()
-  handleSubmitReport(content: string) {
-    console.log(content)
+  closeSuccessPopup() {
+    this.successPopup.set("");
   }
 
-  hideReportModal() {
+  hideReportModal(successPopup: string) {
+    this.successPopup.set(successPopup)
     this.isReportModalVisible.set(false)
   }
 
