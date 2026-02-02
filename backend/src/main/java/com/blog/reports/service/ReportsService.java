@@ -3,6 +3,7 @@ package com.blog.reports.service;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -61,7 +62,36 @@ public class ReportsService {
     }
 
     public List<ReportsEntity> getReports() {
-        return reportsRepository.findAll();
+        return reportsRepository.findAllByOrderByIdAsc();
     }
 
+    public Map<String, Object> changeReportStatus(Long reportId, Map<String, String> reportData) {
+        ReportsEntity report = reportsRepository.findById(reportId)
+                .orElseThrow(() -> new NotFoundException("Ooops! report not found"));
+
+        String status = reportData.get("status");
+        if (status == null || (!status.equals("REJECT") && !status.equals("RESOLVE"))) {
+            throw new BadRequestException("Report status should be 'REJECT' or 'RESOLVE'");
+        }
+
+        if (!report.getStatus().equals("PENDING")) {
+            throw new BadRequestException("Report status already changed");
+        }
+
+        report.setStatus(status);
+        reportsRepository.save(report);
+
+        return Map.of(
+                "message", "Report " + report.getStatus().toLowerCase() + "ed successfully",
+                "report_id", report.getId(),
+                "status", report.getStatus());
+    }
+
+    public Map<String, String> deleteReport(Long reportId) {
+        ReportsEntity report = reportsRepository.findById(reportId)
+                .orElseThrow(() -> new NotFoundException("Report not found"));
+
+        reportsRepository.delete(report);
+        return Map.of("message", "report deleted successfully");
+    }
 }

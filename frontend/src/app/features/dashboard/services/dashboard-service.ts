@@ -39,4 +39,14 @@ export class DashboardService {
     return this.http.delete(API_URL + `/blogs/${blogId}`)
   }
 
+  submitReportStatus(reportId: number, status: string) {
+    return this.http.patch(API_URL + `/reports/${reportId}`, {
+      status: status
+    })
+  }
+
+  submitDeleteReport(reportId: number) {
+    return this.http.delete(API_URL + `/reports/${reportId}`)
+  }
+
 }
