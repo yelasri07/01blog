@@ -86,8 +86,6 @@
                 }
 
                 p.delete {
-                    color: #ff6b6b;
-
                     &:hover {
                         background: rgba(255, 107, 107, 0.12);
                     }
@@ -186,6 +184,6 @@
         background: none;
         border: none;
         outline: none;
-        color: var(--text-primary);
+        color: var(--text-primoptionsary);
     }
 }

@@ -59,9 +59,9 @@ public class BlogService {
         BlogEntity blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new NotFoundException("Whoops, blog not found"));
 
-        if (user.getRole().equals(RoleEnum.USER) && !blog.getUser().getId().equals(user.getId())) {
-            throw new ForbiddenException("Access denied");
-        }
+        // if (user.getRole().equals(RoleEnum.USER) && !blog.getUser().getId().equals(user.getId())) {
+        //     throw new ForbiddenException("Access denied");
+        // }
 
         return blog;
     }

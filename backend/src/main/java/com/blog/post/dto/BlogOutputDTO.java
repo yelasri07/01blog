@@ -17,5 +17,7 @@ public record BlogOutputDTO(
         Long likeCount,
         Boolean like,
         Long user_id,
-        String username) {
+        String username,
+        @JsonProperty("profile_image")
+        String profileImage) {
 }

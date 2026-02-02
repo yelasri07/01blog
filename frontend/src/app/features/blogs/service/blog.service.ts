@@ -43,4 +43,9 @@ export class BlogService {
     if (!lastId) lastId = -1;
     return this.http.get<commentInterface[]>(API_URL + `/blogs/${blogId}/comments?last_id=${lastId}&limit=30`)
   }
+
+  submitDeleteBlog(blogId: number) { 
+    
+  }
+
 }

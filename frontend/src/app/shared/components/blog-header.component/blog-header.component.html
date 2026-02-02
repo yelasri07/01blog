@@ -9,8 +9,10 @@
             ...
         </span>
         @if (isVisibleOptions()) {
-        <div (click)="showReportModal()" class="dropdown-options shadow">
-            <p class="m-0 text-danger">Report <i class="bi bi-flag-fill"></i></p>
+        <div class="dropdown-options shadow">
+            <p>update blog</p>
+            <p class="delete text-danger">delete blog</p>
+            <p (click)="showReportModal()" class="text-danger delete">report <i class="bi bi-flag-fill"></i></p>
         </div>
         }
     </div>

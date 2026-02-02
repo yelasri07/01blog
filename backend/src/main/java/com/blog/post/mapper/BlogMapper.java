@@ -17,6 +17,7 @@ public class BlogMapper {
                 .likeCount(blog.getLike_count())
                 .like(like)
                 .user_id(blog.getUser().getId())
+                .profileImage(blog.getUser().getProfile_image())
                 .username(blog.getUser().getUsername())
                 .build();
     }
