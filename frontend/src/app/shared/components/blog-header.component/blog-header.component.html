@@ -10,9 +10,15 @@
         </span>
         @if (isVisibleOptions()) {
         <div class="dropdown-options shadow">
+            @if (currentUser()?.id === blog()?.user_id) {
             <p>update blog</p>
+            }
+            @if (currentUser()?.id === blog()?.user_id || currentUser()?.role === "ADMIN") {
             <p (click)="deleteBlog()" class="delete text-danger">delete blog</p>
+            }
+            @if (currentUser()?.id !== blog()?.user_id) {
             <p (click)="showReportModal()" class="text-danger delete">report <i class="bi bi-flag-fill"></i></p>
+            }
         </div>
         }
     </div>

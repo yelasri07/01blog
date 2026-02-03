@@ -6,6 +6,7 @@ import { ReportModalComponent } from "../report-modal.component/report-modal.com
 import { SuccessPopupComponent } from "../success-popup.component/success-popup.component";
 import { BlogService } from '../../../features/blogs/service/blog.service';
 import { needConfirmation } from '../../decorators/confirm-dialog.decorator';
+import { AuthStateService } from '../../../core/services/auth.state.service';
 
 @Component({
   selector: 'app-blog-header',
@@ -15,12 +16,14 @@ import { needConfirmation } from '../../decorators/confirm-dialog.decorator';
 })
 export class BlogHeaderComponent {
   private blogService = inject(BlogService)
+  private authStateService = inject(AuthStateService)
 
   blog = input<blogInterface | null>(null);
-
+  
   @Output()
   delete = new EventEmitter();
-
+  
+  currentUser = signal(this.authStateService.getCurrentUser())
   isVisibleOptions = signal(false)
   isVisibleModalReport = signal(false);
   isVisibleSuccessPopup = signal("");

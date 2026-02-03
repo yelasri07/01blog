@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.blog.exception.BadRequestException;
 import com.blog.exception.NotFoundException;
+import com.blog.post.model.BlogEntity;
 import com.blog.post.persistence.BlogRepository;
 import com.blog.reports.dto.ReportInputDTO;
 import com.blog.reports.model.ReportsEntity;
@@ -38,8 +39,14 @@ public class ReportsService {
         switch (reportData.type()) {
             case "USER" -> userRepository.findById(reportData.targetId())
                     .orElseThrow(() -> new NotFoundException("Whoops, user not found"));
-            case "BLOG" -> blogRepository.findById(reportData.targetId())
-                    .orElseThrow(() -> new NotFoundException("Whoops! blog not found"));
+            case "BLOG" -> {
+                BlogEntity blog = blogRepository.findById(reportData.targetId())
+                        .orElseThrow(() -> new NotFoundException("Whoops! blog not found"));
+
+                if (blog.getUser().getId().equals(user.getId())) {
+                    throw new BadRequestException("Cannot report your blog");
+                }
+            }
             default -> throw new BadRequestException("Report type should be 'USER' or 'BLOG'");
         }
 

@@ -86,6 +86,8 @@
                 }
 
                 p.delete {
+                    color: #ff6b6b;
+
                     &:hover {
                         background: rgba(255, 107, 107, 0.12);
                     }
