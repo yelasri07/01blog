@@ -1,9 +1,13 @@
+@if (showBlogNotFoundError()) {
+<app-error [message]="showBlogNotFoundError()" />
+} @else {
 <section class="create-blog">
     <input #title type="text" placeholder="Title..." class="title w-100 mb-4">
     <div id="editorjs"></div>
     @if (creationBlogError()) {
     <p class="text-danger">{{ creationBlogError() }}</p>
     }
-    <button #submitButton [disabled]="buttonDisabled()" class="submit-btn " (click)="handleSubmit()">Create
-        blog</button>
+    <button #submitButton [disabled]="buttonDisabled()" class="submit-btn" (click)="handleSubmit()"> {{ blogPageType()
+        }} </button>
 </section>
+}

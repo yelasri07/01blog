@@ -59,16 +59,11 @@ public class BlogService {
         BlogEntity blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new NotFoundException("Whoops, blog not found"));
 
-        // if (user.getRole().equals(RoleEnum.USER) && !blog.getUser().getId().equals(user.getId())) {
-        //     throw new ForbiddenException("Access denied");
-        // }
-
         return blog;
     }
 
     public Map<String, String> deleteBlog(Long blogId, UserEntity user) {
-        BlogEntity blog = blogRepository.findById(blogId)
-                .orElseThrow(() -> new NotFoundException("Blog not found"));
+        BlogEntity blog = this.getBlogById(blogId, user);
 
         if (!user.getId().equals(blog.getUser().getId()) && !user.getRole().equals(RoleEnum.ADMIN)) {
             throw new ForbiddenException("Access denied");
@@ -81,7 +76,12 @@ public class BlogService {
     public BlogEntity updateBlog(Long blogId, CreateBlogDTO blogData, UserEntity user) {
         BlogEntity blog = this.getBlogById(blogId, user);
 
+        if (!user.getId().equals(blog.getUser().getId())) {
+            throw new ForbiddenException("Access denied");
+        }
+
         blog.setTitle(blogData.title());
+        blog.setContent(blogData.content());
         return blogRepository.save(blog);
     }
 

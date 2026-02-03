@@ -11,6 +11,10 @@ export const layoutRoutes: Routes = [
         loadComponent: () => import('../features/blogs/pages/blog/blog').then(m => m.Blog)
     },
     {
+        path: "edit-blog/:id",
+        loadComponent: () => import('../features/blogs/pages/create-blog/create-blog').then(m => m.CreateBlog)
+    },
+    {
         path: "profile/:id",
         loadComponent: () => import('../features/profile/page/profile').then(m => m.Profile),
     },

@@ -90,7 +90,7 @@ public class BlogController {
     }
 
     @PutMapping("/{id}")
-    public BlogOutputDTO update(@PathVariable("id") Long blogId, @RequestBody CreateBlogDTO blogData,
+    public BlogOutputDTO update(@PathVariable("id") Long blogId, @Valid @RequestBody CreateBlogDTO blogData,
             @AuthenticationPrincipal UserEntity user) {
         BlogEntity blog = blogService.updateBlog(blogId, blogData, user);
         return blogMapper.toBlogOutputDTO(blog, false);

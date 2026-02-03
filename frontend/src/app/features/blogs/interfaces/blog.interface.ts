@@ -1,7 +1,9 @@
+import { OutputData } from "@editorjs/editorjs"
+
 export interface blogInterface {
     id: number,
     title: string,
-    content?: string,
+    content?: any,
     created_at: Date,
     like_count: number
     is_hidden?: boolean

@@ -11,7 +11,7 @@
         @if (isVisibleOptions()) {
         <div class="dropdown-options shadow">
             @if (currentUser()?.id === blog()?.user_id) {
-            <p>update blog</p>
+            <p [routerLink]="['/edit-blog', blog()?.id]">edit blog</p>
             }
             @if (currentUser()?.id === blog()?.user_id || currentUser()?.role === "ADMIN") {
             <p (click)="deleteBlog()" class="delete text-danger">delete blog</p>

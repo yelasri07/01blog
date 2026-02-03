@@ -15,7 +15,14 @@ import { use } from 'marked';
 export class BlogService {
   private http = inject(HttpClient)
 
-  submitBlog(blog: OutputData, title: string) {
+  submitBlog(blog: OutputData, title: string, blogId: number) {
+    if (blogId) {
+      return this.http.put<blogInterface>(API_URL + `/blogs/${blogId}`, {
+        title: title,
+        content: blog
+      })
+    }
+
     return this.http.post<blogInterface>(API_URL + "/blogs", {
       title: title,
       content: blog
