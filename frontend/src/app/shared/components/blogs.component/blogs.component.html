@@ -1,7 +1,7 @@
 <div class="blogs d-flex flex-wrap gap-4 justify-content-center">
     @for (blog of blogs(); track blog().id) {
     <div class="blog p-3">
-        <app-blog-header [blog]="blog()" />
+        <app-blog-header (delete)="deletedBlog($event, blog().id)" [blog]="blog()" />
         <div class="blog-body">
             <p class="title text-center">
                 {{ blog().title }}
@@ -13,7 +13,11 @@
         <app-blog-footer [(blog)]="blog" />
     </div>
     } @empty {
-        <p>No blogs</p>
+    <p>No blogs</p>
     }
     <div appIntersectionobserver (isIntersecting)="onFetchNextBlogSet($event)"></div>
 </div>
+
+@if (showSuccessPopup()) {
+<app-success-popup [message]="showSuccessPopup()" (close)="hideSuccessPopup()" />
+}

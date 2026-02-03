@@ -11,7 +11,7 @@
         @if (isVisibleOptions()) {
         <div class="dropdown-options shadow">
             <p>update blog</p>
-            <p class="delete text-danger">delete blog</p>
+            <p (click)="deleteBlog()" class="delete text-danger">delete blog</p>
             <p (click)="showReportModal()" class="text-danger delete">report <i class="bi bi-flag-fill"></i></p>
         </div>
         }

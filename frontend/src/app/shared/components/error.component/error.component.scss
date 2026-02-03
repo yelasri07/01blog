@@ -3,4 +3,19 @@
     .message {
         font-size: 1.2em;
     }
+
+    button {
+        background-color: var(--color-primary);
+        color: var(--bg-primary);
+        padding: 5px 20px;
+        border: none;
+        outline: none;
+        font-size: 1.1em;
+        border-radius: 8px;
+        transition: .3s;
+
+        &:hover {
+            transform: translateY(-1px);
+        }
+    }
 }

@@ -44,8 +44,8 @@ export class BlogService {
     return this.http.get<commentInterface[]>(API_URL + `/blogs/${blogId}/comments?last_id=${lastId}&limit=30`)
   }
 
-  submitDeleteBlog(blogId: number) { 
-    
+  submitDeleteBlog(blogId: number) {
+    return this.http.delete<{ message: string }>(API_URL + `/blogs/${blogId}`)
   }
 
 }

@@ -3,7 +3,7 @@
 } @else {
 
 <section class="blog">
-    <app-blog-header [blog]="blog()" />
+    <app-blog-header (delete)="blogDeleted($event)" [blog]="blog()" />
     <h1 class="title text-center">{{ blog()?.title }}</h1>
     <div class="line"></div>
     <div id="editorjs" class="content">
@@ -53,4 +53,8 @@
 
 @if (popup().show) {
 <app-popup [(popup)]="popup" />
+}
+
+@if (showSuccessPopup()) {
+<app-success-popup (close)="hideSuccessPopup()" [message]="showSuccessPopup()" />
 }

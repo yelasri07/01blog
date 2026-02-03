@@ -5,10 +5,11 @@ import { BlogHeaderComponent } from "../blog-header.component/blog-header.compon
 import { BlogFooterComponent } from "../blog-footer.component/blog-footer.component";
 import { RouterLink } from "@angular/router";
 import { IntersectionobserverDirective } from "../../directives/intersectionobserver.directive";
+import { SuccessPopupComponent } from "../success-popup.component/success-popup.component";
 
 @Component({
   selector: 'app-blogs',
-  imports: [BlogHeaderComponent, BlogFooterComponent, RouterLink, IntersectionobserverDirective],
+  imports: [BlogHeaderComponent, BlogFooterComponent, RouterLink, IntersectionobserverDirective, SuccessPopupComponent],
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss',
 })
@@ -17,6 +18,7 @@ export class BlogsComponent implements OnChanges {
   blogs = signal<WritableSignal<blogInterface>[] | null>(null);
   lastBlogId = signal(0);
   isAbleToFetchBlogs = signal(true)
+  showSuccessPopup = signal("");
 
   profileUserId = input.required<number>();
 
@@ -35,6 +37,17 @@ export class BlogsComponent implements OnChanges {
     if (this.isAbleToFetchBlogs()) {
       this.fetchBlogs(this.lastBlogId())
     }
+  }
+
+  deletedBlog(message: string, blogId: number) {
+    this.showSuccessPopup.set(message);
+    this.blogs.set(
+      this.blogs()?.filter(blog => blog().id !== blogId) ?? []
+    )
+  }
+
+  hideSuccessPopup() {
+    this.showSuccessPopup.set("");
   }
 
   private fetchBlogs(lastId?: number) {

@@ -13,10 +13,11 @@ import { DateFormatPipe } from '../../../../shared/pipes/date-format-pipe';
 import { IntersectionobserverDirective } from "../../../../shared/directives/intersectionobserver.directive";
 import { popupInterface } from '../../../../shared/interfaces/popup.interface';
 import { Popup2Component } from "../../../../shared/components/popup.component/popup.component";
+import { SuccessPopupComponent } from "../../../../shared/components/success-popup.component/success-popup.component";
 
 @Component({
   selector: 'app-blog',
-  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe, IntersectionobserverDirective, Popup2Component],
+  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe, IntersectionobserverDirective, Popup2Component, SuccessPopupComponent],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
@@ -30,6 +31,7 @@ export class Blog implements OnInit {
   showComments = signal(false);
   isAbleToFetchComments = signal(true);
   lastCommentId = signal(0);
+  showSuccessPopup = signal("");
 
   popup = signal<popupInterface>({});
 
@@ -87,6 +89,15 @@ export class Blog implements OnInit {
     if (this.comments() && this.comments()?.length! > 0 && this.isAbleToFetchComments()) {
       this.fetchComments(this.lastCommentId())
     }
+  }
+
+  blogDeleted(message: string) {
+    this.blogError.set("Whoops, blog not found");
+    this.showSuccessPopup.set(message)
+  }
+
+  hideSuccessPopup() {
+    this.showSuccessPopup.set("");
   }
 
   private fetchComments(lastId?: number) {
