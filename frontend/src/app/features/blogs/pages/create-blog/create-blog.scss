@@ -78,3 +78,22 @@
         visibility: hidden;
     }
 }
+
+::ng-deep {
+    .upload-video {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 13px;
+        border-radius: 3px;
+        border: 1px solid rgba(201, 201, 204, .48);
+        font-size: 14.9px;
+        background: #fff;
+        -webkit-box-shadow: 0 2px 2px 0 rgba(18, 30, 57, .04);
+        box-shadow: 0 2px 2px #121e390a;
+        color: #707684;
+        text-align: center;
+        cursor: pointer;
+    }
+}

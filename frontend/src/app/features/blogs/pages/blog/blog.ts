@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import EditorJS from '@editorjs/editorjs';
 import { BlogService } from '../../service/blog.service';
@@ -21,7 +21,7 @@ import { SuccessPopupComponent } from "../../../../shared/components/success-pop
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
-export class Blog implements OnInit {
+export class Blog implements AfterViewInit {
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
 
@@ -41,7 +41,7 @@ export class Blog implements OnInit {
     this.blogId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
   }
 
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (!this.blogId || isNaN(this.blogId)) {
       this.blogError.set("Whoops, blog not found");
       return;
