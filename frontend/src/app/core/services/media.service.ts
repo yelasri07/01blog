@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { API_URL } from '../constants/API_URL';
 import { signatureData } from '../interfaces/signatureData.interface';
-import { waitForAngularReady } from '@angular/cdk/testing/selenium-webdriver';
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +33,7 @@ export class MediaService {
     formData.append('signature', signature.signature);
     formData.append('folder', folderName);
 
-    const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/image/upload`, {
+    const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/${folderName == 'blogImages' ? 'image' : 'video'}/upload`, {
       method: 'POST',
       body: formData,
     });

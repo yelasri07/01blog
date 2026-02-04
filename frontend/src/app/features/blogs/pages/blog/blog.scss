@@ -150,4 +150,11 @@
     .codex-editor__redactor {
         padding-bottom: 40px !important;
     }
+
+    .video-tool {
+        video {
+            max-width: 100%;
+            display: block;
+        }
+    }
 }

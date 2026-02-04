@@ -14,6 +14,7 @@ import { IntersectionobserverDirective } from "../../../../shared/directives/int
 import { popupInterface } from '../../../../shared/interfaces/popup.interface';
 import { Popup2Component } from "../../../../shared/components/popup.component/popup.component";
 import { SuccessPopupComponent } from "../../../../shared/components/success-popup.component/success-popup.component";
+import { VideoTool } from '../../../../shared/tools/video-tool';
 
 @Component({
   selector: 'app-blog',
@@ -55,6 +56,7 @@ export class Blog implements AfterViewInit {
           tools: {
             header: Header,
             image: ImageTool,
+            video: VideoTool,
           },
           data: response.content as any,
           readOnly: true,

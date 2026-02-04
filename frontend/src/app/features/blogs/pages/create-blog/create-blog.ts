@@ -8,7 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorComponent } from "../../../../shared/components/error.component/error.component";
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { mergeMap, of, throwError } from 'rxjs';
-
+import { VideoTool } from '../../../../shared/tools/video-tool';
 
 @Component({
   selector: 'app-create-blog',
@@ -44,42 +44,25 @@ export class CreateBlog implements AfterViewInit {
       holder: 'editorjs',
       tools: {
         header: Header,
-        video: VideoTool,
+        video: {
+          class: VideoTool,
+          config: {
+            uploader: (file: File) => {
+              return this.uploadFile(file, "blogVideo")
+            }
+          }
+        },
         image: {
           class: ImageTool,
           config: {
             captionPlaceholder: null,
             uploader: {
               uploadByFile: (file: File) => {
-                return this.uploadImage(file);
+                return this.uploadFile(file, "blogImages");
               }
             }
           }
         },
-      },
-      data: {
-        time: 1552744582955,
-        blocks: [
-          {
-            type: "video",
-            data: {
-              url: "https://cdn.pixabay.com/photo/2017/09/01/21/53/blue-2705642_1280.jpg"
-            }
-          },
-          {
-            type: "video",
-            data: {
-              url: "aaaaaaaaaaaaaa"
-            }
-          },
-          {
-            type: "image",
-            data: {
-              url: "cccccccccc"
-            }
-          }
-        ],
-        version: "2.11.10"
       },
       autofocus: true,
       placeholder: 'Type text or paste a link',
@@ -128,29 +111,29 @@ export class CreateBlog implements AfterViewInit {
     if (!this.editor) return;
     this.outputData = await this.editor.save()
     console.log(this.outputData)
-    // this.buttonDisabled.set(true);
-    // this.blogService.submitBlog(this.outputData, titleIpt?.value || "", this.blogId).subscribe({
-    //   next: response => {
-    //     this.router.navigate(['blogs', response.id])
-    //   },
-    //   error: err => {
-    //     this.buttonDisabled.set(false)
-    //     let errorMessage = "Ooops, something wrong."
-    //     if (err.error.detail) {
-    //       errorMessage = err.error.detail
-    //     } else if (err.error.content) {
-    //       errorMessage = err.error.content
-    //     } else if (err.error.title) {
-    //       errorMessage = err.error.title
-    //     }
+    this.buttonDisabled.set(true);
+    this.blogService.submitBlog(this.outputData, titleIpt?.value || "", this.blogId).subscribe({
+      next: response => {
+        this.router.navigate(['blogs', response.id])
+      },
+      error: err => {
+        this.buttonDisabled.set(false)
+        let errorMessage = "Ooops, something wrong."
+        if (err.error.detail) {
+          errorMessage = err.error.detail
+        } else if (err.error.content) {
+          errorMessage = err.error.content
+        } else if (err.error.title) {
+          errorMessage = err.error.title
+        }
 
-    //     this.creationBlogError.set(errorMessage);
-    //   },
-    // })
+        this.creationBlogError.set(errorMessage);
+      },
+    })
   }
 
-  private async uploadImage(file: File) {
-    const res = await this.mediaService.uploadFile(file, "blogImages");
+  private async uploadFile(file: File, folderName: string) {
+    const res = await this.mediaService.uploadFile(file, folderName);
     return {
       success: 1,
       file: {
@@ -158,76 +141,5 @@ export class CreateBlog implements AfterViewInit {
         public_id: res.public_id
       }
     }
-  }
-}
-
-class VideoTool {
-  static get toolbox() {
-    return {
-      title: 'Video',
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera-video" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M0 5a2 2 0 0 1 2-2h7.5a2 2 0 0 1 1.983 1.738l3.11-1.382A1 1 0 0 1 16 4.269v7.462a1 1 0 0 1-1.406.913l-3.111-1.382A2 2 0 0 1 9.5 13H2a2 2 0 0 1-2-2zm11.5 5.175 3.5 1.556V4.269l-3.5 1.556zM2 4a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h7.5a1 1 0 0 0 1-1V5a1 1 0 0 0-1-1z"/>
-            </svg>`
-    };
-  }
-
-  private data: any;
-  private wrapper!: HTMLElement
-  constructor({ data }: any) {
-    this.data = data
-  }
-
-  render() {
-    this.wrapper = document.createElement('div')
-    this.wrapper.classList.add("video-tool")
-
-    if (this.data.url) {
-      this.renderVideo()
-    } else {
-      this.renderUpload()
-    }
-    return this.wrapper
-  }
-
-  private renderVideo() {
-    const video = document.createElement('video')
-    video.src = this.data.url;
-    video.controls = true;
-    this.wrapper.appendChild(video)
-  }
-
-  private renderUpload() {
-    const input = document.createElement('input');
-    const label = document.createElement('label')
-    input.id = 'upload-video'
-    input.type = 'file';
-    label.setAttribute('for', 'upload-video')
-    label.textContent += 'Select an video'
-    label.classList.add('upload-video')
-    input.style.display = 'none';
-
-    input.onchange = async () => {
-      if (!input.files?.length) return;
-      const file = input.files[0];
-
-      // const response = await this.uploadVideo(file);
-      this.data.url = "kkkkkkkkkkkkkkkkkkkk";
-
-      this.wrapper.innerHTML = '';
-      this.renderVideo();
-    };
-
-    this.wrapper.appendChild(label)
-    this.wrapper.appendChild(input);
-
-    // input.click()
-  }
-
-  private uploadVideo(file: File) {
-    
-  }
-
-  save(blockContent: any) {
-    console.log(blockContent)
   }
 }
