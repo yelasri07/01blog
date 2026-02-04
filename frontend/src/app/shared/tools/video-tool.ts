@@ -12,7 +12,7 @@ export class VideoTool {
         return true
     }
 
-    private data: any;
+    private data: { file: { url: string } };
     private config: any
     private wrapper!: HTMLElement
     constructor({ data, config }: any) {
@@ -24,7 +24,7 @@ export class VideoTool {
         this.wrapper = document.createElement('div')
         this.wrapper.classList.add("video-tool")
 
-        if (this.data.url) {
+        if (this.data.file?.url) {
             this.renderVideo()
         } else {
             this.renderUpload()
@@ -34,7 +34,7 @@ export class VideoTool {
 
     private renderVideo() {
         const video = document.createElement('video')
-        video.src = this.data.url;
+        video.src = this.data.file.url;
         video.controls = true;
         this.wrapper.appendChild(video)
     }
@@ -57,7 +57,7 @@ export class VideoTool {
             this.loader()
             try {
                 const response = await this.uploadVideo(file);
-                if (response.success === 1) this.data.url = response.file.url;
+                if (response.success === 1) this.data.file = { url: response.file.url };
             } catch (err) {
                 this.wrapper.replaceChildren()
                 throw err
@@ -92,7 +92,7 @@ export class VideoTool {
     }
 
     validate(savedData: any) {
-        if (!savedData.url || !savedData.url.trim()) {
+        if (!savedData.file.url || !savedData.file.url.trim()) {
             return false;
         }
 

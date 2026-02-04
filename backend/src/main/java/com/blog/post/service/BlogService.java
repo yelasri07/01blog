@@ -1,13 +1,19 @@
 package com.blog.post.service;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.blog.exception.BadRequestException;
 import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
+import com.blog.media.model.MediaEntity;
+import com.blog.media.persistence.MediaRepository;
 import com.blog.post.dto.AllBlogsOutputDTO;
 import com.blog.post.dto.CreateBlogDTO;
 import com.blog.post.dto.DashboardBlogsOutputDTO;
@@ -22,13 +28,18 @@ public class BlogService {
 
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
+    private final MediaRepository mediaRepository;
 
-    public BlogService(BlogRepository blogRepository, UserRepository userRepository) {
+    public BlogService(BlogRepository blogRepository, UserRepository userRepository, MediaRepository mediaRepository) {
         this.blogRepository = blogRepository;
         this.userRepository = userRepository;
+        this.mediaRepository = mediaRepository;
     }
 
-    public BlogEntity createBlog(CreateBlogDTO blogData, UserEntity user) throws Exception {
+    @Transactional
+    public BlogEntity createBlog(CreateBlogDTO blogData, UserEntity user) {
+        this.extractAndSaveFiles(blogData.content());
+
         BlogEntity blog = BlogEntity.builder()
                 .title(blogData.title())
                 .content(blogData.content())
@@ -73,6 +84,7 @@ public class BlogService {
         return Map.of("message", "Blog deleted successfully");
     }
 
+    @Transactional
     public BlogEntity updateBlog(Long blogId, CreateBlogDTO blogData, UserEntity user) {
         BlogEntity blog = this.getBlogById(blogId, user);
 
@@ -80,6 +92,7 @@ public class BlogService {
             throw new ForbiddenException("Access denied");
         }
 
+        this.extractAndSaveFiles(blogData.content());
         blog.setTitle(blogData.title());
         blog.setContent(blogData.content());
         return blogRepository.save(blog);
@@ -109,5 +122,38 @@ public class BlogService {
                 "message", message,
                 "blog_id", blog.getId(),
                 "is_hidden", blog.getIs_hidden());
+    }
+
+    private void extractAndSaveFiles(Map<String, Object> content) {
+        List<Map<String, Object>> blocks = (List<Map<String, Object>>) content.get("blocks");
+        if (blocks == null || blocks.size() == 0) {
+            throw new BadRequestException("Blog content should not be empty");
+        }
+
+        List<String> files = new ArrayList<>();
+        for (Map<String, Object> block : blocks) {
+            String type = (String) block.get("type");
+            if (type == null) {
+                throw new BadRequestException("every block should contain on a type");
+            }
+            if (!type.equals("image") && !type.equals("video"))
+                continue;
+
+            String url = (String) ((Map<String, Object>) (((Map<String, Object>) block.get("data")).get("file")))
+                    .get("url");
+
+            if (url == null) {
+                throw new BadRequestException("File url should not be empty");
+            }
+            files.add(url);
+        }
+
+        for (String file : files) {
+            Optional<MediaEntity> media = mediaRepository.findByUrl(file);
+            if (media.isPresent()) {
+                media.get().setIs_done(true);
+                mediaRepository.save(media.get());
+            }
+        }
     }
 }

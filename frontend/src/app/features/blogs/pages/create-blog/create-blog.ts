@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import EditorJS, { OutputData } from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import { MediaService } from '../../../../core/services/media.service';
@@ -110,7 +110,7 @@ export class CreateBlog implements AfterViewInit {
 
     if (!this.editor) return;
     this.outputData = await this.editor.save()
-    console.log(this.outputData)
+    this.filterOutputData();
     this.buttonDisabled.set(true);
     this.blogService.submitBlog(this.outputData, titleIpt?.value || "", this.blogId).subscribe({
       next: response => {
@@ -141,5 +141,17 @@ export class CreateBlog implements AfterViewInit {
         public_id: res.public_id
       }
     }
+  }
+
+  private filterOutputData() {
+    if (!this.outputData) return;
+    this.outputData.blocks = this.outputData?.blocks.filter(block => {
+      if (block.type !== 'paragraph' && block.type !== 'header') return true;
+
+      const text = block.data.text
+        .replace(/&nbsp;/g, '')
+        .trim();
+      return text.length > 0;
+    })
   }
 }

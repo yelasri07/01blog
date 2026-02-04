@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.blog.exception.NotFoundException;
 import com.blog.post.dto.AllBlogsOutputDTO;
 import com.blog.post.dto.BlogOutputDTO;
 import com.blog.post.dto.CreateBlogDTO;
@@ -50,12 +49,8 @@ public class BlogController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public BlogOutputDTO post(@Valid @RequestBody CreateBlogDTO blogData, @AuthenticationPrincipal UserEntity user) {
-        try {
-            BlogEntity blog = blogService.createBlog(blogData, user);
-            return blogMapper.toBlogOutputDTO(blog, false);
-        } catch (Exception e) {
-            throw new NotFoundException(e.getMessage());
-        }
+        BlogEntity blog = blogService.createBlog(blogData, user);
+        return blogMapper.toBlogOutputDTO(blog, false);
     }
 
     @GetMapping
