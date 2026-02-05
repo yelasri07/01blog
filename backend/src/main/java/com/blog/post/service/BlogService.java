@@ -126,7 +126,7 @@ public class BlogService {
 
     private void extractAndSaveFiles(Map<String, Object> content) {
         List<Map<String, Object>> blocks = (List<Map<String, Object>>) content.get("blocks");
-        if (blocks == null || blocks.size() == 0) {
+        if (blocks == null || blocks.isEmpty()) {
             throw new BadRequestException("Blog content should not be empty");
         }
 

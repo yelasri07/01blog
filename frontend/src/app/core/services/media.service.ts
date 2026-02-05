@@ -33,7 +33,7 @@ export class MediaService {
     formData.append('signature', signature.signature);
     formData.append('folder', folderName);
 
-    const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/${folderName == 'blogImages' ? 'image' : 'video'}/upload`, {
+    const fileRes = await fetch(`https://api.cloudinary.com/v1_1/${signature.cloudName}/${folderName == 'blogImages' || folderName == 'profileImages' ? 'image' : 'video'}/upload`, {
       method: 'POST',
       body: formData,
     });
