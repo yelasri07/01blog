@@ -1,0 +1,2 @@
+ALTER TABLE notification
+ADD COLUMN created_at TIMESTAMP NOT NULL

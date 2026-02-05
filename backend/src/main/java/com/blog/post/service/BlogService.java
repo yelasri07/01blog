@@ -14,6 +14,7 @@ import com.blog.exception.ForbiddenException;
 import com.blog.exception.NotFoundException;
 import com.blog.media.model.MediaEntity;
 import com.blog.media.persistence.MediaRepository;
+import com.blog.notification.services.NotificationService;
 import com.blog.post.dto.AllBlogsOutputDTO;
 import com.blog.post.dto.CreateBlogDTO;
 import com.blog.post.dto.DashboardBlogsOutputDTO;
@@ -29,11 +30,14 @@ public class BlogService {
     private final BlogRepository blogRepository;
     private final UserRepository userRepository;
     private final MediaRepository mediaRepository;
+    private final NotificationService notificationService;
 
-    public BlogService(BlogRepository blogRepository, UserRepository userRepository, MediaRepository mediaRepository) {
+    public BlogService(BlogRepository blogRepository, UserRepository userRepository, MediaRepository mediaRepository,
+            NotificationService notificationService) {
         this.blogRepository = blogRepository;
         this.userRepository = userRepository;
         this.mediaRepository = mediaRepository;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -50,6 +54,8 @@ public class BlogService {
                 .build();
 
         blogRepository.save(blog);
+        notificationService.createNewBlogNotification(blog);
+
         return blog;
     }
 
