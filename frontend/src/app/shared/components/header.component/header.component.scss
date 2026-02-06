@@ -124,6 +124,18 @@ header {
                     &:hover {
                         background-color: var(--bg-secondary);
                     }
+
+                    .delete-notif {
+                        position: absolute;
+                        right: 5px;
+                        top: 5px;
+                        font-size: 1.1em;
+                        color: var(--text-secondary);
+
+                        &:hover {
+                            color: var(--color-primary);
+                        }
+                    }
                 }
 
                 p.is-new-notif::before {

@@ -3,9 +3,12 @@ package com.blog.notification.services;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.blog.exception.BadRequestException;
+import com.blog.exception.NotFoundException;
 import com.blog.notification.dto.notificationOutputDTO;
 import com.blog.notification.model.NotificationEntity;
 import com.blog.notification.persistence.NotificationRepository;
@@ -42,6 +45,19 @@ public class NotificationService {
 
     public List<notificationOutputDTO> getNotifications(UserEntity user) {
         return notificationRepository.findNotifications(user.getId());
+    }
+
+    public Map<String, String> deleteNotification(Long notifId, UserEntity user) {
+        NotificationEntity notif = notificationRepository.findById(notifId)
+                .orElseThrow(() -> new NotFoundException("Whoops! notification not found"));
+
+        if (!notif.getRecipientUser().getId().equals(user.getId())) {
+            throw new BadRequestException("Cannot delete other users notifications");
+        }
+
+        notificationRepository.delete(notif);
+
+        return Map.of("message", "Notification deleted succesfully");
     }
 
 }

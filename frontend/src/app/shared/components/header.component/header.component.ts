@@ -44,6 +44,10 @@ export class HeaderComponent {
     })
   }
 
+  deleteNotification(notifId: number) {
+    console.log(notifId)
+  }
+
   @HostListener('document:click')
   onDocumentClick() {
     this.showDropdown.set(false);

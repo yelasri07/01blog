@@ -28,6 +28,9 @@
                             <span class="d-block created-at">{{ notification.created_at | dateFormat }}</span>
                             <b>{{ notification.sender_username
                                 }}</b> {{notification.message}}
+                            <span (click)="deleteNotification(notification.id)" class="delete-notif">
+                                <i class="bi bi-x"></i>
+                            </span>
                         </p>
                         }
                     </div>
