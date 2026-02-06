@@ -2,18 +2,26 @@ import { Component, HostListener, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthStateService } from '../../../core/services/auth.state.service';
 import { SearchInput } from "../search-input/search-input";
+import { NotificationService } from '../../../core/services/notification.service';
+import { notificationInterface } from '../../../core/interfaces/notification.interface';
+import { NgClass } from '@angular/common';
+import { DateFormatPipe } from '../../pipes/date-format-pipe';
 
 @Component({
   selector: 'app-header',
-  imports: [RouterLink, RouterLinkActive, SearchInput],
+  imports: [RouterLink, RouterLinkActive, SearchInput, NgClass, DateFormatPipe],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   private router = inject(Router);
   private authStateService = inject(AuthStateService)
+  private notificationService = inject(NotificationService)
+
   showDropdown = signal(false);
   userInfos = signal(this.authStateService.getCurrentUser())
+  notifications = signal<notificationInterface[] | null>(null);
+  isVisibleNotifs = signal(false);
 
   logout() {
     this.authStateService.setCurrentUser(null)
@@ -26,10 +34,20 @@ export class HeaderComponent {
     this.showDropdown.update(prev => !prev)
   }
 
+  getNotifications(event: MouseEvent) {
+    event.stopPropagation()
+    this.isVisibleNotifs.update(prev => !prev)
+    if (!this.isVisibleNotifs()) return;
+    this.notificationService.fetchNotifications().subscribe(res => {
+      this.notifications.set(res)
+      console.log(this.notifications())
+    })
+  }
+
   @HostListener('document:click')
   onDocumentClick() {
-    if (!this.showDropdown()) return;
     this.showDropdown.set(false);
+    this.isVisibleNotifs.set(false)
   }
 
 }

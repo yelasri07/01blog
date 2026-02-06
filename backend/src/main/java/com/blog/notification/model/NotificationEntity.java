@@ -33,5 +33,6 @@ public class NotificationEntity {
     @ManyToOne
     @JoinColumn(name = "recipient_id", referencedColumnName = "id")
     private UserEntity recipientUser;
+    private String sender_username;
     private Timestamp created_at;
 }

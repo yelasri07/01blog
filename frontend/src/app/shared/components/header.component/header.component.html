@@ -13,6 +13,28 @@
                     Write <i class="bi bi-book"></i></li>
             </ul>
 
+            <div (click)="getNotifications($event)" class="notif">
+                <i class="bi bi-bell"></i>
+                @if (isVisibleNotifs()) {
+                <div (click)="$event.stopPropagation()" class="dropdown-notif shadow">
+                    <div class="notif-header d-flex justify-content-between align-items-center">
+                        <i class="bi bi-bell"></i>
+                        <span>Notifications</span>
+                        <i class="bi bi-chat"></i>
+                    </div>
+                    <div class="notif-body">
+                        @for (notification of notifications(); track notification.id) {
+                        <p class="m-0" [ngClass]="{'is-new-notif': !notification.is_read}">
+                            <span class="d-block created-at">{{ notification.created_at | dateFormat }}</span>
+                            <b>{{ notification.sender_username
+                                }}</b> {{notification.message}}
+                        </p>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+
             <div class="profile">
                 <button (click)="dropdownProfile($event)">
                     <img [src]="userInfos()?.profile_image || '/assets/images/profileImage.webp'" alt="profile-picture">

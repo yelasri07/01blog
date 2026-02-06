@@ -90,12 +90,12 @@ public class UserService implements UserDetailsService {
         return "Subscribed successfully";
     }
 
-    public List<SubscribeOutputDTO> getFollowers(Long profileId) {
-        userRepository.findById(profileId)
-                .orElseThrow(() -> new NotFoundException("User not found"));
+    // public List<SubscribeOutputDTO> getFollowers(Long profileId) {
+    //     userRepository.findById(profileId)
+    //             .orElseThrow(() -> new NotFoundException("User not found"));
 
-        return subscribeRepository.findFollowers(profileId);
-    }
+    //     return subscribeRepository.findFollowers(profileId);
+    // }
 
     public List<SubscribeOutputDTO> getFollowing(Long profileId) {
         userRepository.findById(profileId)

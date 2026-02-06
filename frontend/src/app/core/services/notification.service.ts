@@ -1,0 +1,15 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { API_URL } from '../constants/API_URL';
+import { notificationInterface } from '../interfaces/notification.interface';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class NotificationService {
+  private http = inject(HttpClient)
+
+  fetchNotifications() {
+    return this.http.get<notificationInterface[]>(API_URL + "/notification")
+  }
+}

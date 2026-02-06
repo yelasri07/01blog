@@ -21,7 +21,7 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
 
     @Value("${ADMIN_USERNAME}")
     private String adminUsername;
-    
+
     @Value("${ADMIN_EMAIL}")
     private String adminEmail;
 
@@ -39,7 +39,7 @@ public class AdminSeeder implements ApplicationListener<ContextRefreshedEvent> {
     }
 
     private void createAdministrator() {
-        UserEntity userEntity = userRepository.findByUsername("yelasri");
+        UserEntity userEntity = userRepository.findByUsername(this.adminUsername);
         if (userEntity != null) {
             return;
         }
