@@ -12,4 +12,8 @@ export class NotificationService {
   fetchNotifications() {
     return this.http.get<notificationInterface[]>(API_URL + "/notification")
   }
+
+  submitDeleteNotification(notifId: number) {
+    return this.http.delete(API_URL + `/notification/${notifId}`)
+  }
 }

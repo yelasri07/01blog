@@ -37,18 +37,25 @@ export class Blog implements AfterViewInit {
   popup = signal<popupInterface>({});
 
   editor: EditorJS | undefined;
-  private readonly blogId: number | null;
-  constructor() {
-    this.blogId = Number(this.activatedRoute.snapshot.paramMap.get('id'))
-  }
 
   ngAfterViewInit(): void {
-    if (!this.blogId || isNaN(this.blogId)) {
-      this.blogError.set("Whoops, blog not found");
-      return;
-    }
+    this.activatedRoute.paramMap.subscribe(params => {
+      const blogId = Number(params.get('id'))
+      if (!blogId || isNaN(blogId)) {
+        this.blogError.set("Whoops, blog not found");
+        return;
+      }
 
-    this.blogService.getBlogById(this.blogId).subscribe({
+      if (this.editor && typeof this.editor.destroy === 'function') {
+        this.editor.destroy()
+      }
+      this.blogError.set(null);
+      this.loadBlog(blogId);
+    })
+  }
+
+  private loadBlog(blogId: number) {
+    this.blogService.getBlogById(blogId).subscribe({
       next: response => {
         this.blog.set(response)
         this.editor = new EditorJS({

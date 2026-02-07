@@ -8,7 +8,7 @@ export const layoutRoutes: Routes = [
     },
     {
         path: "blogs/:id",
-        loadComponent: () => import('../features/blogs/pages/blog/blog').then(m => m.Blog)
+        loadComponent: () => import('../features/blogs/pages/blog/blog').then(m => m.Blog),
     },
     {
         path: "edit-blog/:id",

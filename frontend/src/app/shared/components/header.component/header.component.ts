@@ -40,12 +40,13 @@ export class HeaderComponent {
     if (!this.isVisibleNotifs()) return;
     this.notificationService.fetchNotifications().subscribe(res => {
       this.notifications.set(res)
-      console.log(this.notifications())
     })
   }
 
   deleteNotification(notifId: number) {
-    console.log(notifId)
+    this.notificationService.submitDeleteNotification(notifId).subscribe(res => {
+      this.notifications.set(this.notifications()?.filter(notif => notif.id !== notifId) ?? [])
+    })
   }
 
   @HostListener('document:click')

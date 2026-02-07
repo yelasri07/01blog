@@ -115,6 +115,12 @@ header {
                     position: relative;
                     background-color: var(--bg-primary);
 
+                    opacity: 1;
+                    transition: opacity 200ms ease-in;
+
+                    @starting-style {
+                        opacity: 0;
+                    }
 
                     .created-at {
                         color: var(--text-muted);
@@ -146,6 +152,14 @@ header {
                     top: 0;
                     left: 0;
                     background-color: var(--color-primary);
+                }
+
+                .notif-leaving {
+                    opacity: 0;
+                    transform: translateX(-100%);
+                    transition:
+                        opacity 500ms ease-out,
+                        transform 500ms ease-out;
                 }
             }
         }
