@@ -23,7 +23,42 @@ div {
     .form-section input {
         padding: 10px 20px;
         border-radius: 4px;
+        width: 100%;
+
+        background-color: var(--bg-primary);
+        color: var(--text-primary);
+
+        border: 1px solid var(--bg-secondary);
+        border-radius: 20px;
+
         outline: none;
+
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &::placeholder {
+            color: var(--text-muted);
+        }
+
+        &:focus {
+            border-color: var(--color-primary);
+            box-shadow:
+                0 0 0 2px rgba(148, 137, 121, 0.1),
+                0 0 8px rgba(223, 208, 184, 0.2)
+        }
+    }
+
+    .form-section button {
+        padding: 5px;
+        border-radius: 8px;
+        border: none;
+        background-color: var(--color-primary);
+        color: var(--bg-primary);
+        font-weight: 500;
+        transition: 0.3s ease;
+
+        &:hover {
+            background-color: var(--color-secondary);
+        }
     }
 
     .error {

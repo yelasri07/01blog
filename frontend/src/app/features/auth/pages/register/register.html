@@ -14,7 +14,7 @@
         <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" class="d-flex flex-column gap-4">
             <input [ngClass]="{
                     'border-danger': username.invalid && username.touched
-                }" class="border" formControlName="username" type="text" placeholder="Username" maxlength="20">
+                }" formControlName="username" type="text" placeholder="Username" maxlength="20">
             @if (username.invalid && username.touched) {
             @if(username.hasError('required') || username.hasError('minlength') || username.hasError('maxlength')) {
             <span class="error text-danger">Username should be between 3 and 20 characters</span>
@@ -26,7 +26,7 @@
             }
             <input [ngClass]="{
                 'border-danger': email.invalid && email.touched
-            }" class="border" formControlName="email" type="email" placeholder="Email Address">
+            }" formControlName="email" type="email" placeholder="Email Address">
             @if (email.invalid && email.touched) {
             @if(email.hasError('required') || email.hasError('email')) {
             <span class="error text-danger">Please provide a valid email</span>
@@ -37,10 +37,10 @@
             <div class="row gap-3 g-0">
                 <input [ngClass]="{
                     'border-danger': password.invalid && password.touched
-                }" maxlength="30" class="border col" formControlName="password" type="password" placeholder="Password">
+                }" maxlength="30" class="col" formControlName="password" type="password" placeholder="Password">
                 <input [ngClass]="{
                     'border-danger': registerForm.hasError('PasswordNoMatch') && confirmation.touched
-                }" maxlength="30" class="border col" formControlName="confirmation" type="password"
+                }" maxlength="30" class="col" formControlName="confirmation" type="password"
                     placeholder="Confirmation">
             </div>
             @if (password.invalid && password.touched) {
@@ -52,8 +52,8 @@
             } @else if (confirmation.touched && registerForm.hasError('PasswordNoMatch')) {
             <span class="error text-danger">Passwords do not match</span>
             }
-            <button class="btn btn-dark" type="submit">Sign up</button>
-            <p class="text-muted">Already have an account? <a class="text-decoration-none" routerLink="/auth/login">Sign
+            <button type="submit">Sign up</button>
+            <p>Already have an account? <a class="text-decoration-none" routerLink="/auth/login">Sign
                     in</a></p>
         </form>
     </section>
