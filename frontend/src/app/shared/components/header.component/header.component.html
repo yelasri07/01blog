@@ -29,7 +29,11 @@
                             <span class="d-block created-at">{{ notification.created_at | dateFormat }}</span>
                             <b>{{ notification.sender_username
                                 }}</b> {{notification.message}}
-                            <span (click)="deleteNotification(notification.id)" class="delete-notif">
+                            <span (click)="updateNotificationStatus(notification.id, $event)" class="update-notif"
+                                [ngClass]="{'is-read': notification.is_read}">
+                                <i class="bi bi-check"></i>
+                            </span>
+                            <span (click)="deleteNotification(notification.id, $event)" class="delete-notif">
                                 <i class="bi bi-x"></i>
                             </span>
                         </p>

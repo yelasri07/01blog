@@ -142,6 +142,22 @@ header {
                             color: var(--color-primary);
                         }
                     }
+
+                    .update-notif {
+                        position: absolute;
+                        right: 30px;
+                        top: 5px;
+                        font-size: 1.1em;
+                        color: var(--text-secondary);
+
+                        &:hover {
+                            color: var(--color-primary);
+                        }
+                    }
+                    
+                    .is-read {
+                        color: var(--color-primary);
+                    }
                 }
 
                 p.is-new-notif::before {

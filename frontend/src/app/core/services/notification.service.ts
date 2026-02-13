@@ -16,4 +16,8 @@ export class NotificationService {
   submitDeleteNotification(notifId: number) {
     return this.http.delete(API_URL + `/notification/${notifId}`)
   }
+
+  submitUpdateNotificationStatus(notifId: number) {
+    return this.http.patch<{ message: string, is_read: boolean }>(API_URL + `/notification/${notifId}`, {})
+  }
 }

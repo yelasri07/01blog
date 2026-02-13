@@ -60,4 +60,26 @@ public class NotificationService {
         return Map.of("message", "Notification deleted succesfully");
     }
 
+    public Map<String, Object> updateReadStatus(Long notifId, UserEntity user) {
+        NotificationEntity notification = notificationRepository.findById(notifId)
+                .orElseThrow(() -> new NotFoundException("Notification not found"));
+
+        if (!notification.getRecipientUser().getId().equals(user.getId())) {
+            throw new BadRequestException("Cannot update status other users notifications");
+        }
+
+        notification.setIs_read(!notification.getIs_read());
+        notificationRepository.save(notification);
+
+        String message = "Notification is read now";
+        if (!notification.getIs_read()) {
+            message = "Notification is unread now";
+        }
+
+        return Map.of(
+                "id", notification.getId(),
+                "message", message,
+                "is_read", notification.getIs_read());
+    }
+
 }

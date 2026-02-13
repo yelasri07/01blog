@@ -43,9 +43,22 @@ export class HeaderComponent {
     })
   }
 
-  deleteNotification(notifId: number) {
+  deleteNotification(notifId: number, event: MouseEvent) {
+    event.stopPropagation();
     this.notificationService.submitDeleteNotification(notifId).subscribe(res => {
       this.notifications.set(this.notifications()?.filter(notif => notif.id !== notifId) ?? [])
+    })
+  }
+
+  updateNotificationStatus(notifId: number, event: MouseEvent) {
+    event.stopPropagation();
+    this.notificationService.submitUpdateNotificationStatus(notifId).subscribe(res => {
+      this.notifications.set(
+        this.notifications()?.map(notif => {
+          if (notif.id === notifId) notif.is_read = res.is_read
+          return notif
+        }) ?? []
+      )
     })
   }
 

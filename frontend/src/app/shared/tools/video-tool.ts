@@ -92,7 +92,7 @@ export class VideoTool {
     }
 
     validate(savedData: any) {
-        if (!savedData.file.url || !savedData.file.url.trim()) {
+        if (!savedData?.file?.url || !savedData.file.url.trim()) {
             return false;
         }
 
