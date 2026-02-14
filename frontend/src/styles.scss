@@ -64,3 +64,9 @@ body {
   background-color: var(--bg-primary) !important;
   color: var(--text-primary) !important;
 }
+
+@media (max-width: 1279.98px) {
+  body {
+      font-size: 14px !important;
+  }
+}

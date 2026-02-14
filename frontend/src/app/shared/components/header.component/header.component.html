@@ -2,10 +2,13 @@
     <nav class="d-flex justify-content-between align-items-center container p-0">
         <div class="start d-flex align-items-center gap-4">
             <a [routerLink]="'/'" class="logo">01BLOG</a>
+            @if (!isVisibleMenu()) {
             <app-search-input />
+            }
         </div>
 
         <div class="end d-flex align-items-center gap-4">
+            @if (!isVisibleMenu()) {
             <ul class="list-unstyled d-flex m-0 gap-4">
                 <li routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">Home</li>
                 <li routerLink="/dashboard" [routerLinkActive]="['active']">Dashboard</li>
@@ -68,6 +71,66 @@
                     }
                 </button>
             </div>
+            } @else {
+            <div (click)="getNotifications($event)" class="notif">
+                <i class="bi bi-bell"></i>
+                @if (isVisibleNotifs()) {
+                <div (click)="$event.stopPropagation()" class="dropdown-notif shadow">
+                    <div class="notif-header d-flex justify-content-between align-items-center">
+                        <i class="bi bi-bell"></i>
+                        <span>Notifications</span>
+                        <i class="bi bi-chat"></i>
+                    </div>
+                    <div class="notif-body">
+                        @for (notification of notifications(); track notification.id) {
+                        <p [routerLink]="['/blogs', notification.target_id]" animate.leave="notif-leaving"
+                            animate.enter="notif-enter" class="m-0" [ngClass]="{'is-new-notif': !notification.is_read}">
+                            <span class="d-block created-at">{{ notification.created_at | dateFormat }}</span>
+                            <b>{{ notification.sender_username
+                                }}</b> {{notification.message}}
+                            <span (click)="updateNotificationStatus(notification.id, $event)" class="update-notif"
+                                [ngClass]="{'is-read': notification.is_read}">
+                                <i class="bi bi-check"></i>
+                            </span>
+                            <span (click)="deleteNotification(notification.id, $event)" class="delete-notif">
+                                <i class="bi bi-x"></i>
+                            </span>
+                        </p>
+                        } @empty {
+                        <p>no notifications</p>
+                        }
+                    </div>
+                </div>
+                }
+            </div>
+
+            <div class="menu">
+                <span (click)="showMenuOptions($event)"><i class="bi bi-list"></i></span>
+                @if (showMenu()) {
+                <div class="dropdown-menu-options shadow">
+                    <p [routerLink]="['/profile', userInfos()?.id]" [routerLinkActive]="['active']"
+                        class="username d-flex align-items-center justify-content-center gap-2">
+                        <img [src]="userInfos()?.profile_image || '/assets/images/profileImage.webp'"
+                            alt="profile-picture">
+                        {{ userInfos()?.username }}
+                    </p>
+                    <div class="divider"></div>
+                    <p routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">Home</p>
+                    <div class="divider"></div>
+                    <p routerLink="/dashboard" [routerLinkActive]="['active']">Dashboard</p>
+                    <div class="divider"></div>
+                    <p routerLink="/create-blog" [routerLinkActive]="['active']"
+                        class="d-flex align-items-center gap-2 justify-content-center">Write <i class="bi bi-book"></i>
+                    </p>
+                    <div class="divider"></div>
+                    <button class="logout-btn text-danger" (click)="logout()">
+                        Logout
+                    </button>
+                </div>
+                }
+            </div>
+            }
+
         </div>
     </nav>
 </header>

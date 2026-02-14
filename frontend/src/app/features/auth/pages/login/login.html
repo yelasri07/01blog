@@ -1,8 +1,4 @@
 <div class="row w-100 h-100">
-    @if (showPopup()) {
-    <!-- <app-popup [popup]="popup()" /> -->
-    }
-
     <section class="img-section col h-100">
         <!-- <img class="w-100 h-100" src="/assets/images/office.jpg"> -->
     </section>
@@ -28,8 +24,7 @@
             <span class="error text-danger">Password cannot be empty</span>
             }
             <button type="submit">Sign in</button>
-            <p>Don't have an account? <a class="text-decoration-none"
-                    routerLink="/auth/register">Sign up</a></p>
+            <p>Don't have an account? <a class="text-decoration-none" routerLink="/auth/register">Sign up</a></p>
         </form>
     </section>
 </div>

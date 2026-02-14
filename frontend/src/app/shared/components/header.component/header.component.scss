@@ -154,7 +154,7 @@ header {
                             color: var(--color-primary);
                         }
                     }
-                    
+
                     .is-read {
                         color: var(--color-primary);
                     }
@@ -268,6 +268,80 @@ header {
         }
     }
 
+    .menu {
+        position: relative;
+
+        span {
+            font-size: 1.7em;
+            cursor: pointer;
+
+            &:hover {
+                color: var(--color-primary);
+            }
+        }
+
+        .dropdown-menu-options {
+            position: absolute;
+            right: 4px;
+            top: 65px;
+            width: 180px;
+            background-color: var(--bg-primary);
+            border-radius: 8px;
+            padding: 12px;
+            z-index: 1001;
+
+            >p {
+                margin: 0;
+                font-weight: 600;
+                font-size: 14px;
+                color: var(--text-primary);
+                text-align: center;
+                cursor: pointer;
+
+                &:hover {
+                    color: var(--color-secondary);
+                }
+            }
+
+            .divider {
+                height: 1px;
+                background-color: rgba(255, 255, 255, 0.1);
+                margin: 10px 0;
+            }
+
+            img {
+                border-radius: 50%;
+                border: 1px solid var(--color-primary);
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .active {
+                color: var(--color-secondary);
+            }
+
+            .logout-btn {
+                width: 100%;
+                padding: 8px 10px;
+
+                background: transparent;
+                border: none;
+                border-radius: 6px;
+
+                font-size: 14px;
+                cursor: pointer;
+
+                transition: background-color 0.2s ease;
+            }
+
+            .logout-btn:hover {
+                background-color: rgba(231, 76, 60, 0.1);
+            }
+        }
+    }
+
     .logout {
         font-size: .9em;
     }
@@ -277,7 +351,6 @@ header {
     .search-input {
         input {
             padding: 8px 14px;
-            // font-size: 
         }
     }
 }

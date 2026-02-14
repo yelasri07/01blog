@@ -17,8 +17,6 @@ export class Login {
   private authStateService = inject(AuthStateService)
   private router = inject(Router)
 
-  showPopup = signal(false);
-
   loginForm = new FormGroup({
     username: new FormControl('', {
       validators: [Validators.required]
@@ -45,18 +43,7 @@ export class Login {
             'backend': err.error.detail
           })
         } else {
-          // if (!this.popupService.timer) {
-          //   this.showPopup.set(true)
-          //   this.popup.update(p => ({
-          //     ...p,
-          //     message: 'Ooops! something wrong',
-          //     isValid: false,
-          //   }))
-          //   this.popupService.timer = setTimeout(() => {
-          //     this.showPopup.set(false)
-          //     this.popupService.timer = null
-          //   }, this.popup().delay)
-          // }
+          throw new Error(err);
         }
       }
     })

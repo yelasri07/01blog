@@ -1,4 +1,4 @@
-import { Component, HostListener, inject, signal } from '@angular/core';
+import { Component, HostListener, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthStateService } from '../../../core/services/auth.state.service';
 import { SearchInput } from "../search-input/search-input";
@@ -6,6 +6,8 @@ import { NotificationService } from '../../../core/services/notification.service
 import { notificationInterface } from '../../../core/interfaces/notification.interface';
 import { NgClass } from '@angular/common';
 import { DateFormatPipe } from '../../pipes/date-format-pipe';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,15 +15,30 @@ import { DateFormatPipe } from '../../pipes/date-format-pipe';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit, OnDestroy {
   private router = inject(Router);
   private authStateService = inject(AuthStateService)
   private notificationService = inject(NotificationService)
+  private breakpointObserver = inject(BreakpointObserver)
 
   showDropdown = signal(false);
   userInfos = signal(this.authStateService.getCurrentUser())
   notifications = signal<notificationInterface[] | null>(null);
   isVisibleNotifs = signal(false);
+  isVisibleMenu = signal(false);
+  showMenu = signal(false);
+
+  private breakpointsSubscription!: Subscription;
+
+  ngOnInit(): void {
+    this.breakpointsSubscription = this.breakpointObserver.observe(['(max-width: 839.98px)']).subscribe(res => {
+      this.isVisibleMenu.set(res.matches)
+    })
+  }
+
+  ngOnDestroy(): void {
+    this.breakpointsSubscription.unsubscribe()
+  }
 
   logout() {
     this.authStateService.setCurrentUser(null)
@@ -37,6 +54,7 @@ export class HeaderComponent {
   getNotifications(event: MouseEvent) {
     event.stopPropagation()
     this.isVisibleNotifs.update(prev => !prev)
+    this.showMenu.set(false)
     if (!this.isVisibleNotifs()) return;
     this.notificationService.fetchNotifications().subscribe(res => {
       this.notifications.set(res)
@@ -62,10 +80,17 @@ export class HeaderComponent {
     })
   }
 
+  showMenuOptions(event: MouseEvent) {
+    event.stopPropagation();
+    this.showMenu.update(prev => !prev);
+    this.isVisibleNotifs.set(false)
+  }
+
   @HostListener('document:click')
   onDocumentClick() {
     this.showDropdown.set(false);
     this.isVisibleNotifs.set(false)
+    this.showMenu.set(false);
   }
 
 }

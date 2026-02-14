@@ -24,7 +24,7 @@ export class AuthStateService {
   }
 
   isAuthenticated(): boolean {
-    return this.currentUser() !== null ;
+    return this.currentUser() !== null;
   }
 
   getCurrentUser() {

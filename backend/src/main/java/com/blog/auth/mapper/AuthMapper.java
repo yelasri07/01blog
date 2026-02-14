@@ -15,6 +15,7 @@ public class AuthMapper {
                 .email(user.getEmail())
                 .role(user.getRole().toString())
                 .createdAt(user.getCreated_at())
+                .profileImage(user.getProfile_image())
                 .token(token)
                 .build();
     }
