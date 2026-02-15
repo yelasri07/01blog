@@ -15,6 +15,7 @@ import com.blog.notification.dto.notificationOutputDTO;
 import com.blog.notification.services.NotificationService;
 import com.blog.user.model.UserEntity;
 
+
 @RestController
 @RequestMapping("/notification")
 public class NotificationController {
@@ -38,6 +39,11 @@ public class NotificationController {
     @PatchMapping("/{id}")
     public Map<String, Object> update(@PathVariable("id") Long notifId, @AuthenticationPrincipal UserEntity user) {
         return notificationService.updateReadStatus(notifId, user);
+    }
+
+    @GetMapping("/unread/count")
+    public Long getNotificationsCount(@AuthenticationPrincipal UserEntity user) {
+        return notificationService.getUnreadNotificationsCount(user);
     }
 
 }

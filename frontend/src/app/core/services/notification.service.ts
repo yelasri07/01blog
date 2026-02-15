@@ -13,6 +13,10 @@ export class NotificationService {
     return this.http.get<notificationInterface[]>(API_URL + "/notification")
   }
 
+  getUnreadNotificationsCount() {
+    return this.http.get<number>(API_URL + "/notification/unread/count")
+  }
+
   submitDeleteNotification(notifId: number) {
     return this.http.delete(API_URL + `/notification/${notifId}`)
   }

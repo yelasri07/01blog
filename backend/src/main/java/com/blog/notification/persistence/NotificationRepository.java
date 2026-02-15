@@ -20,4 +20,10 @@ public interface NotificationRepository extends JpaRepository<NotificationEntity
             """)
     List<notificationOutputDTO> findNotifications(Long userId);
 
+    @Query(nativeQuery = true, value = """
+            SELECT COUNT(n.id) FROM notification n
+            WHERE n.recipient_id = :userId AND is_read = false
+            """)
+    Long countUnreadNotifications(Long userId);
+
 }

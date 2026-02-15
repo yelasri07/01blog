@@ -27,12 +27,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isVisibleNotifs = signal(false);
   isVisibleMenu = signal(false);
   showMenu = signal(false);
+  notificationsCount = signal(0);
 
   private breakpointsSubscription!: Subscription;
 
   ngOnInit(): void {
     this.breakpointsSubscription = this.breakpointObserver.observe(['(max-width: 839.98px)']).subscribe(res => {
       this.isVisibleMenu.set(res.matches)
+    })
+
+    this.notificationService.getUnreadNotificationsCount().subscribe(res => {
+      this.notificationsCount.set(res)
     })
   }
 
@@ -49,12 +54,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   dropdownProfile(event: MouseEvent) {
     event.stopPropagation();
     this.showDropdown.update(prev => !prev)
+    this.isVisibleNotifs.set(false)
   }
 
   getNotifications(event: MouseEvent) {
     event.stopPropagation()
     this.isVisibleNotifs.update(prev => !prev)
     this.showMenu.set(false)
+    this.showDropdown.set(false);
     if (!this.isVisibleNotifs()) return;
     this.notificationService.fetchNotifications().subscribe(res => {
       this.notifications.set(res)

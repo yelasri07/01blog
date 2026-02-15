@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth-guard';
 import { loginRegisterGuard } from './core/guards/login-register-guard';
+import { adminGuard } from './core/guards/admin-guard';
 
 export const routes: Routes = [
     {
@@ -17,6 +18,7 @@ export const routes: Routes = [
     },
     {
         path: 'dashboard',
+        canActivateChild: [adminGuard],
         loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
         loadChildren: () => import("./features/dashboard/dashboard.routes").then(m => m.dashboardRoutes)
     },

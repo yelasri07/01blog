@@ -11,12 +11,14 @@
             @if (!isVisibleMenu()) {
             <ul class="list-unstyled d-flex m-0 gap-4">
                 <li routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">Home</li>
+                @if (userInfos()?.role === "ADMIN") {
                 <li routerLink="/dashboard" [routerLinkActive]="['active']">Dashboard</li>
+                }
                 <li routerLink="/create-blog" [routerLinkActive]="['active']" class="d-flex align-items-center gap-2">
                     Write <i class="bi bi-book"></i></li>
             </ul>
 
-            <div (click)="getNotifications($event)" class="notif">
+            <div (click)="getNotifications($event)" class="notif" [ngClass]="{'has-notifs': notificationsCount()}">
                 <i class="bi bi-bell"></i>
                 @if (isVisibleNotifs()) {
                 <div (click)="$event.stopPropagation()" class="dropdown-notif shadow">
@@ -72,7 +74,7 @@
                 </button>
             </div>
             } @else {
-            <div (click)="getNotifications($event)" class="notif">
+            <div (click)="getNotifications($event)" class="notif" [ngClass]="{'has-notifs': notificationsCount()}">
                 <i class="bi bi-bell"></i>
                 @if (isVisibleNotifs()) {
                 <div (click)="$event.stopPropagation()" class="dropdown-notif shadow">
@@ -117,8 +119,10 @@
                     <div class="divider"></div>
                     <p routerLink="/" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{exact: true}">Home</p>
                     <div class="divider"></div>
+                    @if (userInfos()?.role === "ADMIN") {
                     <p routerLink="/dashboard" [routerLinkActive]="['active']">Dashboard</p>
                     <div class="divider"></div>
+                    }
                     <p routerLink="/create-blog" [routerLinkActive]="['active']"
                         class="d-flex align-items-center gap-2 justify-content-center">Write <i class="bi bi-book"></i>
                     </p>

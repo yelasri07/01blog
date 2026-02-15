@@ -82,4 +82,8 @@ public class NotificationService {
                 "is_read", notification.getIs_read());
     }
 
+    public Long getUnreadNotificationsCount(UserEntity user) {
+        return notificationRepository.countUnreadNotifications(user.getId());
+    }
+
 }
