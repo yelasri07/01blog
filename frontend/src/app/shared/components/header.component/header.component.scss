@@ -365,3 +365,30 @@ header {
         }
     }
 }
+
+@media (max-width: 599.98px) {
+    .notif {
+        .dropdown-notif {
+            width: 300px !important;
+            right: -50px !important;
+        }
+    }
+}
+
+@media (max-height: 750px) {
+    .dropdown-notif {
+        max-height: 550px !important;
+    }
+}
+
+@media (max-height: 640px) {
+    .dropdown-notif {
+        max-height: 450px !important;
+    }
+}
+
+@media (max-height: 540px) {
+    .dropdown-notif {
+        max-height: 350px !important;
+    }
+}

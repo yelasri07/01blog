@@ -32,4 +32,20 @@ section.search {
             font-size: 1.3em;
         }
     }
+
+    @media (max-width: 839.98px) {
+        .search-input {
+            max-width: 500px !important;
+        }
+
+        .welcome-message {
+            width: 100% !important;
+        }
+    }
+
+    @media (max-width: 599.98px) {
+        .search-input {
+            width: 100%;
+        }
+    }
 }
