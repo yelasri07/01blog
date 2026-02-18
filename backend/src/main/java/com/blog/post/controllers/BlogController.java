@@ -55,8 +55,9 @@ public class BlogController {
 
     @GetMapping
     public List<AllBlogsOutputDTO> get(@RequestParam(name = "last_id", defaultValue = "-1") Long lastId,
-            @RequestParam(defaultValue = "50") Long limit) {
-        return blogService.getBlogs(null, lastId, limit);
+            @RequestParam(defaultValue = "50") Long limit,
+            @AuthenticationPrincipal UserEntity user) {
+        return blogService.getBlogs(null, lastId, limit, user);
     }
 
     @GetMapping("dashboard")
@@ -68,8 +69,9 @@ public class BlogController {
     @GetMapping("/profile/{userId}")
     public List<AllBlogsOutputDTO> getProfileBlogs(@PathVariable Long userId,
             @RequestParam(name = "last_id", defaultValue = "-1") Long lastId,
-            @RequestParam(defaultValue = "50") Long limit) {
-        return blogService.getBlogs(userId, lastId, limit);
+            @RequestParam(defaultValue = "50") Long limit,
+            @AuthenticationPrincipal UserEntity user) {
+        return blogService.getBlogs(userId, lastId, limit, user);
     }
 
     @GetMapping("/{id}")

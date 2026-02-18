@@ -13,27 +13,37 @@ import com.blog.post.model.BlogEntity;
 @Repository
 public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
         @Query(value = """
-                        SELECT b.id, b.title, b.created_at, b.user_id, u.username, u.profile_image FROM blog b
+                        SELECT b.id, b.title, b.created_at, b.user_id, u.username, u.profile_image, b.like_count,
+                        EXISTS (
+                                SELECT true FROM blog_likes bl
+                                WHERE bl.user_id = :userId AND bl.blog_id = b.id
+                        )
+                        FROM blog b
                         INNER JOIN users u ON b.user_id = u.id
                         WHERE b.id < :lastId OR :lastId <= 0
                         ORDER BY b.id DESC
                         LIMIT :limit
                         """, nativeQuery = true)
-        List<AllBlogsOutputDTO> findBlogs(Long lastId, Long limit);
+        List<AllBlogsOutputDTO> findBlogs(Long lastId, Long limit, Long userId);
 
         @Query(value = """
-                        SELECT b.id, b.title, b.created_at, b.user_id, u.username, u.profile_image FROM blog b
+                        SELECT b.id, b.title, b.created_at, b.user_id, u.username, u.profile_image, b.like_count,
+                        EXISTS (
+                                SELECT true FROM blog_likes bl
+                                WHERE bl.user_id = :userId AND bl.blog_id = b.id
+                        )
+                        FROM blog b
                         INNER JOIN users u ON b.user_id = u.id
-                        WHERE u.id = :userId AND (b.id < :lastId OR :lastId <= 0)
+                        WHERE u.id = :profileUserId AND (b.id < :lastId OR :lastId <= 0)
                         ORDER BY b.id DESC
                         LIMIT :limit
                         """, nativeQuery = true)
-        List<AllBlogsOutputDTO> findProfileBlogs(Long userId, Long lastId, Long limit);
+        List<AllBlogsOutputDTO> findProfileBlogs(Long profileUserId, Long lastId, Long limit, Long userId);
 
         @Query(nativeQuery = true, value = """
-                SELECT b.id, b.title, b.created_at, b.is_hidden 
-                FROM blog b
-                ORDER BY b.id
-                        """)
+                        SELECT b.id, b.title, b.created_at, b.is_hidden
+                        FROM blog b
+                        ORDER BY b.id
+                                """)
         List<DashboardBlogsOutputDTO> findAllBlogs();
 }

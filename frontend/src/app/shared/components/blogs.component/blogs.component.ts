@@ -51,21 +51,17 @@ export class BlogsComponent implements OnChanges {
   }
 
   private fetchBlogs(lastId?: number) {
-    this.blogService.getBlogs(this.profileUserId(), lastId).subscribe({
-      next: response => {
-        if (response.length === 0) {
-          this.isAbleToFetchBlogs.set(false)
-          return
-        }
-        this.isAbleToFetchBlogs.set(true)
-        this.blogs.update(prev => (
-          [...prev || [], ...response.map(blog => signal(blog))]
-        ));
-        this.lastBlogId.set(this.blogs()![this.blogs()?.length! - 1]().id)
-      },
-      error: err => {
-        console.error(err);
+    this.blogService.getBlogs(this.profileUserId(), lastId).subscribe(response => {
+      console.log(response)
+      if (response.length === 0) {
+        this.isAbleToFetchBlogs.set(false)
+        return
       }
+      this.isAbleToFetchBlogs.set(true)
+      this.blogs.update(prev => (
+        [...prev || [], ...response.map(blog => signal(blog))]
+      ));
+      this.lastBlogId.set(this.blogs()![this.blogs()?.length! - 1]().id)
     })
   }
 }

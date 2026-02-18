@@ -15,8 +15,8 @@
     } @empty {
     <p>No blogs</p>
     }
-    <div appIntersectionobserver (isIntersecting)="onFetchNextBlogSet($event)"></div>
 </div>
+<div class="p-5" appIntersectionobserver (isIntersecting)="onFetchNextBlogSet($event)"></div>
 
 @if (showSuccessPopup()) {
 <app-success-popup [message]="showSuccessPopup()" (close)="hideSuccessPopup()" />
