@@ -52,7 +52,6 @@ export class BlogsComponent implements OnChanges {
 
   private fetchBlogs(lastId?: number) {
     this.blogService.getBlogs(this.profileUserId(), lastId).subscribe(response => {
-      console.log(response)
       if (response.length === 0) {
         this.isAbleToFetchBlogs.set(false)
         return

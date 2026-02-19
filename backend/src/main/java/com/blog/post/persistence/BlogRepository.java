@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.blog.post.dto.AllBlogsOutputDTO;
 import com.blog.post.dto.DashboardBlogsOutputDTO;
 import com.blog.post.model.BlogEntity;
+import com.blog.post.model.BlogSearchDTO;
 
 @Repository
 public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
@@ -46,4 +47,12 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
                         ORDER BY b.id
                                 """)
         List<DashboardBlogsOutputDTO> findAllBlogs();
+
+        @Query(nativeQuery = true, value = """
+                        SELECT b.id, b.title FROM blog b
+                        WHERE LOWER(b.title) like %:title%
+                        ORDER BY b.id DESC
+                        LIMIT 5
+                        """)
+        List<BlogSearchDTO> searchBlogs(String title);
 }

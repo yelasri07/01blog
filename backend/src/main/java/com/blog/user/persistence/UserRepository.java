@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.blog.user.dto.UserOutputDTO;
 import com.blog.user.dto.UserProfileOutputDTO;
+import com.blog.user.dto.UserSearchDTO;
 import com.blog.user.model.UserEntity;
 
 @Repository
@@ -36,14 +37,18 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
                 """)
     Optional<UserProfileOutputDTO> findUserProfile(Long userProfileId, Long userId);
 
-    @Query(
-        nativeQuery = true,
-        value = 
-        """
+    @Query(nativeQuery = true, value = """
             SELECT u.id, u.username, u.email, u.profile_image, u.role, NULL as token, u.created_at, u.is_banned
             FROM users u
             ORDER BY u.id
-                """
-    )
+                """)
     List<UserOutputDTO> findAllUsers();
+
+    @Query(nativeQuery = true, value = """
+            SELECT u.id, u.username, u.profile_image FROM users u
+            WHERE LOWER(u.username) like %:username%
+            ORDER BY u.id DESC
+            LIMIT 5
+            """)
+    List<UserSearchDTO> searchUsers(String username);
 }
