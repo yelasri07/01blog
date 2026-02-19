@@ -15,6 +15,7 @@
         span {
             font-size: 1.3em;
             cursor: pointer;
+            z-index: 1;
 
             &:hover {
                 color: var(--color-primary);

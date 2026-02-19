@@ -1,4 +1,18 @@
 <div class="search-input">
-    <input (input)="handleSearch($event)" type="text" [placeholder]="placeholder()">
-    <i class="bi bi-search"></i>
+    <div class="search-bar">
+        <input (input)="handleSearch($event)" type="text" [placeholder]="placeholder()">
+        <i class="bi bi-search"></i>
+    </div>
+    <div class="search-result shadow-lg">
+        @for (user of searchData()?.users; track user.id) {
+        <p class="d-flex align-items-center gap-2 justify-content-between"><span
+                class="d-flex align-items-center gap-2"><i class="bi bi-search"></i> {{
+                user.username }}</span>
+            <img src="{{user.profile_image || '/assets/images/profileImage.webp'}}" alt="profile image">
+        </p>
+        }
+        @for (blog of searchData()?.blogs; track blog.id) {
+        <p class="d-flex align-items-center gap-2"><i class="bi bi-search"></i> {{ blog.title }}</p>
+        }
+    </div>
 </div>

@@ -360,6 +360,12 @@ header {
 
 :host::ng-deep {
     .search-input {
+        .search-result {
+            position: absolute;
+            max-height: 400px;
+            overflow: auto;
+        }
+
         input {
             padding: 8px 14px;
         }

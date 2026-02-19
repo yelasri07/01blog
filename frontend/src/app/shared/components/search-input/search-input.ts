@@ -1,5 +1,7 @@
-import { Component, input, OnDestroy, signal } from '@angular/core';
+import { Component, HostListener, inject, input, OnDestroy, signal } from '@angular/core';
 import { debounceTime, Subject, Subscription } from 'rxjs';
+import { SearchService } from '../../../core/services/search.service';
+import { searchInterface } from '../../../core/interfaces/search.interface';
 
 @Component({
   selector: 'app-search-input',
@@ -11,11 +13,15 @@ export class SearchInput implements OnDestroy {
   private searchSubject = new Subject<string>();
   private searchSubscription: Subscription;
 
+  private searchService = inject(SearchService);
+
+  searchData = signal<searchInterface | null>(null);
+
   placeholder = input("Search...");
 
   constructor() {
     this.searchSubscription = this.searchSubject.pipe(
-      debounceTime(1000)
+      debounceTime(300)
     ).subscribe(value => {
       this.search(value);
     })
@@ -31,6 +37,15 @@ export class SearchInput implements OnDestroy {
   }
 
   private search(value: string) {
+    if (value.trim() === '') this.searchData.set(null)
+    if (value.trim().length > 0) this.searchService.searchByUsersAndBlogs(value).subscribe(res => {
+      this.searchData.set(res);
+      console.log(this.searchData())
+    })
+  }
 
+  @HostListener("document:click")
+  hideSearchResult() {
+    console.log('first')
   }
 }

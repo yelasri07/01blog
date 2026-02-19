@@ -1,7 +1,7 @@
 section.search {
-    height: 400px;
+    min-height: 400px;
     animation: fadeSlideIn 0.8s ease-out forwards;
-
+    
     .welcome-message {
         font-size: 1.3em;
         width: 500px;

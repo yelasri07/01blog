@@ -50,7 +50,7 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
 
         @Query(nativeQuery = true, value = """
                         SELECT b.id, b.title FROM blog b
-                        WHERE LOWER(b.title) like %:title%
+                        WHERE LOWER(b.title) like %:title% AND (b.is_hidden = false OR b.is_hidden IS NULL)
                         ORDER BY b.id DESC
                         LIMIT 5
                         """)

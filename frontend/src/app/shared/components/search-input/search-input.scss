@@ -1,6 +1,10 @@
 .search-input {
     position: relative;
 
+    .search-bar {
+        position: relative;
+    }
+
     input {
         width: 100%;
 
@@ -26,10 +30,56 @@
         }
     }
 
-    i {
+    .search-bar>i {
         position: absolute;
         top: 50%;
         right: 18px;
         transform: translateY(-50%);
+    }
+
+    .search-result {
+        width: 100%;
+        left: 0;
+        border-radius: 20px;
+        background-color: var(--bg-primary);
+
+        p {
+            padding: 15px;
+            margin: 0;
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--bg-secondary);
+            }
+
+            img {
+                border-radius: 50%;
+                border: 1px solid var(--color-primary);
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+            border-radius: 10px;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background-color: var(--bg-secondary);
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background-color: var(--color-primary);
+        }
     }
 }
