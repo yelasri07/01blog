@@ -2,10 +2,11 @@ import { Component, HostListener, inject, input, OnDestroy, signal } from '@angu
 import { debounceTime, Subject, Subscription } from 'rxjs';
 import { SearchService } from '../../../core/services/search.service';
 import { searchInterface } from '../../../core/interfaces/search.interface';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-search-input',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './search-input.html',
   styleUrl: './search-input.scss',
 })
@@ -40,12 +41,11 @@ export class SearchInput implements OnDestroy {
     if (value.trim() === '') this.searchData.set(null)
     if (value.trim().length > 0) this.searchService.searchByUsersAndBlogs(value).subscribe(res => {
       this.searchData.set(res);
-      console.log(this.searchData())
     })
   }
 
   @HostListener("document:click")
   hideSearchResult() {
-    console.log('first')
+    this.searchData.set(null)
   }
 }
