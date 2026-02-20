@@ -14,7 +14,7 @@
             <td>{{report.id}}</td>
             <td><a [routerLink]="['/profile', report.reporter_id]">profile</a></td>
             @if (report.show_more) {
-            <td (click)="showReason($event, report.reason)" class="show-more">{{report.reason | showMorePipe}}</td>
+            <td (click)="showReason($event, report.reason)" class="show-more">{{report.reason | showMorePipe: 7}}</td>
             } @else {
             <td>{{report.reason}}</td>
             }

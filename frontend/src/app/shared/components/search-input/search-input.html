@@ -12,7 +12,7 @@
         </p>
         }
         @for (blog of searchData()?.blogs; track blog.id) {
-        <p [routerLink]="['/blogs', blog.id]" class="d-flex align-items-center gap-2"><i class="bi bi-search"></i> {{ blog.title }}</p>
+        <p [routerLink]="['/blogs', blog.id]" class="d-flex align-items-center gap-2"><i class="bi bi-search"></i> {{ blog.title | showMorePipe: 15}}</p>
         }
     </div>
 </div>

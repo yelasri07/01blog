@@ -3,10 +3,11 @@ import { debounceTime, Subject, Subscription } from 'rxjs';
 import { SearchService } from '../../../core/services/search.service';
 import { searchInterface } from '../../../core/interfaces/search.interface';
 import { RouterLink } from "@angular/router";
+import { ShowMorePipePipe } from '../../pipes/show-more.pipe-pipe';
 
 @Component({
   selector: 'app-search-input',
-  imports: [RouterLink],
+  imports: [RouterLink, ShowMorePipePipe],
   templateUrl: './search-input.html',
   styleUrl: './search-input.scss',
 })

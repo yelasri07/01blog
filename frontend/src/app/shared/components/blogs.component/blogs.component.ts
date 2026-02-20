@@ -6,10 +6,11 @@ import { BlogFooterComponent } from "../blog-footer.component/blog-footer.compon
 import { RouterLink } from "@angular/router";
 import { IntersectionobserverDirective } from "../../directives/intersectionobserver.directive";
 import { SuccessPopupComponent } from "../success-popup.component/success-popup.component";
+import { ShowMorePipePipe } from '../../pipes/show-more.pipe-pipe';
 
 @Component({
   selector: 'app-blogs',
-  imports: [BlogHeaderComponent, BlogFooterComponent, RouterLink, IntersectionobserverDirective, SuccessPopupComponent],
+  imports: [BlogHeaderComponent, BlogFooterComponent, RouterLink, IntersectionobserverDirective, SuccessPopupComponent, ShowMorePipePipe],
   templateUrl: './blogs.component.html',
   styleUrl: './blogs.component.scss',
 })

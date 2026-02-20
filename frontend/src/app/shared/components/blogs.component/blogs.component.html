@@ -4,7 +4,7 @@
         <app-blog-header (delete)="deletedBlog($event, blog().id)" [blog]="blog()" />
         <div class="blog-body">
             <p class="title text-center">
-                {{ blog().title }}
+                {{ blog().title | showMorePipe: 20}}
             </p>
             <div class="read">
                 <button [routerLink]="'/blogs/'+ blog().id">View more <i class="bi bi-arrow-up-right"></i></button>

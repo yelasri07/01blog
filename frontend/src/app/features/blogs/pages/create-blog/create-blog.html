@@ -2,7 +2,7 @@
 <app-error [message]="showBlogNotFoundError()" />
 } @else {
 <section class="create-blog">
-    <input #title type="text" placeholder="Title..." class="title w-100 mb-4">
+    <input maxlength="200" #title type="text" placeholder="Title..." class="title w-100 mb-4">
     <div id="editorjs"></div>
     @if (creationBlogError()) {
     <p class="text-danger">{{ creationBlogError() }}</p>
