@@ -24,8 +24,9 @@
         @for (comment of comments(); track comment.id ) {
         <div class="comment">
             <div class="comment-header d-flex align-items-center justify-content-between">
-                <p class="d-flex align-items-center gap-2 m-0"><img src="/assets/images/ana.webp"> <span
-                        class="username">{{ comment.username
+                <p class="d-flex align-items-center gap-2 m-0"><img
+                        [src]="comment.profile_image || '/assets/images/profileImage.webp'"> <span class="username">{{
+                        comment.username
                         }}</span></p>
                 <span class="created-at">{{ comment.created_at | dateFormat}}</span>
             </div>
@@ -37,7 +38,7 @@
                 conversation.</span></p>
         }
     </div>
-    <div appIntersectionobserver (isIntersecting)="onFetchNextCommentsSet($event)">
+    <div class="p-3" appIntersectionobserver (isIntersecting)="onFetchNextCommentsSet($event)">
 
     </div>
     @if (!isAbleToFetchComments() && comments()?.length! > 0) {

@@ -4,5 +4,6 @@ export interface commentInterface {
     created_at: Date,
     blog_id: number,
     user_id: number,
-    username: string
+    username: string,
+    profile_image?: string
 }

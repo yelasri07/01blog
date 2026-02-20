@@ -44,6 +44,7 @@ public class CommentController {
                 .blog_id(comment.getBlog().getId())
                 .user_id(comment.getUser().getId())
                 .username(comment.getUser().getUsername())
+                .profileImage(comment.getUser().getProfile_image())
                 .build();
     }
 
