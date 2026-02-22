@@ -132,6 +132,18 @@ export class CreateBlog implements AfterViewInit {
     })
   }
 
+  private isValidFile(file: File) {
+    const acceptableFiles = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/webp",
+      "video/mp4"
+    ]
+
+    
+  }
+
   private async uploadFile(file: File, folderName: string) {
     console.log(file)
     const res = await this.mediaService.uploadFile(file, folderName);
