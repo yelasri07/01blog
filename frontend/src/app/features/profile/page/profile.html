@@ -31,7 +31,8 @@
             } @else if (!loader()) {
             <div class="update-picture">
                 <label for="upload-image"><i class="bi bi-camera"></i></label>
-                <input (input)="uploadImage($event)" id="upload-image" type="file">
+                <input accept="image/png, image/jpeg, image/jpg, image/webp " (input)="uploadImage($event)"
+                    id="upload-image" type="file">
             </div>
             }
             }
@@ -48,8 +49,12 @@
 </section>
 }
 @if (isReportModalVisible()) {
-<app-report-modal [modalTitle]="'Report user'" [targetId]="userProfile()?.id!" [reportType]="'USER'" (close)="hideReportModal($event)" />
+<app-report-modal [modalTitle]="'Report user'" [targetId]="userProfile()?.id!" [reportType]="'USER'"
+    (close)="hideReportModal($event)" />
 }
 @if (successPopup()) {
 <app-success-popup [message]="successPopup()" (close)="closeSuccessPopup()" />
+}
+@if (profileErrorPopup()) {
+<app-failed-popup [message]="profileErrorPopup()" (close)="hideProfileErrorPopup()" />
 }

@@ -1,0 +1,54 @@
+.popup {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    z-index: 999999;
+
+    padding: 14px 18px;
+    border-radius: 14px;
+
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+    color: var(--text-primary);
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.45),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+
+    animation: slideIn 0.45s ease-out;
+}
+
+.popup {
+    border: 1px solid rgba(220, 80, 80, 0.35);
+}
+
+.popup i {
+    color: #dc5050;
+}
+
+.popup p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(120%);
+    }
+}

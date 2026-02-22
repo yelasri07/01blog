@@ -7,12 +7,12 @@ import { AuthStateService } from '../../../core/services/auth.state.service';
 import { MediaService } from '../../../core/services/media.service';
 import { finalize } from 'rxjs';
 import { ReportModalComponent } from "../../../shared/components/report-modal.component/report-modal.component";
-import { needConfirmation } from '../../../shared/decorators/confirm-dialog.decorator';
 import { SuccessPopupComponent } from "../../../shared/components/success-popup.component/success-popup.component";
+import { FailedPopupComponent } from "../../../shared/components/failed-popup.component/failed-popup.component";
 
 @Component({
   selector: 'app-page',
-  imports: [BlogsComponent, ReportModalComponent, SuccessPopupComponent],
+  imports: [BlogsComponent, ReportModalComponent, SuccessPopupComponent, FailedPopupComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })
@@ -29,6 +29,7 @@ export class Profile implements OnInit {
   userProfile = signal<User | null>(null);
   loader = signal(true);
   successPopup = signal<string>("")
+  profileErrorPopup = signal<string>("");
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(params => {
@@ -59,6 +60,11 @@ export class Profile implements OnInit {
     const ipt = event.target as HTMLInputElement;
     if (!ipt.files) return;
     const file = ipt.files[0];
+    if (!this.isValidFile(file)) {
+      this.profileErrorPopup.set("Image type should be png, jpeg, jpg, webp and size must be less than 2MB")
+      ipt.value = ""
+      return
+    };
     this.loader.set(true);
     try {
       const result = await this.mediaService.uploadFile(file, "profileImages")
@@ -85,6 +91,10 @@ export class Profile implements OnInit {
     this.isReportModalVisible.set(true)
   }
 
+  hideProfileErrorPopup() {
+    this.profileErrorPopup.set("");
+  }
+
   private fetchProfile(userId: number) {
     this.profileService.getUserProfile(userId).pipe(
       finalize(() => {
@@ -98,6 +108,22 @@ export class Profile implements OnInit {
         this.showNotFoundError.set(true)
       },
     })
+  }
+
+  private isValidFile(file: File) {
+    const acceptAbleTypes = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/webp",
+    ]
+
+    if (!acceptAbleTypes.includes(file.type)) return false
+
+    let size = file.size / (1024 * 1024)
+    if (size > 2) return false
+
+    return true
   }
 
   @HostListener("document:click")

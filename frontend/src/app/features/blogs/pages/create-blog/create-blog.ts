@@ -133,6 +133,7 @@ export class CreateBlog implements AfterViewInit {
   }
 
   private async uploadFile(file: File, folderName: string) {
+    console.log(file)
     const res = await this.mediaService.uploadFile(file, folderName);
     return {
       success: 1,
