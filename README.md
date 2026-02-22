@@ -130,6 +130,36 @@ A fullstack social blogging platform built with Java Spring Boot and Angular, de
 
     Postman
 
+# ⚙️ Installation & Setup
+
+### 1️⃣ Clone the repository
+
+```bash
+    git clone https://github.com/yelasri07/01blog.git
+    cd 01blog
+```
+
+### 2️⃣ Database Setup (PostgreSQL)
+
+```bash 
+    docker compose up
+```
+
+### 2️⃣ Back-End Setup (Spring boot)
+
+```bash 
+    cd backend
+    ./mvnw spring-boot:run
+```
+
+### 2️⃣ Front-End Setup (Angular)
+
+```bash 
+    cd frontend
+    npm i
+    npm start
+```
+
 # 🔒 Security
 
     JWT authentication
