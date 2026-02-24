@@ -77,6 +77,10 @@
                 border: 2px solid var(--color-primary);
             }
 
+            > p {
+                cursor: pointer;
+            }
+
             .username {
                 color: var(--text-primary);
                 font-size: .9em;

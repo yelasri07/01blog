@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, inject, OnInit, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import EditorJS from '@editorjs/editorjs';
 import { BlogService } from '../../service/blog.service';
 import { blogInterface } from '../../interfaces/blog.interface';
@@ -18,7 +18,7 @@ import { VideoTool } from '../../../../shared/tools/video-tool';
 
 @Component({
   selector: 'app-blog',
-  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe, IntersectionobserverDirective, Popup2Component, SuccessPopupComponent],
+  imports: [ErrorComponent, BlogHeaderComponent, BlogFooterComponent, DateFormatPipe, IntersectionobserverDirective, Popup2Component, SuccessPopupComponent, RouterLink],
   templateUrl: './blog.html',
   styleUrl: './blog.scss',
 })
