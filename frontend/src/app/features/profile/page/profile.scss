@@ -172,8 +172,27 @@
     }
 }
 
+.not-found {
+    i {
+        font-size: 8em;
+    }
+}
+
 :host::ng-deep {
     .blogs {
         padding: 0 !important;
+    }
+}
+
+@media (max-width: 775px) {
+    .profile {
+        display: flex;
+        justify-content: center;
+
+        .profile-infos {
+            position: static;
+            margin-bottom: 30px;
+            width: 320px;
+        }
     }
 }

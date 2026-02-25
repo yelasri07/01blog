@@ -1,5 +1,5 @@
 @if (showNotFoundError()) {
-<p>profile not found</p>
+<app-error [message]="'Profile not found'" />
 } @else {
 <section class="profile row">
     <div class="profile-infos col-4">

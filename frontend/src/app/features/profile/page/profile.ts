@@ -9,10 +9,11 @@ import { finalize } from 'rxjs';
 import { ReportModalComponent } from "../../../shared/components/report-modal.component/report-modal.component";
 import { SuccessPopupComponent } from "../../../shared/components/success-popup.component/success-popup.component";
 import { FailedPopupComponent } from "../../../shared/components/failed-popup.component/failed-popup.component";
+import { ErrorComponent } from "../../../shared/components/error.component/error.component";
 
 @Component({
   selector: 'app-page',
-  imports: [BlogsComponent, ReportModalComponent, SuccessPopupComponent, FailedPopupComponent],
+  imports: [BlogsComponent, ReportModalComponent, SuccessPopupComponent, FailedPopupComponent, ErrorComponent],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

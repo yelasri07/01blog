@@ -18,14 +18,13 @@ export class Dashboard implements OnInit, OnDestroy {
   showNavBar = signal(true);
 
   ngOnInit(): void {
-    this.breakpointObserver.observe("(max-width:560px)").subscribe(res => {
+    this.breakpointSubscription = this.breakpointObserver.observe("(max-width:560px)").subscribe(res => {
       this.showNavBar.set(!res.matches)
-      console.log(this.showNavBar())
     })
   }
 
   ngOnDestroy(): void {
-    this.breakpointSubscription.unsubscribe();
+    if (this.breakpointSubscription) this.breakpointSubscription.unsubscribe();
   }
 
 }
