@@ -63,3 +63,32 @@
         color: var(--text-secondary);
     }
 }
+
+:host::ng-deep {
+    @media (max-width: 930px) {
+        table tr td {
+            font-size: .7em !important;
+        }
+
+        table tr th {
+            font-size: .6em !important;
+        }
+    }
+}
+
+.navbar.dashboard-nav {
+    all: unset;
+
+    ul {
+        padding-top: 0;
+    }
+
+    .title {
+        margin-top: 100px;
+        padding-left: 30px;
+    }
+}
+
+.data.dashboard-data {
+    padding-top: 20px;
+}

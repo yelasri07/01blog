@@ -1,14 +1,20 @@
 <app-header />
-<section class="dashboard row g-0">
-    <div class="navbar col-lg-2 col-3">
+<section class="dashboard g-0" [ngClass]="{row: showNavBar()}">
+    <div class="navbar col-lg-2 col-3" [ngClass]="{'dashboard-nav': !showNavBar()}">
+        @if (!showNavBar()) {
+        <h2 class="title mb-3">Dashboard</h2>
+        }
         <ul class="ps-0">
             <li routerLink="/dashboard/users" routerLinkActive="active"><i class="bi bi-person-fill"></i> Users</li>
             <li routerLink="/dashboard/blogs" routerLinkActive="active"><i class="bi bi-envelope-fill"></i> Blogs</li>
-            <li routerLink="/dashboard/reports" routerLinkActive="active"><i class="bi bi-exclamation-triangle-fill"></i> Reports</li>
+            <li routerLink="/dashboard/reports" routerLinkActive="active"><i
+                    class="bi bi-exclamation-triangle-fill"></i> Reports</li>
         </ul>
     </div>
-    <div class="data col">
+    <div class="data col" [ngClass]="{'dashboard-data': !showNavBar()}">
+        @if (showNavBar()) {
         <h2 class="title mb-5">Dashboard</h2>
+        }
         <router-outlet />
     </div>
 </section>
