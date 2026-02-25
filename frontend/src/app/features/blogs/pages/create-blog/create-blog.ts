@@ -9,10 +9,11 @@ import { ErrorComponent } from "../../../../shared/components/error.component/er
 import { AuthStateService } from '../../../../core/services/auth.state.service';
 import { mergeMap, of, throwError } from 'rxjs';
 import { VideoTool } from '../../../../shared/tools/video-tool';
+import { FailedPopupComponent } from "../../../../shared/components/failed-popup.component/failed-popup.component";
 
 @Component({
   selector: 'app-create-blog',
-  imports: [ErrorComponent],
+  imports: [ErrorComponent, FailedPopupComponent],
   templateUrl: './create-blog.html',
   styleUrl: './create-blog.scss',
 })
@@ -30,6 +31,7 @@ export class CreateBlog implements AfterViewInit {
   buttonDisabled = signal(false);
   showBlogNotFoundError = signal("");
   blogPageType = signal("");
+  failedPopup = signal("");
 
   private readonly blogId: number;
 
@@ -59,8 +61,9 @@ export class CreateBlog implements AfterViewInit {
             uploader: {
               uploadByFile: (file: File) => {
                 return this.uploadFile(file, "blogImages");
-              }
-            }
+              },
+            },
+            types: "image/png, image/jpeg, image/jpg, image/webp",
           }
         },
       },
@@ -132,6 +135,10 @@ export class CreateBlog implements AfterViewInit {
     })
   }
 
+  hideFailedPopup() {
+    this.failedPopup.set("");
+  }
+
   private isValidFile(file: File) {
     const acceptableFiles = [
       "image/png",
@@ -141,11 +148,20 @@ export class CreateBlog implements AfterViewInit {
       "video/mp4"
     ]
 
-    
+    if (!acceptableFiles.includes(file.type)) throw new Error("File type should be: png, jpeg, jpg, webp, mp4");
+
+    let size = file.size / (1024 * 1024);
+    if (file.type.startsWith("image/") && size > 2) throw new Error("Image size must be less than 2MB")
+    if (file.type.startsWith("video/") && size > 50) throw new Error("Video size must be less than 50MB")
   }
 
   private async uploadFile(file: File, folderName: string) {
-    console.log(file)
+    try {
+      this.isValidFile(file)
+    } catch (err: any) {
+      if (err.message) this.failedPopup.set(err.message)
+      return;
+    }
     const res = await this.mediaService.uploadFile(file, folderName);
     return {
       success: 1,

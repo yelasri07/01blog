@@ -57,7 +57,11 @@ export class VideoTool {
             this.loader()
             try {
                 const response = await this.uploadVideo(file);
-                if (response.success === 1) this.data.file = { url: response.file.url };
+                if (response?.success === 1) {
+                    this.data.file = { url: response.file.url }
+                } else {
+                    throw new Error("Cannot upload this video")
+                }
             } catch (err) {
                 this.wrapper.replaceChildren()
                 throw err

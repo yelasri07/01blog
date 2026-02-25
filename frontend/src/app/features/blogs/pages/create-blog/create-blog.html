@@ -11,3 +11,7 @@
         }} </button>
 </section>
 }
+
+@if (failedPopup()) {
+<app-failed-popup [message]="failedPopup()" (close)="hideFailedPopup()" />
+}
