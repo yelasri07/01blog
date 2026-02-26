@@ -21,7 +21,11 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
                         )
                         FROM blog b
                         INNER JOIN users u ON b.user_id = u.id
-                        WHERE b.id < :lastId OR :lastId <= 0
+                        WHERE (b.id < :lastId OR :lastId <= 0) AND EXISTS (
+                                SELECT true
+                                FROM subscribe s
+                                WHERE s.subscriber_id = :userId AND s.subscribed_to_id = b.user_id
+                        )
                         ORDER BY b.id DESC
                         LIMIT :limit
                         """, nativeQuery = true)
@@ -35,7 +39,7 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
                         )
                         FROM blog b
                         INNER JOIN users u ON b.user_id = u.id
-                        WHERE u.id = :profileUserId AND (b.id < :lastId OR :lastId <= 0)
+                        WHERE u.id = :profileUserId AND (b.id < :lastId OR :lastId <= 0) AND (b.is_hidden = false OR b.is_hidden IS NULL)
                         ORDER BY b.id DESC
                         LIMIT :limit
                         """, nativeQuery = true)
