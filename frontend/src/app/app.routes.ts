@@ -22,4 +22,8 @@ export const routes: Routes = [
         loadComponent: () => import('./features/dashboard/dashboard').then(m => m.Dashboard),
         loadChildren: () => import("./features/dashboard/dashboard.routes").then(m => m.dashboardRoutes)
     },
+    {
+        path: '**',
+        loadComponent: () => import('./features/not-found/not-found').then(m => m.NotFound),
+    }
 ];
