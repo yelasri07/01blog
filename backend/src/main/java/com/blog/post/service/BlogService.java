@@ -50,6 +50,7 @@ public class BlogService {
                 .created_at(new Timestamp(System.currentTimeMillis()))
                 .like_count(0L)
                 .comment_count(0L)
+                .is_hidden(false)
                 .user(user)
                 .build();
 
@@ -75,6 +76,10 @@ public class BlogService {
     public BlogEntity getBlogById(Long blogId, UserEntity user) {
         BlogEntity blog = blogRepository.findById(blogId)
                 .orElseThrow(() -> new NotFoundException("Whoops, blog not found"));
+
+        if (blog.getIs_hidden() != null && blog.getIs_hidden() && !user.getRole().equals(RoleEnum.ADMIN)) {
+            throw new BadRequestException("Whoops, blog is hidden");
+        }
 
         return blog;
     }

@@ -50,6 +50,8 @@ export class Blog implements AfterViewInit {
         this.editor.destroy()
       }
       this.blogError.set(null);
+      this.comments.set(null);
+      this.showComments.set(false);
       this.loadBlog(blogId);
     })
   }
