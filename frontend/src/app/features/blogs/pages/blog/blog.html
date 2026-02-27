@@ -28,7 +28,14 @@
                         [src]="comment.profile_image || '/assets/images/profileImage.webp'"> <span class="username">{{
                         comment.username
                         }}</span></p>
-                <span class="created-at">{{ comment.created_at | dateFormat}}</span>
+
+                <span class="created-at d-flex align-items-center justify-content-center gap-3">
+                    @if (comment.user_id === currentUser()?.id || currentUser()?.role === 'ADMIN') {
+                    <p (click)="deleteComment(comment.id)" class="delete-comment m-0 text-danger">Delete</p>
+                    }
+                    {{ comment.created_at |
+                    dateFormat}}
+                </span>
             </div>
             <p class="comment-content m-0"> {{ comment.content }} </p>
         </div>

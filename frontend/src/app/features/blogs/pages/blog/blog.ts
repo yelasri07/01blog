@@ -15,6 +15,8 @@ import { popupInterface } from '../../../../shared/interfaces/popup.interface';
 import { Popup2Component } from "../../../../shared/components/popup.component/popup.component";
 import { SuccessPopupComponent } from "../../../../shared/components/success-popup.component/success-popup.component";
 import { VideoTool } from '../../../../shared/tools/video-tool';
+import { needConfirmation } from '../../../../shared/decorators/confirm-dialog.decorator';
+import { AuthStateService } from '../../../../core/services/auth.state.service';
 
 @Component({
   selector: 'app-blog',
@@ -25,7 +27,9 @@ import { VideoTool } from '../../../../shared/tools/video-tool';
 export class Blog implements AfterViewInit {
   private activatedRoute = inject(ActivatedRoute);
   private blogService = inject(BlogService);
+  private authStateService = inject(AuthStateService)
 
+  currentUser = signal(this.authStateService.getCurrentUser())
   blog = signal<blogInterface | null>(null);
   blogError = signal<string | null>(null);
   comments = signal<commentInterface[] | null>(null)
@@ -137,6 +141,16 @@ export class Blog implements AfterViewInit {
 
         this.popup.set(errObj)
       }
+    })
+  }
+
+  @needConfirmation()
+  deleteComment(commentId: number) {
+    this.blogService.submitDeleteComment(commentId).subscribe(res => {
+      this.comments.set(
+        this.comments()?.filter(comment => comment.id !== commentId) ?? []
+      )
+      this.showSuccessPopup.set(res.message)
     })
   }
 }

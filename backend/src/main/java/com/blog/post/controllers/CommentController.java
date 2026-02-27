@@ -1,14 +1,15 @@
 package com.blog.post.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,6 @@ import com.blog.user.model.UserEntity;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/blogs")
 public class CommentController {
 
     private final CommentService commentService;
@@ -31,7 +31,7 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/{blogId}/comments")
+    @PostMapping("/blogs/{blogId}/comments")
     @ResponseStatus(code = HttpStatus.CREATED)
     public CommentOutputDTO post(@PathVariable Long blogId, @Valid @RequestBody CreateCommentDTO commentData,
             @AuthenticationPrincipal UserEntity user) {
@@ -48,11 +48,16 @@ public class CommentController {
                 .build();
     }
 
-    @GetMapping("/{blogId}/comments")
+    @GetMapping("/blogs/{blogId}/comments")
     public List<CommentOutputDTO> get(@PathVariable Long blogId,
             @RequestParam(name = "last_id", defaultValue = "-1") Long lastId,
             @RequestParam(defaultValue = "50") Long limit,
             @AuthenticationPrincipal UserEntity user) {
         return commentService.getBlogComments(blogId, user, lastId, limit);
+    }
+
+    @DeleteMapping("/comments/{commentId}")
+    public Map<String, Object> delete(@PathVariable Long commentId, @AuthenticationPrincipal UserEntity user) {
+        return commentService.deleteComment(commentId, user);
     }
 }

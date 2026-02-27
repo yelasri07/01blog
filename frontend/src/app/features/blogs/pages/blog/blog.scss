@@ -101,6 +101,18 @@
             height: 1px;
             background-color: var(--bg-secondary)
         }
+        
+        .delete-comment {
+            font-size: .8em;
+            padding: 4px 8px;
+            background-color: var(--bg-secondary);
+            border-radius: 20px;
+
+            &:hover {
+                color: var(--color-primary);
+                cursor: pointer;
+            }
+        }
     }
 
 }

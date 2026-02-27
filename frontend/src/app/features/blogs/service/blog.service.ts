@@ -55,4 +55,8 @@ export class BlogService {
     return this.http.delete<{ message: string }>(API_URL + `/blogs/${blogId}`)
   }
 
+  submitDeleteComment(commentId: number) {
+    return this.http.delete<{ id: number, message: string }>(API_URL + `/comments/${commentId}`)
+  }
+
 }
