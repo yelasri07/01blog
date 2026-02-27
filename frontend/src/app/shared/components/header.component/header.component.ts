@@ -100,6 +100,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     if (!isRead) {
       this.updateNotificationStatus(notifId);
     }
+    this.isVisibleNotifs.set(false)
     this.router.navigate(['/blogs', blogId]);
   }
 

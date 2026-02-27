@@ -25,7 +25,7 @@ public interface BlogRepository extends JpaRepository<BlogEntity, Long> {
                                 SELECT true
                                 FROM subscribe s
                                 WHERE s.subscriber_id = :userId AND s.subscribed_to_id = b.user_id
-                        )
+                        ) AND (b.is_hidden = false OR b.is_hidden IS NULL)
                         ORDER BY b.id DESC
                         LIMIT :limit
                         """, nativeQuery = true)
