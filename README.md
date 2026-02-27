@@ -1,179 +1,73 @@
-# 📘 01Blog
+# About The Project
 
-A fullstack social blogging platform built with Java Spring Boot and Angular, designed to help students document and share their learning journey.
+A fullstack social blogging platform built with Spring Boot and Angular, designed to help students document and share their learning journey.
 
-# 🚀 About The Project
+### Built With 
 
-    01Blog is a social platform where students can:
+* ![Angular](https://img.shields.io/badge/-Angular-DD0031?style=for-the-badge&logo=angular&logoColor=fff)
+* ![Bootstrap](https://img.shields.io/badge/-Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=fff)
+* ![Spring Boot](https://img.shields.io/badge/-Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=fff)
+* ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=fff)
 
-    Share posts about their learning progress
+### Features
 
-    Follow other students
+* User registration and login using JWT and Spring Security for authentication and role management.
+* Users can create posts, like posts, and comment on other users posts.
+* Each user has a public profile listing all their posts
+* Users can subscribe to other profiles
+* Subscribed users receive notifications when new posts are published
+* Users can report profiles or posts for inappropriate or offensive content
+* The admin dashboard allow administrator to manage users, posts, and reports.
+* Administrator can ban or delete users, hide or delete posts, and respond to reports by marking them as resolved or rejected.
 
-    Like and comment on posts
+# Installation & Setup
 
-    Receive notifications from subscribed profiles
-
-    Report inappropriate content
-
-    The platform also includes an Admin Dashboard for moderation and user management.
-
-    This project demonstrates fullstack development using:
-
-    Backend: Spring Boot
-
-    Frontend: Angular
-
-    Security: JWT + Spring Security
-
-    Database: PostgreSQL / MySQL
-
-# ✨ Features
-
-    🔐 Authentication & Authorization
-
-    User registration and login
-
-    Secure password hashing
-
-    JWT-based authentication
-
-    Role-based access control (User / Admin)
-
-# 👤 User Profile (Block)
-
-    Public profile page
-
-    View all posts from a user
-
-    Subscribe / Unsubscribe to profiles
-
-    Notification system for new posts
-
-# 📝 Posts
-
-    Create, edit, delete posts
-
-    Upload images or videos
-
-    Like posts
-
-    Comment on posts
-
-    Timestamp display
-
-    Media preview
-
-# 🚨 Reports
-
-    Report inappropriate users
-
-    Include reason + timestamp
-
-    Reports visible only to admins
-
-# 🛠️ Admin Dashboard
-
-    Manage users
-
-    Ban/Delete users
-
-    Remove inappropriate posts
-
-    Handle user reports
-
-    All admin routes protected
-
-# 🔔 Notifications
-
-    Real-time or refresh-based updates
-
-    Mark as read/unread
-
-    Notification badge indicator
-
-# 🖥️ Tech Stack
-
-### Backend
-
-    Java 17+
-
-    Spring Boot
-
-    Spring Security
-
-    JWT Authentication
-
-    JPA / Hibernate
-
-    REST API
-
-### Frontend
-
-    Angular
-
-    Angular Routing
-
-    Angular Services
-
-    Bootstrap
-
-### Database
-
-    PostgreSQL or MySQL
-
-### Dev Tools
-
-    Git
-
-    GitHub
-
-    Postman
-
-# ⚙️ Installation & Setup
-
-### 1️⃣ Clone the repository
+### Clone the repository 
 
 ```bash
     git clone https://github.com/yelasri07/01blog.git
     cd 01blog
 ```
 
-### 2️⃣ Database Setup (PostgreSQL)
+Rename ".env.example" to ".env" in both the 01blog root directory and the backend root directory.
 
-```bash 
+You should have two separate ".env" files:
+
+* One located in the 01blog root
+* One located in the backend root
+
+After renaming them, fill in each ".env" file with the appropriate values based on the provided examples.
+
+### Database Setup (PostgreSQL)
+
+```bash
     docker compose up
 ```
 
-### 2️⃣ Back-End Setup (Spring boot)
+### Back-End Setup (Spring boot)
 
-```bash 
-    cd backend
+```bash
+    cd ./backend
     ./mvnw spring-boot:run
 ```
 
-### 2️⃣ Front-End Setup (Angular)
+### Front-End Setup (Angular)
 
-```bash 
+```bash
     cd frontend
     npm i
     npm start
 ```
 
-# 🔒 Security
+### Or run all 
 
-    JWT authentication
+```bash
+    chmod +x runner.sh
+    ./runner.sh
+```
 
-    Role-based route protection
+# Contact
 
-    Secure password hashing (BCrypt)
+Youssef El Asri - elasriyoussef604@gmail.com
 
-    Admin-only endpoints
-
-    Validation and exception handling
-
-# 👨‍💻 Author
-
-Youssef El Asri
-
-Full-Stack Developer
+Project Link: [https://github.com/yelasri07/01blog](https://github.com/yelasri07/01blog)
