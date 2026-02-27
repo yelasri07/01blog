@@ -25,7 +25,6 @@ export class CustomErrorHandlerService implements ErrorHandler {
         duration: 4000
       }
     )
-    console.error(error)
   }
 
 }
