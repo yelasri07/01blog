@@ -72,11 +72,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.notificationService.submitDeleteNotification(notifId).subscribe(res => {
       this.notifications.set(this.notifications()?.filter(notif => notif.id !== notifId) ?? [])
+      this.notificationsCount.set(this.countUnreadNotifications(this.notifications()!))
     })
   }
 
-  updateNotificationStatus(notifId: number, event: MouseEvent) {
-    event.stopPropagation();
+  updateNotificationStatus(notifId: number, event?: MouseEvent) {
+    if (event) event.stopPropagation();
     this.notificationService.submitUpdateNotificationStatus(notifId).subscribe(res => {
       this.notifications.set(
         this.notifications()?.map(notif => {
@@ -84,6 +85,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
           return notif
         }) ?? []
       )
+
+      this.notificationsCount.set(this.countUnreadNotifications(this.notifications()!))
     })
   }
 
@@ -91,6 +94,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
     event.stopPropagation();
     this.showMenu.update(prev => !prev);
     this.isVisibleNotifs.set(false)
+  }
+
+  navigateToBlog(blogId: number, notifId: number, isRead: boolean) {
+    if (!isRead) {
+      this.updateNotificationStatus(notifId);
+    }
+    this.router.navigate(['/blogs', blogId]);
+  }
+
+  private countUnreadNotifications(notifs: notificationInterface[]): number {
+    let count = 0
+    notifs.forEach(notif => {
+      if (!notif.is_read) count++
+    });
+
+    return count
   }
 
   @HostListener('document:click')

@@ -29,8 +29,9 @@
                     </div>
                     <div class="notif-body">
                         @for (notification of notifications(); track notification.id) {
-                        <p [routerLink]="['/blogs', notification.target_id]" animate.leave="notif-leaving"
-                            animate.enter="notif-enter" class="m-0" [ngClass]="{'is-new-notif': !notification.is_read}">
+                        <p (click)="navigateToBlog(notification.target_id, notification.id, notification.is_read)"
+                            animate.leave="notif-leaving" animate.enter="notif-enter" class="m-0"
+                            [ngClass]="{'is-new-notif': !notification.is_read}">
                             <span class="d-block created-at">{{ notification.created_at | dateFormat }}</span>
                             <b>{{ notification.sender_username
                                 }}</b> {{notification.message}}
