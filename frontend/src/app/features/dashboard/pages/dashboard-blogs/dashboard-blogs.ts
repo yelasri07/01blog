@@ -5,10 +5,11 @@ import { DateFormatPipe } from '../../../../shared/pipes/date-format-pipe';
 import { RouterLink } from "@angular/router";
 import { needConfirmation } from '../../../../shared/decorators/confirm-dialog.decorator';
 import { NgClass } from '@angular/common';
+import { ShowMorePipePipe } from '../../../../shared/pipes/show-more.pipe-pipe';
 
 @Component({
   selector: 'app-dashboard-blogs',
-  imports: [DateFormatPipe, RouterLink, NgClass],
+  imports: [DateFormatPipe, RouterLink, NgClass, ShowMorePipePipe],
   templateUrl: './dashboard-blogs.html',
   styleUrl: './dashboard-blogs.scss',
 })

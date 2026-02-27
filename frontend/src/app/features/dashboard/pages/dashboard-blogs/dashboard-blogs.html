@@ -10,7 +10,7 @@
         @for (blog of blogs(); track blog.id) {
         <tr>
             <td>{{blog.id}}</td>
-            <td>{{blog.title}}</td>
+            <td>{{blog.title | showMorePipe: 20}}</td>
             <td [ngClass]="{'text-danger':blog.is_hidden, 'text-success': !blog.is_hidden}">
                 @if (blog.is_hidden) {
                 Hidden
