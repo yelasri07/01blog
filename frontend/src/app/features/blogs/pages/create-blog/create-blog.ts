@@ -113,7 +113,12 @@ export class CreateBlog implements AfterViewInit {
 
     if (!this.editor) return;
     this.outputData = await this.editor.save()
-    this.filterOutputData();
+    try {
+      this.filterOutputData();
+    } catch (e: any) {
+      if (e.message) this.creationBlogError.set(e.message);
+      return;
+    }
     this.buttonDisabled.set(true);
     this.blogService.submitBlog(this.outputData, titleIpt?.value || "", this.blogId).subscribe({
       next: response => {
@@ -174,13 +179,17 @@ export class CreateBlog implements AfterViewInit {
 
   private filterOutputData() {
     if (!this.outputData) return;
+    let contentSize = 0;
     this.outputData.blocks = this.outputData?.blocks.filter(block => {
       if (block.type !== 'paragraph' && block.type !== 'header') return true;
 
       const text = block.data.text
         .replace(/&nbsp;/g, '')
         .trim();
+      contentSize += text.length
       return text.length > 0;
     })
+
+    if (contentSize > 20000) throw new Error("Content must be less than 20000 character")
   }
 }

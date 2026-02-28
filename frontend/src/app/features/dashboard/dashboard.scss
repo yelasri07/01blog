@@ -75,6 +75,18 @@
             font-size: .6em !important;
         }
     }
+
+    @media (max-width: 560px) {
+        .blogs,
+        .users,
+        .reports {
+            overflow-x: scroll;
+
+            table {
+                width: 500px !important;
+            }
+        }
+    }
 }
 
 .navbar.dashboard-nav {
